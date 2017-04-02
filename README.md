@@ -27,7 +27,7 @@ The page allows you to select an AP from a scan list and give a passphrase.
 
 Once it connects, the DHCP information is shown, and it autonomously connects to a configurable server over https to check for updates.  The user can select to have it autonomously download the update and restart.
 
-The user can also upload images by hand.
+The user can also upload images by hand.  The factory image understands how to update both the 1MB factory slot itself and the single 2.9MB OTA slot using autonomous upload from a server or the browser based file upload.
 
 ## Optional default peripherals
 
@@ -37,12 +37,16 @@ It's not required, but the default code expects
 
 If the pushbutton is held down at boot, the user is forced into the factory / Setup mode rather than the OTA application.
 
- - LED  connected  3.3V ---|>|---- IO23
+ - LED connected via, eg, 330R   3.3V ---|>|-----/\\/\\/\\---- IO23
 
 While in factory / OTA mode, the LED flashes on and off at 500ms.  When you press "ID Device" button in the UI, the LED flashes rapidly for 5s.
 
 
 ## Building and using
+
+### Step 0: Install genromfs
+
+For Ubuntu / Debian and Fedora at least, the distro package is called "genromfs"
 
 ### Step 1: Clone and get lws submodule
 
