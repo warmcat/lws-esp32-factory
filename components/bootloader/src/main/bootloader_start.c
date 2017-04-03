@@ -330,6 +330,7 @@ again:
     }
 
     esp_partition_pos_t load_part_pos;
+        ESP_LOGE(TAG, "force_factory %d bs.ota_info.offset %d\n", force_factory, bs.ota_info.offset);
 
     if (!force_factory && bs.ota_info.offset != 0) {              // check if partition table has OTA info partition
         //ESP_LOGE("OTA info sector handling is not implemented");
@@ -347,9 +348,16 @@ again:
         memcpy(&sb, (uint8_t *)ota_select_map + SPI_SEC_SIZE, sizeof(esp_ota_select_entry_t));
         bootloader_munmap(ota_select_map);
         if(sa.ota_seq == 0xFFFFFFFF && sb.ota_seq == 0xFFFFFFFF) {
-            // init status flash 
-            if (bs.factory.offset != 0) {        // if have factory bin,boot factory bin
-                load_part_pos = bs.factory;
+
+    		// this info is just erased flash
+
+            if (bs.factory.offset != 0) {
+		/*
+		 * in other words, nobody  set the logical OTA
+		 * pointer yet, but we do have the factory image
+		 */
+
+    		    load_part_pos = bs.factory;
             } else {
                 load_part_pos = bs.ota[0];
                 sa.ota_seq = 0x01;

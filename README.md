@@ -80,6 +80,8 @@ will choke if the OTA parts are not initialized like this one time
 
  - after the reboot vist https://192.168.4.1, which will take you to the user setup
 
+ - As a security feature, since you can programmatically reboot into factory mode from the OTA application, once the SSL certs are set some features require the "boot into factory" button to be physically pressed before they can be accessed subsequently.  This limits what a remote attacker can achieve.
+
 ## Using the User setup
 
  - connect your wifi to the ap "lws-config-...."
@@ -109,3 +111,11 @@ These are built and loaded slightly differently, ie
 This is because they target the 2.9MB OTA flash area.
 
 The `build/*.bin` file from the application build may also be uploaded in the setup page upload UI.
+
+NOTE: the first time you flash the OTA application, you need to do it using the
+upload file button or the autonomous update facility in the Factory App.  The bootloader
+requires it to not only be flashed, but marked as bootable.
+
+Subseuently you can just reflash the OTA partition with flash_ota or use the upload or
+autonomous update stuff.
+
