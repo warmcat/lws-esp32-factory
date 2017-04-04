@@ -153,7 +153,7 @@ function get_appropriate_ws_url()
 		} 
 
 		ws.onmessage =function got_packet(msg) {
-			// document.getElementById("scan").textContent = msg.data + "\n";
+			// document.getElementById("main").textContent = msg.data + "\n";
 			var best, hit, n, m, s, b, a, cs, jso = JSON.parse(msg.data);
 			
 			host = jso.host;
