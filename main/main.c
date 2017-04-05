@@ -88,8 +88,10 @@ static struct lws_http_mount mount_ap = {
         .def			= "index.html",
         .origin_protocol	= LWSMPRO_FILE,
         .mountpoint_len		= 1,
-	.cache_max_age		= 300,
+	.cache_max_age		= 300000,
 	.cache_reusable		= 1,
+        .cache_revalidate       = 1,
+        .cache_intermediaries   = 1,
 };
 
 esp_err_t event_handler(void *ctx, system_event_t *event)
@@ -194,5 +196,5 @@ void app_main(void)
 	}
 
 	while (!lws_service(context, 50))
-		vTaskDelay(1);
+		taskYIELD();
 }
