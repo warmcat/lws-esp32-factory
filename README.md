@@ -11,7 +11,7 @@ Allows overriding default serial, setting device options string, and uploading S
 
 ![Factory Setup](https://libwebsockets.org/setup3.png)
 
-With an empty nvs, the first time this will come up at https://192.168.4.1 in AP mode.
+With an empty nvs, the first time this will come up at http://192.168.4.1 in AP mode, ie at port 80 without SSL since no certs.
 
 After the DER format SSL certs have been uploaded, everything subsequently is in https.
 
