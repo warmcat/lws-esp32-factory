@@ -92,7 +92,7 @@ will choke if the OTA parts are not initialized like this one time
 
  - Give the AP password and click the button
 
- - Your ESP32 should associates with the AP without resetting
+ - Your ESP32 should associate with the AP without resetting
 
 ## Using the lws test apps
 
@@ -116,6 +116,5 @@ NOTE: the first time you flash the OTA application, you need to do it using the
 upload file button or the autonomous update facility in the Factory App.  The bootloader
 requires it to not only be flashed, but marked as bootable.
 
-Subseuently you can just reflash the OTA partition with flash_ota or use the upload or
-autonomous update stuff.
+Subsequently you can just reflash the OTA partition with `make flash_ota` or use the upload or autonomous update stuff in the -factory app.
 
