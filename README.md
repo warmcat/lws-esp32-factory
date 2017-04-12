@@ -44,9 +44,15 @@ While in factory / OTA mode, the LED flashes on and off at 500ms.  When you pres
 
 ## Building and using
 
-### Step 0: Install genromfs
+### Step 0: Install prerequisites
+
+### 0.1: genromfs
 
 For Ubuntu / Debian and Fedora at least, the distro package is called "genromfs"
+
+### 0.2: recent CMake
+
+CMake v2.8 is too old... v3.7+ are known to work OK and probably other intermediate versions are OK.
 
 ### Step 1: Clone and get lws submodule
 
