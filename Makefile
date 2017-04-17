@@ -18,7 +18,7 @@ include $(IDF_PATH)/make/project.mk
 include sdkconfig
 include ${PWD}/components/libwebsockets/scripts/esp32.mk
 
-CFLAGS+= -I$(COMPONENT_PATH)/../components/libwebsockets/plugins -DLWS_IS_FACTORY_APPLICATION=$(LWS_IS_FACTORY_APPLICATION)
+CFLAGS+= -I$(COMPONENT_PATH)/../components/libwebsockets/plugins -DLWS_IS_FACTORY_APPLICATION=$(LWS_IS_FACTORY_APPLICATION) -I$(IDF_PATH)/components/soc/esp32/include/ -I$(IDF_PATH)/components/esp32/include
 export IDF_PATH
 
 $(COMPONENT_PATH)/../ssl-cert.der:

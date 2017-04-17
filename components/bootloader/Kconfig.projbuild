@@ -211,10 +211,10 @@ config SECURE_BOOT_TEST_MODE
 
           This option is for testing purposes only - it completely disables secure boot protection.
 
-
 config BOOTLOADER_FACTORY_BUTTON_GPIO
 	int "GPIO for Force Factory Boot"
 	default 14
+
 
 endmenu  # potentially insecure
 
