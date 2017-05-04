@@ -76,6 +76,12 @@ will choke if the OTA parts are not initialized like this one time
  $ make all flash monitor
 ```
 
+If building on Mac, a user found it was necessary to build like this
+
+```
+ $ make ; make pack.img flash monitor
+```
+
 ## Using the Factory Config
 
  - From scratch, the device is in AP mode with a AP name like config-lws-SERIAL
