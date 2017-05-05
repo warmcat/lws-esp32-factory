@@ -54,6 +54,12 @@ For Ubuntu / Debian and Fedora at least, the distro package is called "genromfs"
 
 CMake v2.8 is too old... v3.7+ are known to work OK and probably other intermediate versions are OK.
 
+### 0.3: recent GNU Make
+
+3.8.1 is known to be too old.  4.2.1 is known to work well.  The point at which
+it works is likely to be somewhere inbetween those.  If it builds but you get errors related to not being able to find the ROMFS at runtime, update your GNU make.
+
+
 ### Step 1: Clone and get lws submodule
 
 ```
@@ -74,12 +80,6 @@ will choke if the OTA parts are not initialized like this one time
 
 ```
  $ make all flash monitor
-```
-
-If building on Mac, a user found it was necessary to build like this
-
-```
- $ make ; make pack.img flash monitor
 ```
 
 ## Using the Factory Config
