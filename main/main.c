@@ -20,6 +20,8 @@
  */
 #include <libwebsockets.h>
 #include <nvs_flash.h>
+#include "soc/ledc_reg.h"
+#include "driver/ledc.h"
 
 void (*lws_cb_scan_done)(void *);
 void *lws_cb_scan_done_arg;
@@ -29,8 +31,7 @@ void *lws_cb_scan_done_arg;
 /* protocol for OTA update using POST / https / browser upload */
 #include "protocol_esp32_lws_ota.c"
 
-static TimerHandle_t flash_timer, id_timer;
-static int flashes, id_flashes;
+static int id_flashes;
 
 static const struct lws_protocols protocols_ap[] = {
 	{
@@ -94,6 +95,11 @@ static struct lws_http_mount mount_ap = {
         .cache_intermediaries   = 1,
 };
 
+static const uint16_t sineq16[] = {
+	0x0000, 0x0191, 0x031e, 0x04a4, 0x061e, 0x0789, 0x08e2, 0x0a24,
+	0x0b4e, 0x0c5c, 0x0d4b, 0x0e1a, 0x0ec6, 0x0f4d, 0x0faf, 0x0fea,
+};
+
 esp_err_t event_handler(void *ctx, system_event_t *event)
 {
 	switch(event->event_id) {
@@ -111,34 +117,6 @@ esp_err_t event_handler(void *ctx, system_event_t *event)
 
 #define GPIO_ID 23
 
-/* we flash the LED slowly to show we are in setup / factory mode */
-
-static void flash_timer_cb(TimerHandle_t t)
-{
-	flashes++;
-
-	if (flashes & 1)
-		gpio_output_set(0, 1 << GPIO_ID, 1 << GPIO_ID, 0);
-	else
-		gpio_output_set(1 << GPIO_ID, 0, 1 << GPIO_ID, 0);
-}
-
-static void id_timer_cb(TimerHandle_t t)
-{
-	id_flashes++;
-
-	if (id_flashes == 101) {
-		xTimerStop(id_timer, 0);
-		return;
-	}
-
-	if (id_flashes & 1)
-		gpio_output_set(0, 1 << GPIO_ID, 1 << GPIO_ID, 0);
-	else
-		gpio_output_set(1 << GPIO_ID, 0, 1 << GPIO_ID, 0);
-}
-
-
 
 /*
  * This is called when the user asks to "Identify physical device"
@@ -155,24 +133,33 @@ lws_esp32_identify_physical_device(void)
 {
 	lwsl_notice("%s\n", __func__);
 
-	gpio_pad_select_gpio(GPIO_ID);
-	gpio_pad_unhold(GPIO_ID);
-	gpio_output_set(0, 1 << GPIO_ID, 1 << GPIO_ID, 0);
-
-	xTimerStart(id_timer, 0);
-	id_flashes = 0;
+	id_flashes = 1;
 }
+
+static ledc_timer_config_t ledc_timer = {
+        .bit_num = LEDC_TIMER_13_BIT,
+        .freq_hz = 5000,
+        .speed_mode = LEDC_HIGH_SPEED_MODE,
+        .timer_num = LEDC_TIMER_0
+};
 
 void app_main(void)
 {
 	static struct lws_context_creation_info info;
 	struct lws_context *context;
+        ledc_channel_config_t ledc_channel = {
+            .channel = LEDC_CHANNEL_0,
+            .duty = 8191,
+            .gpio_num = GPIO_ID,
+            .intr_type = LEDC_INTR_FADE_END,
+            .speed_mode = LEDC_HIGH_SPEED_MODE,
+            .timer_sel = LEDC_TIMER_0,
+        };
+	struct timeval t, lt;
+        unsigned long us;
 
-	flash_timer = xTimerCreate("x", pdMS_TO_TICKS(500), 1, NULL,
-                          (TimerCallbackFunction_t)flash_timer_cb);
-	id_timer = xTimerCreate("x", pdMS_TO_TICKS(50), 1, NULL,
-                          (TimerCallbackFunction_t)id_timer_cb);
-	xTimerStart(flash_timer, 0);
+	ledc_timer_config(&ledc_timer);
+	ledc_channel_config(&ledc_channel);
 
 	lws_esp32_set_creation_defaults(&info);
 
@@ -195,6 +182,49 @@ void app_main(void)
 		mount_ap.def = "factory.html";
 	}
 
-	while (!lws_service(context, 50))
-		taskYIELD();
+	gettimeofday(&lt, NULL);
+
+	while (!lws_service(context, 50)) {
+		gettimeofday(&t, NULL);
+                us = (t.tv_sec * 1000000) + t.tv_usec -
+                                ((lt.tv_sec * 1000000) + lt.tv_usec);
+                if (us < 20000)
+                        continue;
+
+                lt = t;
+
+		if (!id_flashes) {
+			unsigned long r = ((t.tv_sec * 1000000) + t.tv_usec) /
+                                                20000;
+			int i = 0;
+			switch ((r >> 4) & 3) {
+			case 0: 
+				i = 4096+ sineq16[r & 15];
+				break;
+			case 1:
+				i = 4096 + sineq16[15 - (r & 15)];
+				break;
+			case 2:
+				i = 4096 - sineq16[r & 15];
+				break;
+			case 3:
+				i = 4096 - sineq16[15 - (r & 15)];
+				break;
+			}
+	                ledc_set_duty(LEDC_HIGH_SPEED_MODE, LEDC_CHANNEL_0, i);
+		} else
+	                ledc_set_duty(LEDC_HIGH_SPEED_MODE, LEDC_CHANNEL_0,
+				!!((((t.tv_sec * 1000000) + t.tv_usec) /
+						10000) & 2));
+
+		ledc_update_duty(LEDC_HIGH_SPEED_MODE, LEDC_CHANNEL_0);
+
+		if (id_flashes) {
+			id_flashes++;
+			if (id_flashes == 500)
+				id_flashes = 0;
+		}
+
+                taskYIELD();
+	}
 }
