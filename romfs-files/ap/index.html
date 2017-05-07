@@ -250,7 +250,7 @@ function get_appropriate_ws_url()
 		} 
 
 		ws.onmessage =function got_packet(msg) {
-	//		document.getElementById("scan").innerHTML = "<pre>" + msg.data + "</pre>\n";
+			//document.getElementById("scan").innerHTML = "<pre>" + msg.data + "</pre>\n";
 			var best, hit, n, m, s, b, a, cs, jso = JSON.parse(msg.data);
 			
 			cs = get_radio();
