@@ -95,10 +95,27 @@ static struct lws_http_mount mount_ap = {
         .cache_intermediaries   = 1,
 };
 
-static const uint16_t sineq16[] = {
-	0x0000, 0x0191, 0x031e, 0x04a4, 0x061e, 0x0789, 0x08e2, 0x0a24,
-	0x0b4e, 0x0c5c, 0x0d4b, 0x0e1a, 0x0ec6, 0x0f4d, 0x0faf, 0x0fea,
-};
+void lws_esp32_leds_timer_cb(TimerHandle_t th)
+{
+	struct timeval t;
+	unsigned long r;
+
+	gettimeofday(&t, NULL);
+	r = ((t.tv_sec * 1000000) + t.tv_usec);
+
+	if (!id_flashes)
+		ledc_set_duty(LEDC_HIGH_SPEED_MODE, LEDC_CHANNEL_0, lws_esp32_sine_interp(r / 1699));
+	else
+		ledc_set_duty(LEDC_HIGH_SPEED_MODE, LEDC_CHANNEL_0, lws_esp32_sine_interp(r / 333));
+
+	ledc_update_duty(LEDC_HIGH_SPEED_MODE, LEDC_CHANNEL_0);
+
+	if (id_flashes) {
+		id_flashes++;
+		if (id_flashes == 500)
+			id_flashes = 0;
+	}
+}
 
 esp_err_t event_handler(void *ctx, system_event_t *event)
 {
@@ -136,13 +153,6 @@ lws_esp32_identify_physical_device(void)
 	id_flashes = 1;
 }
 
-static ledc_timer_config_t ledc_timer = {
-        .bit_num = LEDC_TIMER_13_BIT,
-        .freq_hz = 5000,
-        .speed_mode = LEDC_HIGH_SPEED_MODE,
-        .timer_num = LEDC_TIMER_0
-};
-
 void app_main(void)
 {
 	static struct lws_context_creation_info info;
@@ -155,10 +165,7 @@ void app_main(void)
             .speed_mode = LEDC_HIGH_SPEED_MODE,
             .timer_sel = LEDC_TIMER_0,
         };
-	struct timeval t, lt;
-        unsigned long us;
 
-	ledc_timer_config(&ledc_timer);
 	ledc_channel_config(&ledc_channel);
 
 	lws_esp32_set_creation_defaults(&info);
@@ -175,6 +182,7 @@ void app_main(void)
 	ESP_ERROR_CHECK( esp_event_loop_init(event_handler, NULL));
 
 	lws_esp32_wlan_start_ap();
+	/* this configures the LED timer channel 0 and starts the fading cb */
 	context = lws_esp32_init(&info);
 
 	if (info.port == 80) {
@@ -182,49 +190,7 @@ void app_main(void)
 		mount_ap.def = "factory.html";
 	}
 
-	gettimeofday(&lt, NULL);
-
-	while (!lws_service(context, 50)) {
-		gettimeofday(&t, NULL);
-                us = (t.tv_sec * 1000000) + t.tv_usec -
-                                ((lt.tv_sec * 1000000) + lt.tv_usec);
-                if (us < 20000)
-                        continue;
-
-                lt = t;
-
-		if (!id_flashes) {
-			unsigned long r = ((t.tv_sec * 1000000) + t.tv_usec) /
-                                                20000;
-			int i = 0;
-			switch ((r >> 4) & 3) {
-			case 0: 
-				i = 4096+ sineq16[r & 15];
-				break;
-			case 1:
-				i = 4096 + sineq16[15 - (r & 15)];
-				break;
-			case 2:
-				i = 4096 - sineq16[r & 15];
-				break;
-			case 3:
-				i = 4096 - sineq16[15 - (r & 15)];
-				break;
-			}
-	                ledc_set_duty(LEDC_HIGH_SPEED_MODE, LEDC_CHANNEL_0, i);
-		} else
-	                ledc_set_duty(LEDC_HIGH_SPEED_MODE, LEDC_CHANNEL_0,
-				!!((((t.tv_sec * 1000000) + t.tv_usec) /
-						10000) & 2));
-
-		ledc_update_duty(LEDC_HIGH_SPEED_MODE, LEDC_CHANNEL_0);
-
-		if (id_flashes) {
-			id_flashes++;
-			if (id_flashes == 500)
-				id_flashes = 0;
-		}
-
+	while (!lws_service(context, 10))
                 taskYIELD();
-	}
+
 }
