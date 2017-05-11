@@ -50,7 +50,27 @@ tr.rl { }
 .progr-fail { width:100%; height:32px;  background-color: rgba(240, 240, 24, 1.0); color:#c00000; }
 .progr-done { width:100%; height:32px;  background-color: rgba(240, 240, 24, 1.0); color:#00c000; }
 #preload-01 { background: url(spinner.gif) no-repeat -9999px -9999px; }
-
+.tooltip {
+    position: relative;
+    display: inline-block;
+    border-bottom: 1px dotted black; /* If you want dots under the hoverable text */
+}
+.tooltip .tooltiptext {
+    visibility: hidden;
+    width: 120px;
+    opacity: 0.75;
+    font-size: 10pt;
+    background-color: white;
+    color: #000;
+    text-align: center;
+    padding: 5px 0;
+    border-radius: 6px;
+    position: absolute;
+    z-index: 1;
+}
+.tooltip:hover .tooltiptext {
+    visibility: visible;
+}
 </style>
 </head>
 
@@ -82,18 +102,33 @@ tr.rl { }
 		<table class="center-div" style="padding:12px; ">
 			<tr><td class="tabt">Info:</td><td colspan=3 class="tabv" style="text-align:left"><span id=model></span></td></tr>
 			<tr><td class="tabt">Region:</td><td class="tabv" colspan=3>
+			<div class="tooltip"><span class="tooltiptext">
+			Select your geographic region for regulatory compliance</span>
 	<select name="region" id="region" style="font-size: 14pt" onchange="regch();">
 		<option value="0">China + Taiwan</option>
 		<option value="1">Japan</option>
 		<option value="2" selected>USA</option>
 		<option value="3">EU + UK</option>
-	</select>
+	</select></div>
 				</td></tr>
 				<tr><td class="tabt">Access Pw:</td><td colspan=3 class="tabv"><div id=access style="display:none">
 							user:<input type="password" id="access_pw" size="8"></input><button id=access_btn value="set" name="Set" onclick="set_access_pw();">Set</button>
 						</div></td></tr>
-		<tr><td colspan=2><input type=button class="btn" name="identify" value="ID device"
-		onclick="do_identify();" style="font-size: 18pt"></td><td colspan=2>
+				<tr><td class="tabt">Group:</td><td colspan=3 class="tabv">
+			<div class="tooltip"><span class="tooltiptext">
+			  Devices in the same group bind together in the UI</span>
+  <input type="text" id="group" oninput="chgroup()" maxlength=15></input></div></td></tr>
+				<tr><td class="tabt">Role:</td><td colspan=3 class="tabv">
+			<div class="tooltip"><span class="tooltiptext">
+			  Name for role of this device within group</span>
+  <input type="text" id="role" oninput="chrole()" maxlength=15></input></div></td></tr>
+
+		<tr><td colspan=2>
+		<div class="tooltip"><span class="tooltiptext">
+			Make device flash LED quickly for 10s</span>
+		<input type=button class="btn" name="identify" value="ID device"
+			 onclick="do_identify();" style="font-size: 18pt"></div>
+			</td><td colspan=2>
 			<input type=button class="btn" name="reset" value="Reset device"
                                 onclick="do_reset();" style="font-size: 18pt"></td></tr>
 		</table>
@@ -113,35 +148,43 @@ tr.rl { }
  </tr> 
 
      <tr>
-      <td colspan=4 style="padding-top: 14px; padding-bottom:20px; vertical-align:top">
+
+      <td colspan=4 style="padding-top: 14px; padding-bottom:20px; padding-right:12px; vertical-align:top">
 	<table class="center-div" style="width: 350px">
 	 <tr>
+
           <td class="group2" style="width:350px; vertical-align:top;">
 	    <table><tr><td style="vertical-align:top;">
 	      <div class=div128><img id=router class=img128 src="./setup.png"></div>
 	     </td>
              <td>
-              <span class="sub">Select the AP to join</span>
+              <span class="sub">Select Slot</span>
 	       <table class="center-div" style="padding-top: 12px;">
-		<tr><td colspan=6 align=center style="font-size: 18pt">
-		 <span id=pwt style="color:#808080">AP Password: </span>
-		 <input disabled type="password" id="pw" oninput="rch(1);" style="font-size: 18pt" size="8">
-		 &nbsp;&nbsp;<input type=button value="Join AP" style="font-size: 18pt" disabled id=join onclick="do_join();"></td>
-		</tr>
+		       <tr><td><div id=aps></div></td></tr>
 	       </table>
-	      </td>
-             </tr>
+	     </td>
+            </tr>
+	    <tr><td colspan=6>
+<div id=scanlist style="opacity: 0.35; width:100%">
+	<table>
+		<tr><td align=center style="font-size: 16pt">
+		 <span id=pwt style="color:#808080">Passphrase: </span>
+		 <input disabled type="password" id="pw" oninput="rch(1);" style="font-size: 18pt" size="8">
+		 &nbsp;&nbsp;<input type=button value="Update slot"
+		 	style="font-size: 16pt" disabled id=join onclick="do_join();">
+			</td>
+		</tr>
 	     <tr><td colspan=6 align=center>
-	      <div id="scan" width="100%">Scanning...</div>
+	      <div id="scan" style="overflow:scroll; width:100%; height:300px">Scanning...</div>
 	     </td></tr>
-	    </table>
-           </td>
+	</table>
+	</div>
 
-	   <td style="vertical-align:top">
-		<table><tr><td style="vertical-align:top; width: 200px">
+		    </td></tr>
+	   </table>
+          </td>
 
-                <table>
-                <tr><td colspan=2 class=group2>
+          <td colspan=2 class=group2>
 
 				<table><tr><td colspan=3>
 			<table><tr><td width=128 style="vertical-align: top"><div class=div128>
@@ -178,9 +221,7 @@ tr.rl { }
                 </table>
        </td></tr></table>
      </td>
-   </tr></table>
-  </td>
- </tr> 
+   </tr>
 
 </table>
 </td>
@@ -188,6 +229,7 @@ tr.rl { }
 </table>
 
 	</div>
+
 
 <script>
 	var ws, sel, host, old, once = 0;
@@ -253,16 +295,52 @@ function get_appropriate_ws_url()
 			//document.getElementById("scan").innerHTML = "<pre>" + msg.data + "</pre>\n";
 			var best, hit, n, m, s, b, a, cs, jso = JSON.parse(msg.data);
 			
-			cs = get_radio();
+			cs = get_radio('ap');
 		
 			host = jso.host;
 			if (once == 0) {
 				document.getElementById("model").textContent = jso.model+"-"+jso.serial+"-"+jso.opts;
 				document.getElementById("region").value = jso.region;
 				if (jso.forced_button != 1)
-				document.getElementById("access").innerHTML = "<span style=\"font-size:10pt;\">Access password can only be set when device forced into factory mode using physical button</span>";
+					document.getElementById("access").innerHTML = "<span style=\"font-size:10pt;\">use physical button</span>";
 
 				document.getElementById("access").style.display = "block";
+				s = "<table><tr><td>Sel</td><td>Slot</td><td>AP</td>";
+				s +=   "<td>Use</td><td>Clear</td></tr>";
+				for (n = 0; n < 4; n++) {
+					if (!n)
+					s += "<tr><td align=center style=\"overflow:hidden;\">"+
+					     "<input type=radio name=slot value=\"" + parseInt(n) + "\" " +
+					     "onchange=\"slch(" + parseInt(m) + ");\"></td><td>" +
+					     parseInt(n + 1) + "</td>";
+					else
+					s += "<tr><td align=center style=\"overflow:hidden;\">"+
+					     "<input disabled type=radio name=slot value=\"" + parseInt(n) + "\" " +
+					     "onchange=\"slch(" + parseInt(m) + ");\"></td><td>" +
+					     parseInt(n + 1) + "</td>";
+
+				     if (jso.known[n])
+					     s += "<td width=50% id=slotap" + parseInt(n) + ">" +
+						     jso.known[n].ssid + "</td>" +
+					     "<td>" + jso.known[n].use + "</td>";
+				     else
+					     s += "<td width=50% id=slotap" + parseInt(n) +
+						     "></td><td></td>";
+					if (!n)
+					     s += "<td><button style=\"font-size:8pt;\" onclick=\"clr(" +
+							parseInt(n) + ")\">Clear</button></td></tr>";
+					else
+					     s += "<td><button disabled style=\"font-size:8pt;\" onclick=\"clr(" +
+							parseInt(n) + ")\">Clear</button></td></tr>";
+
+				}
+
+				s += "</table>";
+
+				document.getElementById("aps").innerHTML = s;
+				s = "";
+
+				document.getElementById("group").value = jso.group;
 
 				cs = jso.ssid;
 				once = 1;
@@ -396,9 +474,50 @@ function get_appropriate_ws_url()
 		alert('<p>Error' + exception);
 	}
 
-function get_radio()
+function slch(n)
 {
-	var s = document.getElementsByName('ap');
+	var q;
+
+	document.getElementById("join").value = "Set slot " + parseInt(parseInt(get_radio('slot')) + 1);
+	document.getElementById("scanlist").style.opacity = "1.0";
+}
+
+function clr(n)
+{
+	var s = "{\"ssid" + parseInt(n) +"\":\"\",\"pw" + parseInt(n) + "\":\"\"}";
+	try {
+		ws.send(s);
+	} catch(exception) {
+		alert('Sorry, there was a problem' + exception);
+	}
+	s = "slotap" + n;
+	if ( document.getElementById(s))
+		document.getElementById(s).textContent = "";
+}
+
+function chgroup()
+{
+	var s = "{\"group\":\"" + document.getElementById("group").value + "\"}";
+	try {
+		ws.send(s);
+	} catch(exception) {
+		alert('Sorry, there was a problem' + exception);
+	}
+}
+
+function chrole()
+{
+	var s = "{\"role\":\"" + document.getElementById("role").value + "\"}";
+	try {
+		ws.send(s);
+	} catch(exception) {
+		alert('Sorry, there was a problem' + exception);
+	}
+}
+
+function get_radio(name)
+{
+	var s = document.getElementsByName(name), sel;
 	for ( var i = 0; i < s.length; i++)
 	    if (s[i].checked) {
 	        sel = s[i].value;
@@ -410,16 +529,18 @@ function get_radio()
 
 function do_join()
 {
-	var s = "{\"ssid\":\"" + get_radio() + "\",\"pw\":\"" +
+	var s = "{\"ssid" + parseInt(get_radio('slot')) +"\":\"" + get_radio('ap') + "\",\"pw" +
+		parseInt(get_radio('slot')) + "\":\"" +
 			document.getElementById("pw").value + "\",\"region\":\"" +
-			document.getElementById("region").value + "\"}", h;
+			document.getElementById("region").value + "\", \"slot\":\"" + parseInt(get_radio('slot')) + "\"}", h;
+	console.log(s);
 	try {
 		ws.send(s);
 	} catch(exception) {
 		alert('Sorry, there was a problem' + exception);
 	}
 
-	alert("AP set to " + get_radio());
+//	alert("AP set to " + get_radio('ap'));
 /*
 	if (document.getElementById("serial").value)
 		h = document.getElementById("model").textContent + "-" +
@@ -550,8 +671,8 @@ function get_latest(n)
 
 function rch(need_pw)
 {
-	var _old = old;
-	var sel = get_radio();
+	var _old = old, q;
+	var sel = get_radio('ap');
 	var butok = 1;
 
 	if (sel == "")
@@ -560,6 +681,10 @@ function rch(need_pw)
         if (_old && _old != "" && _old != sel)
 	      document.getElementById(_old).className = "ra";
 	old = sel;
+
+	q = "slotap" + get_radio("slot");
+	if ( document.getElementById(q))
+		document.getElementById(q).textContent = sel;
 
 	if (sel && sel != "")
 		if (document.getElementById(sel))

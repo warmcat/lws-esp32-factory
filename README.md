@@ -79,7 +79,7 @@ will choke if the OTA parts are not initialized like this one time
 ## Step 3: General build and flash
 
 ```
- $ make all flash monitor
+ $ make flash monitor
 ```
 
 ## Using the Factory Config
@@ -88,17 +88,19 @@ will choke if the OTA parts are not initialized like this one time
 
  - From scratch, the factory app listens at http://192.168.4.1/factory.html
 
- - build generates a selfsigned DER acert and key in top level directory of this project each time, `ssl-cert.der` and `ssl-key.der`.  Use the form to upload these.
+ - build generates a selfsigned PEM cert and key files in build/libwebsockets, `libwebsockets-test-server.pem` and `libwebsockets-test-server.key.pem`.  Use the form to upload these.
 
  - after the reboot vist https://192.168.4.1, which will take you to the user setup
 
- - As a security feature, since you can programmatically reboot into factory mode from the OTA application, once the SSL certs are set some features require the "boot into factory" button to be physically pressed before they can be accessed subsequently.  This limits what a remote attacker can achieve.
+ - As a security feature, since you can programmatically reboot into factory mode from the OTA application, once the SSL certs are set some features require the "boot into factory" button to be physically pressed during powerup before they can be accessed subsequently.  This limits what a remote attacker can achieve.
 
 ## Using the User setup
 
  - connect your wifi to the ap "lws-config-...."
 
  - In a browser, go to https://192.168.4.1
+
+ - Click on the radio button for AP slot 1
 
  - Select your normal AP from the list
 
@@ -117,7 +119,7 @@ https://github.com/warmcat/lws-esp32-test-server-demos
 These are built and loaded slightly differently, ie
 
 ```
- $ make all flash_ota monitor
+ $ make flash_ota monitor
 ```
 
 This is because they target the 2.9MB OTA flash area.
