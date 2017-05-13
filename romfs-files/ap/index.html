@@ -301,6 +301,8 @@ function get_appropriate_ws_url()
 			if (once == 0) {
 				document.getElementById("model").textContent = jso.model+"-"+jso.serial+"-"+jso.opts;
 				document.getElementById("region").value = jso.region;
+				document.getElementById("role").value = jso.role;
+
 				if (jso.forced_button != 1)
 					document.getElementById("access").innerHTML = "<span style=\"font-size:10pt;\">use physical button</span>";
 
@@ -308,29 +310,23 @@ function get_appropriate_ws_url()
 				s = "<table><tr><td>Sel</td><td>Slot</td><td>AP</td>";
 				s +=   "<td>Use</td><td>Clear</td></tr>";
 				for (n = 0; n < 4; n++) {
-					if (!n)
 					s += "<tr><td align=center style=\"overflow:hidden;\">"+
 					     "<input type=radio name=slot value=\"" + parseInt(n) + "\" " +
-					     "onchange=\"slch(" + parseInt(m) + ");\"></td><td>" +
-					     parseInt(n + 1) + "</td>";
-					else
-					s += "<tr><td align=center style=\"overflow:hidden;\">"+
-					     "<input disabled type=radio name=slot value=\"" + parseInt(n) + "\" " +
 					     "onchange=\"slch(" + parseInt(m) + ");\"></td><td>" +
 					     parseInt(n + 1) + "</td>";
 
 				     if (jso.known[n])
 					     s += "<td width=50% id=slotap" + parseInt(n) + ">" +
 						     jso.known[n].ssid + "</td>" +
-					     "<td>" + jso.known[n].use + "</td>";
+					     "<td id=\"use"+n+"\">" + jso.known[n].use + "</td>";
 				     else
 					     s += "<td width=50% id=slotap" + parseInt(n) +
 						     "></td><td></td>";
-					if (!n)
-					     s += "<td><button style=\"font-size:8pt;\" onclick=\"clr(" +
+					if (jso.known[n].ssid.length)
+					     s += "<td><button id=\"clr"+n+"\" style=\"font-size:8pt;\" onclick=\"clr(" +
 							parseInt(n) + ")\">Clear</button></td></tr>";
 					else
-					     s += "<td><button disabled style=\"font-size:8pt;\" onclick=\"clr(" +
+					     s += "<td><button disabled id=\"clr"+n+"\" style=\"font-size:8pt;\" onclick=\"clr(" +
 							parseInt(n) + ")\">Clear</button></td></tr>";
 
 				}
@@ -480,11 +476,13 @@ function slch(n)
 
 	document.getElementById("join").value = "Set slot " + parseInt(parseInt(get_radio('slot')) + 1);
 	document.getElementById("scanlist").style.opacity = "1.0";
+	document.getElementById('clr' + parseInt(n)).disabled = false;
 }
 
 function clr(n)
 {
-	var s = "{\"ssid" + parseInt(n) +"\":\"\",\"pw" + parseInt(n) + "\":\"\"}";
+	var s = "{\"ssid" + parseInt(n) +"\":\"\",\"pw" + parseInt(n) + "\":\"\",\"slot\":\"" +
+					parseInt(n) + "\"}";
 	try {
 		ws.send(s);
 	} catch(exception) {
@@ -493,6 +491,8 @@ function clr(n)
 	s = "slotap" + n;
 	if ( document.getElementById(s))
 		document.getElementById(s).textContent = "";
+	document.getElementById("clr" + parseInt(n)).disabled = true;
+	document.getElementById("use" + parseInt(n)).textContent = "0";
 }
 
 function chgroup()
@@ -532,8 +532,7 @@ function do_join()
 	var s = "{\"ssid" + parseInt(get_radio('slot')) +"\":\"" + get_radio('ap') + "\",\"pw" +
 		parseInt(get_radio('slot')) + "\":\"" +
 			document.getElementById("pw").value + "\",\"region\":\"" +
-			document.getElementById("region").value + "\", \"slot\":\"" + parseInt(get_radio('slot')) + "\"}", h;
-	console.log(s);
+			document.getElementById("region").value + "\",\"slot\":\"" + parseInt(get_radio('slot')) + "\"}", h;
 	try {
 		ws.send(s);
 	} catch(exception) {
@@ -560,7 +559,6 @@ function regch()
 	var s = "{\"setting\":\"1\",\"region\":\"" +
 			document.getElementById("region").value + "\"}", h;
 	try {
-		console.log(s);
 		ws.send(s);
 	} catch(exception) {
 		alert('Sorry, there was a problem' + exception);
@@ -572,7 +570,6 @@ function set_access_pw()
 	var s = "{\"setting\":\"1\",\"access_pw\":\"" +
 			document.getElementById("access_pw").value + "\"}", h;
 	try {
-		console.log(s);
 		ws.send(s);
 	} catch(exception) {
 		alert('Sorry, there was a problem' + exception);

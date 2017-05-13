@@ -3,17 +3,28 @@ lws-esp32-factory
 
 This is a standalone <1MB image intended for the 1MB "factory" slot on ESP32.
 
+This image is designed to look after two cases
+
+ - Factory bringup, where you push PEM SSL certs to the device and set "factory options"
+
+ - Common user setup, for example teaching the device about your AP passphrase, updating
+   your OTA or the factory application, and user setup like device grouping name
+
+Your actual "OTA" application is something completely different, and has its own 2.9MB
+flash area.  This -factory app is designed to take care of all common setup stuff and
+put it in nvs to be shared with the OTA app.
+
 It has the following capabilities:
 
 ### Initial Factory Setup Page
 
-Allows overriding default serial, setting device options string, and uploading SSL certs
+Allows overriding default serial, setting device options string, and uploading PEM SSL certs
 
 ![Factory Setup](https://libwebsockets.org/setup3.png)
 
-With an empty nvs, the first time this will come up at http://192.168.4.1 in AP mode, ie at port 80 without SSL since no certs.
+With an empty nvs, the first time this will come up at http://192.168.4.1 in AP mode, ie at port 80 without SSL, since no SSL certs configured yet.
 
-After the DER format SSL certs have been uploaded, everything subsequently is in https.
+After the PEM format SSL certs have been uploaded, everything subsequently is in https on port 443.
 
 ### User configuration Setup Page
 
@@ -23,7 +34,8 @@ If no AP information is in the nvs, this page comes up automatically at https://
 
 The user can reach it subsequently programmatically or by grounding a GPIO (ie, by a button), the default GPIO is IO14.
 
-The page allows you to select an AP from a scan list and give a passphrase.
+The page allows you to select an AP from a scan list and give a passphrase.  It supports four AP slots,
+for, eg, home and work environments, and it handles the scan and acquire of the APs.
 
 Once it connects, the DHCP information is shown, and it autonomously connects to a configurable server over https to check for updates.  The user can select to have it autonomously download the update and restart.
 
@@ -33,13 +45,13 @@ The user can also upload images by hand.  The factory image understands how to u
 
 It's not required, but the default code expects
 
- - pushbutton to 0V connected on IO14
+ - pushbutton to 0V connected on IO14, with pullup to 3.3V
 
 If the pushbutton is held down at boot, the user is forced into the factory / Setup mode rather than the OTA application.
 
  - LED connected via, eg, 330R   3.3V ---|>|-----/\\/\\/\\---- IO23
 
-While in factory / OTA mode, the LED flashes on and off at 500ms.  When you press "ID Device" button in the UI, the LED flashes rapidly for 5s.
+While in factory / OTA mode, the LED flashes dows a PWM sine cycle at about 1Hz.  When you press "ID Device" button in the UI, the LED does the since cycle rapidly for 10s, so you can be sure which physical device you are talking to.
 
 
 ## Building and using
@@ -53,11 +65,6 @@ For Ubuntu / Debian and Fedora at least, the distro package is called "genromfs"
 ### 0.2: recent CMake
 
 CMake v2.8 is too old... v3.7+ are known to work OK and probably other intermediate versions are OK.
-
-### 0.3: recent GNU Make
-
-3.8.1 is known to be too old.  4.2.1 is known to work well.  The point at which
-it works is likely to be somewhere inbetween those.  If it builds but you get errors related to not being able to find the ROMFS at runtime, update your GNU make.
 
 
 ### Step 1: Clone and get lws submodule
@@ -131,4 +138,17 @@ upload file button or the autonomous update facility in the Factory App.  The bo
 requires it to not only be flashed, but marked as bootable.
 
 Subsequently you can just reflash the OTA partition with `make flash_ota` or use the upload or autonomous update stuff in the -factory app.
+
+## Note for Firefox users
+
+Firefox has a longstanding, unfixed bug dealing with selfsigned certs.  As you add more exceptions for them,
+firefox bogs down processing the validity of the certs.  Symptoms are slow (eventually very slow) browser
+performance sending data on the accepted SSL connection.
+
+https://bugzilla.mozilla.org/show_bug.cgi?id=1056341
+
+Symptom is your browser box's cpu burns while it sits there.  Workaround is to delete the cert8.db file in
+your firefox user config, on my box it was `~/.mozilla/firefox/blah.default/cert8.db`.
+
+This isn't related to lws but affects all firefox usage with selfsigned certs...
 

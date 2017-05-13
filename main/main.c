@@ -23,9 +23,6 @@
 #include "soc/ledc_reg.h"
 #include "driver/ledc.h"
 
-void (*lws_cb_scan_done)(void *);
-void *lws_cb_scan_done_arg;
-
 /* protocol for scan updates over ws and saving wlan setup */
 #include "protocol_esp32_lws_scan.c"
 /* protocol for OTA update using POST / https / browser upload */
@@ -119,17 +116,7 @@ void lws_esp32_leds_timer_cb(TimerHandle_t th)
 
 esp_err_t event_handler(void *ctx, system_event_t *event)
 {
-	switch(event->event_id) {
-	case SYSTEM_EVENT_SCAN_DONE:
-		if (lws_cb_scan_done)
-			lws_cb_scan_done(lws_cb_scan_done_arg);
-		break;
-
-	default:
-		return lws_esp32_event_passthru(ctx, event);
-	}
-
-	return ESP_OK;
+	return lws_esp32_event_passthru(ctx, event);
 }
 
 #define GPIO_ID 23
