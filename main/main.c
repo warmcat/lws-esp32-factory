@@ -96,12 +96,15 @@ void lws_esp32_leds_timer_cb(TimerHandle_t th)
 {
 	struct timeval t;
 	unsigned long r;
+	int div = 3 - (2 * !!lws_esp32.inet);
+	int base = 4096 * !lws_esp32.inet;
 
 	gettimeofday(&t, NULL);
 	r = ((t.tv_sec * 1000000) + t.tv_usec);
 
 	if (!id_flashes)
-		ledc_set_duty(LEDC_HIGH_SPEED_MODE, LEDC_CHANNEL_0, lws_esp32_sine_interp(r / 1699));
+		ledc_set_duty(LEDC_HIGH_SPEED_MODE, LEDC_CHANNEL_0, 
+				base + (lws_esp32_sine_interp(r / (1699 - (500 * !lws_esp32.inet))) / div));
 	else
 		ledc_set_duty(LEDC_HIGH_SPEED_MODE, LEDC_CHANNEL_0, lws_esp32_sine_interp(r / 333));
 

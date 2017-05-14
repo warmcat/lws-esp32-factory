@@ -9,7 +9,6 @@ EXTRA_COMPONENT_DIRS := components
 LWS_IS_FACTORY_APPLICATION=1
 export LWS_IS_FACTORY_APPLICATION
 export A
-
 export F
 
 include $(IDF_PATH)/make/project.mk

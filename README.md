@@ -85,6 +85,14 @@ will choke if the OTA parts are not initialized like this one time
 
 ## Step 3: General build and flash
 
+First one time each session set an env var in your shell to override the tty port
+
+```
+ $ export ESPPORT=/dev/ttyUSB0
+```
+
+Then you can just do
+
 ```
  $ make flash monitor
 ```
