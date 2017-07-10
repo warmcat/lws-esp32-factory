@@ -66,6 +66,11 @@ For Ubuntu / Debian and Fedora at least, the distro package is called "genromfs"
 
 CMake v2.8 is too old... v3.7+ are known to work OK and probably other intermediate versions are OK.
 
+### 0.3: OSX users: GNU stat
+
+```
+     $ brew install coreutils
+```
 
 ### Step 1: Clone and get lws submodule
 
