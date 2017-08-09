@@ -147,6 +147,7 @@ void app_main(void)
 {
 	static struct lws_context_creation_info info;
 	struct lws_context *context;
+	struct lws_vhost *vh;
         ledc_channel_config_t ledc_channel = {
             .channel = LEDC_CHANNEL_0,
             .duty = 8191,
@@ -173,7 +174,7 @@ void app_main(void)
 
 	lws_esp32_wlan_start_ap();
 	/* this configures the LED timer channel 0 and starts the fading cb */
-	context = lws_esp32_init(&info);
+	context = lws_esp32_init(&info, &vh);
 
 	if (info.port == 80) {
 		lwsl_notice("setting mount default to factory\n");
