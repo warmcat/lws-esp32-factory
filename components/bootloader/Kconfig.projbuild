@@ -28,8 +28,18 @@ config LOG_BOOTLOADER_LEVEL
     default 4 if LOG_BOOTLOADER_LEVEL_DEBUG
     default 5 if LOG_BOOTLOADER_LEVEL_VERBOSE
 
-endmenu
 
+config BOOTLOADER_FACTORY_BUTTON_GPIO
+  int "GPIO for Force Factory Boot"
+  default 14
+  help
+    If the pushbutton connected to this GPIO is held down at boot, the user is forced into the factory / Setup mode rather than the OTA application.
+
+    Note: Default selection of GPIO14 should be changed to another value when debugging with JTAG. 
+
+    Pins reserved for ESP32 JTAG: GPIO12, GPIO13, GPIO14 and GPIO15.
+
+endmenu
 
 
 menu "Security features"
@@ -210,10 +220,6 @@ config SECURE_BOOT_TEST_MODE
           Log output will state changes which would be applied, but they will not be.
 
           This option is for testing purposes only - it completely disables secure boot protection.
-
-config BOOTLOADER_FACTORY_BUTTON_GPIO
-	int "GPIO for Force Factory Boot"
-	default 14
 
 
 endmenu  # potentially insecure
