@@ -49,6 +49,8 @@ It's not required, but the default code expects
 
 If the pushbutton is held down at boot, the user is forced into the factory / Setup mode rather than the OTA application.
 
+**Note:** Default selection of GPIO14 should be changed to another value when [debugging with JTAG](http://esp-idf.readthedocs.io/en/latest/api-guides/jtag-debugging/index.html). Pins reserved for ESP32 JTAG: GPIO12, GPIO13, GPIO14 and GPIO15.
+
  - LED connected via, eg, 330R   3.3V ---|>|-----/\\/\\/\\---- IO23
 
 While in factory / OTA mode, the LED flashes dows a PWM sine cycle at about 1Hz.  When you press "ID Device" button in the UI, the LED does the since cycle rapidly for 10s, so you can be sure which physical device you are talking to.
