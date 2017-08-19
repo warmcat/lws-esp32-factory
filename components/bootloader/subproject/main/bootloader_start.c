@@ -39,6 +39,8 @@
 #include "soc/timer_group_reg.h"
 #include "soc/gpio_reg.h"
 #include "soc/gpio_sig_map.h"
+#include "soc/rtc_io_reg.h"
+#include "soc/rtc.h"
 
 #include "sdkconfig.h"
 #include "esp_image_format.h"
@@ -76,6 +78,30 @@ static void update_flash_config(const esp_image_header_t* pfhdr);
 static void clock_configure(void);
 static void uart_console_configure(void);
 static void wdt_reset_check(void);
+
+static int force_factory = 0;
+
+static bool check_force_button(void)
+{
+	volatile int n;
+
+	gpio_pad_select_gpio(CONFIG_BOOTLOADER_FACTORY_BUTTON_GPIO);
+	GPIO_DIS_OUTPUT(CONFIG_BOOTLOADER_FACTORY_BUTTON_GPIO);
+	gpio_pad_unhold(CONFIG_BOOTLOADER_FACTORY_BUTTON_GPIO);
+	gpio_pad_pullup(CONFIG_BOOTLOADER_FACTORY_BUTTON_GPIO);
+
+//	*((volatile uint32_t *)PERIPHS_IO_MUX_GPIO34_U) = FUNC_GPIO34_GPIO34_0;
+//	*((volatile uint32_t *)GPIO_ENABLE1_REG) &= ~(1 << (CONFIG_BOOTLOADER_FACTORY_BUTTON_GPIO - 32));
+//	*((volatile uint32_t *)RTC_IO_TOUCH_PAD4_REG) |= RTC_IO_TOUCH_PAD4_TO_GPIO | RTC_IO_TOUCH_PAD4_FUN_IE | RTC_IO_TOUCH_PAD4_MUX_SEL;
+	for (n = 0; n < 50; n++)
+		;
+	return !GPIO_INPUT_GET(CONFIG_BOOTLOADER_FACTORY_BUTTON_GPIO);
+}
+
+#define LWS_MAGIC_REBOOT_TYPE_ADS 0x50001ffc
+#define LWS_MAGIC_REBOOT_TYPE_REQ_FACTORY 0xb00bcafe
+#define LWS_MAGIC_REBOOT_TYPE_FORCED_FACTORY 0xfaceb00b
+#define LWS_MAGIC_REBOOT_TYPE_FORCED_FACTORY_BUTTON 0xf0cedfac
 
 /*
  * We arrive here after the ROM bootloader finished loading this second stage bootloader from flash.
@@ -298,7 +324,7 @@ static int get_selected_boot_partition(const bootloader_state_t *bs)
     esp_ota_select_entry_t sa,sb;
     const esp_ota_select_entry_t *ota_select_map;
 
-    if (bs->ota_info.offset != 0) {
+    if (!force_factory && bs->ota_info.offset != 0) {
         // partition table has OTA data partition
         if (bs->ota_info.size < 2 * SPI_SEC_SIZE) {
             ESP_LOGE(TAG, "ota_info partition size %d is too small (minimum %d bytes)", bs->ota_info.size, sizeof(esp_ota_select_entry_t));
@@ -319,6 +345,7 @@ static int get_selected_boot_partition(const bootloader_state_t *bs)
         if(sa.ota_seq == UINT32_MAX && sb.ota_seq == UINT32_MAX) {
             ESP_LOGD(TAG, "OTA sequence numbers both empty (all-0xFF)");
             if (bs->factory.offset != 0) {
+		    // IOW nobody set the logical OTA pointer yet, but we do have factory image
                 ESP_LOGI(TAG, "Defaulting to factory image");
                 return FACTORY_INDEX;
             } else {
@@ -417,7 +444,6 @@ static bool load_boot_image(const bootloader_state_t *bs, int start_index, esp_i
     return false;
 }
 
-
 /**
  *  @function :     bootloader_main
  *  @description:   entry function of 2nd bootloader
@@ -436,6 +462,23 @@ void bootloader_main()
 #endif
     esp_image_header_t fhdr;
     bootloader_state_t bs = { 0 };
+
+
+    /* we can leave a magic at end of fast RTC ram to force next boot into FACTORY */
+	uint32_t *p_force_factory_magic = (uint32_t *)LWS_MAGIC_REBOOT_TYPE_ADS;
+
+	if (*p_force_factory_magic == LWS_MAGIC_REBOOT_TYPE_REQ_FACTORY) {
+		force_factory = 1;
+		/* mark as having been forced... needed to fixup wrong reported boot part */
+		*p_force_factory_magic = LWS_MAGIC_REBOOT_TYPE_FORCED_FACTORY;
+	} else
+		*p_force_factory_magic = 0;
+
+	if (check_force_button()) {
+		force_factory = 1;
+		ESP_LOGE(TAG, "Force Button is Down 0x%x\n", gpio_input_get());
+		*p_force_factory_magic = LWS_MAGIC_REBOOT_TYPE_FORCED_FACTORY_BUTTON;
+	}
 
     ESP_LOGI(TAG, "compile time " __TIME__ );
     ets_set_appcpu_boot_addr(0);
