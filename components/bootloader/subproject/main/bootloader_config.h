@@ -22,24 +22,19 @@ extern "C"
 #endif
 
 #include "esp_flash_data_types.h"
+#include "soc/soc.h"
 
 #define SPI_SEC_SIZE 0x1000
-#define IROM_LOW    0x400D0000
-#define IROM_HIGH   0x40400000
-#define DROM_LOW    0x3F400000
-#define DROM_HIGH   0x3F800000
-#define RTC_IRAM_LOW  0x400C0000
-#define RTC_IRAM_HIGH 0x400C2000
-#define RTC_DATA_LOW  0x50000000
-#define RTC_DATA_HIGH 0x50002000
 
 #define SPI_ERROR_LOG "spi flash error"
+
+#define MAX_OTA_SLOTS 16
 
 typedef struct {
     esp_partition_pos_t ota_info;
     esp_partition_pos_t factory;
     esp_partition_pos_t test;
-    esp_partition_pos_t ota[16];
+    esp_partition_pos_t ota[MAX_OTA_SLOTS];
     uint32_t app_count;
     uint32_t selected_subtype;
 } bootloader_state_t;
