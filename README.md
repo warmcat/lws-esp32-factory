@@ -58,7 +58,7 @@ While in factory / OTA mode, the LED flashes dows a PWM sine cycle at about 1Hz.
 
 ## Building and using
 
-This was built and tested againt esp-idf "v3", at 969f1bb9be1ce02f37115359111852a9bd2c9197.
+This was built and tested againt esp-idf "v3", at 9da1bf1a45f670a2d14083a9865f10826a7bca43.
 
 ### Step 0: Install prerequisites
 
