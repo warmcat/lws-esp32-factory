@@ -81,6 +81,40 @@ static void wdt_reset_check(void);
 
 static int force_factory = 0;
 
+void *memcpy(void *dst, const void *src, size_t len)
+{
+	uint8_t *d = dst;
+	const uint8_t *s = src;
+
+	while (len--)
+		*d++ = *s++;
+
+	return dst;
+}
+
+int memcmp(const void *dst, const void *src, size_t len)
+{
+	const uint8_t *d = dst;
+	const uint8_t *s = src;
+
+	while (len--)
+		if (*d++ != *s++)
+			return 1;
+
+	return 0;
+}
+
+
+void *memset(void *dst, int val, size_t len)
+{
+	uint8_t *d = dst;
+
+	while (len--)
+		*d++ = val;
+
+	return dst;
+}
+
 static bool check_force_button(void)
 {
 	volatile int n;
