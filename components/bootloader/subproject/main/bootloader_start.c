@@ -225,7 +225,7 @@ bool load_partition_table(bootloader_state_t* bs)
     err = esp_partition_table_basic_verify(partitions, true, &num_partitions);
     if (err != ESP_OK) {
         ESP_LOGE(TAG, "Failed to verify partition table");
-        return false;
+//        return false;
     }
 
     ESP_LOGI(TAG, "Partition Table:");
