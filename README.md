@@ -58,13 +58,21 @@ While in factory / OTA mode, the LED flashes dows a PWM sine cycle at about 1Hz.
 
 ## Building and using
 
-This was built and tested againt esp-idf "v3", at 050ae50e83df4944478e9d15866a3870ac39336b,
+1) This was built and tested againt esp-idf at 1773770f446fb12db2c18217f09fa9d0d2febd35,
 from 2017-09-08.  You can force esp-idf to that commit by cloning / pulling / fetching
-the latest esp-idf and then doing `git reset --hard 050ae50e83df4944478e9d15866a3870ac39336b`
+the latest esp-idf and then doing `git reset --hard 1773770f446fb12db2c18217f09fa9d0d2febd35`
 in the esp-idf directory.
 
 Esp-idf is in constant flux you may be able to use the latest without problems but if not,
 revert it to the above commit that has been tested before complaining.
+
+2) Esp-idf also has dependencies on toolchain, at the time of writing it recommends this toolchain version (for 64-bit linux)
+
+[1.22.0-73-ge28a011](https://dl.espressif.com/dl/xtensa-esp32-elf-linux64-1.22.0-73-ge28a011-5.2.0.tar.gz)
+
+3) Don't forget to do `git submodule init ; git submodule update --recursive` after fetching projects like esp-idf with submodules.
+
+4) After updating esp-idf, or this project or components, remove your old build dir with `rm -rf build` before rebuilding.
 
 ### Step 0: Install prerequisites
 
