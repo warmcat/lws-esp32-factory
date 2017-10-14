@@ -14,6 +14,8 @@ Your actual "OTA" application is something completely different, and has its own
 flash area.  This -factory app is designed to take care of all common setup stuff and
 put it in nvs to be shared with the OTA app.
 
+This now uses HTTP/2 serving from libwebsockets :-)
+
 It has the following capabilities:
 
 ### Initial Factory Setup Page
