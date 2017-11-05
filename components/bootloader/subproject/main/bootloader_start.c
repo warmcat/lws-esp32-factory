@@ -75,45 +75,13 @@ static void set_cache_and_start_app(uint32_t drom_addr,
     uint32_t irom_size,
     uint32_t entry_addr);
 static void update_flash_config(const esp_image_header_t* pfhdr);
+static void vddsdio_configure();
+static void flash_gpio_configure();
 static void clock_configure(void);
 static void uart_console_configure(void);
 static void wdt_reset_check(void);
 
 static int force_factory = 0;
-
-void *memcpy(void *dst, const void *src, size_t len)
-{
-	uint8_t *d = dst;
-	const uint8_t *s = src;
-
-	while (len--)
-		*d++ = *s++;
-
-	return dst;
-}
-
-int memcmp(const void *dst, const void *src, size_t len)
-{
-	const uint8_t *d = dst;
-	const uint8_t *s = src;
-
-	while (len--)
-		if (*d++ != *s++)
-			return 1;
-
-	return 0;
-}
-
-
-void *memset(void *dst, int val, size_t len)
-{
-	uint8_t *d = dst;
-
-	while (len--)
-		*d++ = val;
-
-	return dst;
-}
 
 static bool check_force_button(void)
 {
@@ -225,7 +193,7 @@ bool load_partition_table(bootloader_state_t* bs)
     err = esp_partition_table_basic_verify(partitions, true, &num_partitions);
     if (err != ESP_OK) {
         ESP_LOGE(TAG, "Failed to verify partition table");
-//        return false;
+        return false;
     }
 
     ESP_LOGI(TAG, "Partition Table:");
@@ -322,8 +290,8 @@ static esp_partition_pos_t index_to_partition(const bootloader_state_t *bs, int 
         return bs->test;
     }
 
-    if (index >= 0 && index < MAX_OTA_SLOTS) {
-        return bs->ota[index % bs->app_count];
+    if (index >= 0 && index < MAX_OTA_SLOTS && index < bs->app_count) {
+        return bs->ota[index];
     }
 
     esp_partition_pos_t invalid = { 0 };
@@ -332,15 +300,16 @@ static esp_partition_pos_t index_to_partition(const bootloader_state_t *bs, int 
 
 static void log_invalid_app_partition(int index)
 {
+    const char *not_bootable = " is not bootable"; /* save a few string literal bytes */
     switch(index) {
     case FACTORY_INDEX:
-        ESP_LOGE(TAG, "Factory app partition is not bootable");
+        ESP_LOGE(TAG, "Factory app partition%s", not_bootable);
         break;
     case TEST_APP_INDEX:
-        ESP_LOGE(TAG, "Factory test app partition is not bootable");
+        ESP_LOGE(TAG, "Factory test app partition%s", not_bootable);
         break;
     default:
-        ESP_LOGE(TAG, "OTA app partition slot %d is not bootable", index);
+        ESP_LOGE(TAG, "OTA app partition slot %d%s", index, not_bootable);
         break;
     }
 }
@@ -348,7 +317,8 @@ static void log_invalid_app_partition(int index)
 
 /* Return the index of the selected boot partition.
 
-   This is the preferred boot partition, as determined by the partition table & OTA data.
+   This is the preferred boot partition, as determined by the partition table &
+   any OTA sequence number found in OTA data.
 
    This partition will only be booted if it contains a valid app image, otherwise load_boot_image() will search
    for a valid partition using this selection as the starting point.
@@ -387,15 +357,27 @@ static int get_selected_boot_partition(const bootloader_state_t *bs)
                 return 0;
             }
         } else  {
+            bool ota_valid = false;
+            const char *ota_msg;
+            int ota_seq; // Raw OTA sequence number. May be more than # of OTA slots
             if(ota_select_valid(&sa) && ota_select_valid(&sb)) {
-                ESP_LOGD(TAG, "Both OTA sequence valid, using OTA slot %d", MAX(sa.ota_seq, sb.ota_seq)-1);
-                return MAX(sa.ota_seq, sb.ota_seq) - 1;
+                ota_valid = true;
+                ota_msg = "Both OTA values";
+                ota_seq = MAX(sa.ota_seq, sb.ota_seq) - 1;
             } else if(ota_select_valid(&sa)) {
-                ESP_LOGD(TAG, "Only OTA sequence A is valid, using OTA slot %d", sa.ota_seq - 1);
-                return sa.ota_seq - 1;
+                ota_valid = true;
+                ota_msg = "Only OTA sequence A is";
+                ota_seq = sa.ota_seq - 1;
             } else if(ota_select_valid(&sb)) {
-                ESP_LOGD(TAG, "Only OTA sequence B is valid, using OTA slot %d", sb.ota_seq - 1);
-                return sb.ota_seq - 1;
+                ota_valid = true;
+                ota_msg = "Only OTA sequence B is";
+                ota_seq = sb.ota_seq - 1;
+            }
+
+            if (ota_valid) {
+                int ota_slot = ota_seq % bs->app_count; // Actual OTA partition selection
+                ESP_LOGD(TAG, "%s valid. Mapping seq %d -> OTA slot %d", ota_msg, ota_seq, ota_slot);
+                return ota_slot;
             } else if (bs->factory.offset != 0) {
                 ESP_LOGE(TAG, "ota data partition invalid, falling back to factory");
                 return FACTORY_INDEX;
@@ -428,6 +410,8 @@ static bool try_load_partition(const esp_partition_pos_t *partition, esp_image_m
     return false;
 }
 
+#define TRY_LOG_FORMAT "Trying partition index %d offs 0x%x size 0x%x"
+
 /* Load the app for booting. Start from partition 'start_index', if not bootable then work backwards to FACTORY_INDEX
  * (ie try any OTA slots in descending order and then the factory partition).
  *
@@ -443,29 +427,29 @@ static bool load_boot_image(const bootloader_state_t *bs, int start_index, esp_i
     esp_partition_pos_t part;
 
     /* work backwards from start_index, down to the factory app */
-    do {
-        ESP_LOGD(TAG, "Trying partition index %d...", index);
+    for(index = start_index; index >= FACTORY_INDEX; index--) {
         part = index_to_partition(bs, index);
-        ESP_LOGD(TAG, "part offs 0x%x size 0x%x", part.offset, part.size);
-        if (try_load_partition(&part, result)) {
-            return true;
+        if (part.size == 0) {
+            continue;
         }
-        if (part.size > 0) {
-            log_invalid_app_partition(index);
-        }
-        index--;
-    } while(index >= FACTORY_INDEX);
-
-    /* failing that work forwards from start_index, try valid OTA slots */
-    index = start_index + 1;
-    while (index < bs->app_count) {
-        ESP_LOGD(TAG, "Trying partition index %d...", index);
-        part = index_to_partition(bs, index);
+        ESP_LOGD(TAG, TRY_LOG_FORMAT, index, part.offset, part.size);
         if (try_load_partition(&part, result)) {
             return true;
         }
         log_invalid_app_partition(index);
-        index++;
+    }
+
+    /* failing that work forwards from start_index, try valid OTA slots */
+    for(index = start_index + 1; index < bs->app_count; index++) {
+        part = index_to_partition(bs, index);
+        if (part.size == 0) {
+            continue;
+        }
+        ESP_LOGD(TAG, TRY_LOG_FORMAT, index, part.offset, part.size);
+        if (try_load_partition(&part, result)) {
+            return true;
+        }
+        log_invalid_app_partition(index);
     }
 
     if (try_load_partition(&bs->test, result)) {
@@ -487,6 +471,8 @@ static bool load_boot_image(const bootloader_state_t *bs, int start_index, esp_i
 
 void bootloader_main()
 {
+    vddsdio_configure();
+    flash_gpio_configure();
     clock_configure();
     uart_console_configure();
     wdt_reset_check();
@@ -798,6 +784,105 @@ static void print_flash_info(const esp_image_header_t* phdr)
 }
 
 
+static void vddsdio_configure()
+{
+#if CONFIG_BOOTLOADER_VDDSDIO_BOOST
+    rtc_vddsdio_config_t cfg = rtc_vddsdio_get_config();
+    if (cfg.tieh == 0) {    // 1.8V is used
+        cfg.drefh = 3;
+        cfg.drefm = 3;
+        cfg.drefl = 3;
+        cfg.force = 1;
+        cfg.enable = 1;
+        rtc_vddsdio_set_config(cfg);
+        ets_delay_us(10); // wait for regulator to become stable
+    }
+#endif // CONFIG_BOOTLOADER_VDDSDIO_BOOST
+}
+
+
+#define FLASH_CLK_IO      6
+#define FLASH_CS_IO       11
+#define FLASH_SPIQ_IO     7
+#define FLASH_SPID_IO     8
+#define FLASH_SPIWP_IO    10
+#define FLASH_SPIHD_IO    9
+#define FLASH_IO_MATRIX_DUMMY_40M   1
+#define FLASH_IO_MATRIX_DUMMY_80M   2
+static void IRAM_ATTR flash_gpio_configure()
+{
+    int spi_cache_dummy = 0;
+    int drv = 2;
+#if CONFIG_FLASHMODE_QIO
+    spi_cache_dummy = SPI0_R_QIO_DUMMY_CYCLELEN;   //qio 3
+#elif CONFIG_FLASHMODE_QOUT
+    spi_cache_dummy = SPI0_R_FAST_DUMMY_CYCLELEN;  //qout 7
+#elif CONFIG_FLASHMODE_DIO
+    spi_cache_dummy = SPI0_R_DIO_DUMMY_CYCLELEN;   //dio 3
+#elif CONFIG_FLASHMODE_DOUT
+    spi_cache_dummy = SPI0_R_FAST_DUMMY_CYCLELEN;  //dout 7
+#endif
+    /* dummy_len_plus values defined in ROM for SPI flash configuration */
+    extern uint8_t g_rom_spiflash_dummy_len_plus[];
+#if CONFIG_ESPTOOLPY_FLASHFREQ_40M
+    g_rom_spiflash_dummy_len_plus[0] = FLASH_IO_MATRIX_DUMMY_40M;
+    g_rom_spiflash_dummy_len_plus[1] = FLASH_IO_MATRIX_DUMMY_40M;
+    SET_PERI_REG_BITS(SPI_USER1_REG(0), SPI_USR_DUMMY_CYCLELEN_V, spi_cache_dummy + FLASH_IO_MATRIX_DUMMY_40M, SPI_USR_DUMMY_CYCLELEN_S);  //DUMMY
+#elif CONFIG_ESPTOOLPY_FLASHFREQ_80M
+    g_rom_spiflash_dummy_len_plus[0] = FLASH_IO_MATRIX_DUMMY_80M;
+    g_rom_spiflash_dummy_len_plus[1] = FLASH_IO_MATRIX_DUMMY_80M;
+    SET_PERI_REG_BITS(SPI_USER1_REG(0), SPI_USR_DUMMY_CYCLELEN_V, spi_cache_dummy + FLASH_IO_MATRIX_DUMMY_80M, SPI_USR_DUMMY_CYCLELEN_S);  //DUMMY
+    drv = 3;
+#endif
+
+    uint32_t chip_ver = REG_GET_FIELD(EFUSE_BLK0_RDATA3_REG, EFUSE_RD_CHIP_VER_PKG);
+    uint32_t pkg_ver = chip_ver & 0x7;
+
+    if (pkg_ver == EFUSE_RD_CHIP_VER_PKG_ESP32D2WDQ5) {
+        // For ESP32D2WD the SPI pins are already configured
+        ESP_LOGI(TAG, "Detected ESP32D2WD");
+        //flash clock signal should come from IO MUX.
+        PIN_FUNC_SELECT(PERIPHS_IO_MUX_SD_CLK_U, FUNC_SD_CLK_SPICLK);
+        SET_PERI_REG_BITS(PERIPHS_IO_MUX_SD_CLK_U, FUN_DRV, drv, FUN_DRV_S);
+    } else if (pkg_ver == EFUSE_RD_CHIP_VER_PKG_ESP32PICOD2) {
+        // For ESP32PICOD2 the SPI pins are already configured
+        ESP_LOGI(TAG, "Detected ESP32PICOD2");
+        //flash clock signal should come from IO MUX.
+        PIN_FUNC_SELECT(PERIPHS_IO_MUX_SD_CLK_U, FUNC_SD_CLK_SPICLK);
+        SET_PERI_REG_BITS(PERIPHS_IO_MUX_SD_CLK_U, FUN_DRV, drv, FUN_DRV_S);
+    } else if (pkg_ver == EFUSE_RD_CHIP_VER_PKG_ESP32PICOD4) {
+        // For ESP32PICOD4 the SPI pins are already configured
+        ESP_LOGI(TAG, "Detected ESP32PICOD4");
+        //flash clock signal should come from IO MUX.
+        PIN_FUNC_SELECT(PERIPHS_IO_MUX_SD_CLK_U, FUNC_SD_CLK_SPICLK);
+        SET_PERI_REG_BITS(PERIPHS_IO_MUX_SD_CLK_U, FUN_DRV, drv, FUN_DRV_S);
+    } else {
+        ESP_LOGI(TAG, "Detected ESP32");
+        const uint32_t spiconfig = ets_efuse_get_spiconfig();
+        if (spiconfig == EFUSE_SPICONFIG_SPI_DEFAULTS) {
+            gpio_matrix_out(FLASH_CS_IO, SPICS0_OUT_IDX, 0, 0);
+            gpio_matrix_out(FLASH_SPIQ_IO, SPIQ_OUT_IDX, 0, 0);
+            gpio_matrix_in(FLASH_SPIQ_IO, SPIQ_IN_IDX, 0);
+            gpio_matrix_out(FLASH_SPID_IO, SPID_OUT_IDX, 0, 0);
+            gpio_matrix_in(FLASH_SPID_IO, SPID_IN_IDX, 0);
+            gpio_matrix_out(FLASH_SPIWP_IO, SPIWP_OUT_IDX, 0, 0);
+            gpio_matrix_in(FLASH_SPIWP_IO, SPIWP_IN_IDX, 0);
+            gpio_matrix_out(FLASH_SPIHD_IO, SPIHD_OUT_IDX, 0, 0);
+            gpio_matrix_in(FLASH_SPIHD_IO, SPIHD_IN_IDX, 0);
+            //select pin function gpio
+            PIN_FUNC_SELECT(PERIPHS_IO_MUX_SD_DATA0_U, PIN_FUNC_GPIO);
+            PIN_FUNC_SELECT(PERIPHS_IO_MUX_SD_DATA1_U, PIN_FUNC_GPIO);
+            PIN_FUNC_SELECT(PERIPHS_IO_MUX_SD_DATA2_U, PIN_FUNC_GPIO);
+            PIN_FUNC_SELECT(PERIPHS_IO_MUX_SD_DATA3_U, PIN_FUNC_GPIO);
+            PIN_FUNC_SELECT(PERIPHS_IO_MUX_SD_CMD_U, PIN_FUNC_GPIO);
+            // flash clock signal should come from IO MUX.
+            // set drive ability for clock
+            PIN_FUNC_SELECT(PERIPHS_IO_MUX_SD_CLK_U, FUNC_SD_CLK_SPICLK);
+            SET_PERI_REG_BITS(PERIPHS_IO_MUX_SD_CLK_U, FUN_DRV, drv, FUN_DRV_S);
+        }
+    }
+}
+
 static void clock_configure(void)
 {
     /* Set CPU to 80MHz. Keep other clocks unmodified. */
@@ -814,7 +899,6 @@ static void clock_configure(void)
         cpu_freq = RTC_CPU_FREQ_240M;
     }
 
-    uart_tx_wait_idle(0);
     rtc_clk_config_t clk_cfg = RTC_CLK_CONFIG_DEFAULT();
     clk_cfg.xtal_freq = CONFIG_ESP32_XTAL_FREQ;
     clk_cfg.cpu_freq = cpu_freq;
