@@ -3,12 +3,13 @@ lws-esp32-factory
 
 This is a standalone <1MB image intended for the 1MB "factory" slot on ESP32.
 
-This image is designed to look after two cases
+This image is designed to look after "generic device configuration"... it means:
 
- - Factory bringup, where you push PEM SSL certs to the device and set "factory options"
+ - Automated generation of 2048-bit selfsigned certs
 
- - Common user setup, for example teaching the device about your AP passphrase, updating
-   your OTA or the factory application, and user setup like device grouping name
+ - Selecting up to 4 APs the device can connect to along with necessary passphrases
+
+ - Updating the user application OTA
 
 Your actual "OTA" application is something completely different, and has its own 2.9MB
 flash area.  This -factory app is designed to take care of all common setup stuff and
@@ -16,27 +17,21 @@ put it in nvs to be shared with the OTA app.
 
 This now uses HTTP/2 serving from libwebsockets :-)
 
+![Factory page 1](https://libwebsockets.org/factory1.png)
+![Factory page 2](https://libwebsockets.org/factory2.png)
+![Factory page 3](https://libwebsockets.org/factory3.png)
+
+Note this is in the middle of being updated for new features, some stuff doesn't work yet but the things needed for normal operation all work.
+
 It has the following capabilities:
 
-### Initial Factory Setup Page
+The first boot after flashing, the device will create its own selfsigned certificate and key.
 
-Allows overriding default serial, setting device options string, and uploading PEM SSL certs
+After generating the cert, if there is no AP information yet, the server up automatically at https://192.168.4.1 in AP mode.
 
-![Factory Setup](https://libwebsockets.org/setup3.png)
+The user can reach -factory subsequently programmatically or by grounding a GPIO (ie, by a button), the default GPIO is IO14.
 
-With an empty nvs, the first time this will come up at http://192.168.4.1 in AP mode, ie at port 80 without SSL, since no SSL certs configured yet.
-
-After the PEM format SSL certs have been uploaded, everything subsequently is in https on port 443.
-
-### User configuration Setup Page
-
-![lws AP mode config page](https://libwebsockets.org/setup2.png)
-
-If no AP information is in the nvs, this page comes up automatically at https://192.168.4.1 in AP mode.
-
-The user can reach it subsequently programmatically or by grounding a GPIO (ie, by a button), the default GPIO is IO14.
-
-The page allows you to select an AP from a scan list and give a passphrase.  It supports four AP slots,
+-factory allows you to select an AP from a scan list and give a passphrase.  It supports four AP slots,
 for, eg, home and work environments, and it handles the scan and acquire of the APs.
 
 Once it connects, the DHCP information is shown, and it autonomously connects to a configurable server over https to check for updates.  The user can select to have it autonomously download the update and restart.

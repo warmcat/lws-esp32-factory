@@ -27,6 +27,8 @@
 #include "protocol_esp32_lws_scan.c"
 /* protocol for OTA update using POST / https / browser upload */
 #include "protocol_esp32_lws_ota.c"
+/* protocol for ACME cert management */
+#include "acme-client/protocol_lws_acme_client.c"
 
 static int id_flashes;
 
@@ -39,6 +41,7 @@ static const struct lws_protocols protocols_ap[] = {
 	},
 	LWS_PLUGIN_PROTOCOL_ESPLWS_SCAN,
 	LWS_PLUGIN_PROTOCOL_ESPLWS_OTA,
+	LWS_PLUGIN_PROTOCOL_LWS_ACME_CLIENT,
 
 	{ NULL, NULL, 0, 0, 0, NULL, 0 } /* terminator */
 };
@@ -166,6 +169,8 @@ void app_main(void)
 	info.mounts = &mount_ap;
 	info.pvo = &ap_pvo;
 	info.headers = &pvo_headers;
+	info.ssl_cert_filepath = "ap-cert.pem";
+	info.ssl_private_key_filepath = "ap-key.pem";
 
 	nvs_flash_init();
 	lws_esp32_wlan_config();
