@@ -215,12 +215,14 @@ tr.rl { }
 .div48 { position:relative; overflow:hidden; top: 0px; left: 0px; min-width:48px; width:48px; min-height:48px; height:48px; border:0; }
 .div32 { position:relative; overflow:hidden; top: 0px; left: 0px; min-width:32px; width:32px; min-height:32px; height:32px; border:0; }
 .div24 { position:relative; overflow:hidden; top: 0px; left: 0px; min-width:24px; width:24px; min-height:24px; height:24px; border:0; }
-.img128 { position: absolute; width: 128px; height: 1048px; top: 0px; left: 0px }
+.img128 { position: absolute; width: 128px; height: 1176px; top: 0px; left: 0px }
 #wifi { top: -128px }
 #product { top: -512px }
 #logo { top: -640px }
 #router { top: -768px }
 #tls { top: -496px }
+#key64 { top: -1035px }
+#tls64 { top: -1035px; left: -64px }
 .progr { width:100%; height:32px;  background-color: rgba(240, 240, 24, 0.6); color:#c0c0c0; }
 .progr-ok { width:100%; height:32px;  background-color: rgba(240, 240, 24, 1.0); color:#e0e060; }
 .progr-fail { width:100%; height:32px;  background-color: rgba(240, 240, 24, 1.0); color:#c00000; }
@@ -329,18 +331,18 @@ tr.rl { }
 			</td></tr>
 
 		<tr><td colspan=2>
-		<table><tr class=ras><td><img src="./ssl-pub.png"></td><td>
-  <span style="font-size:14pt;">Public PEM SSL certificate: </span>
+		<table><tr><td><div class=div64><img id=tls64 class=img128 src="./setup.png"></div></td><td class=scc>
+  <span style="font-size:14pt;">Public PEM TLS certificate: </span>
   <input type="file" name="pub" id="pub" size="20" accept=".pem" style="font-size: 12pt"><br>
   <span id=file_info style="font-size:12pt;"></span>
   <div id=warn-pub style="display:none"><table><tr><td><img src="./warning.png"></td><td>Certificate already exists</td></tr></table></div>
-				</td></tr><tr class=ras><td><img src="./ssl-pri.png"></td><td>
-  <span style="font-size:14pt;">Private PEM SSL key: </span>
+				</td></tr><tr><td><div class=div64><img id=key64 class=img128 src="./setup.png"></div></td><td class=scc>
+  <span style="font-size:14pt;">Private PEM TLS key: </span>
   <input type="file" name="pri" id="pri" size="20" accept=".pem" style="font-size: 12pt"><br>
   	<span id=file_info style="font-size:12pt;"></span>
   <div id=warn-pri style="display:none"><table><tr><td><img src="./warning.png"></td><td>Certificate already exists</td></tr></table></div>
 
-  		</td></tr><tr><td colspan=2>
+  		</td></tr><tr><td></td></tr><tr><td colspan=2>
 	
   <input type="submit"  class="btn" id="upload" name="upload" value="Upload">
 		</td></tr></table>

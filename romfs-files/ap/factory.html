@@ -47,48 +47,7 @@ tr.rl { }
  <tr>
   <td colspan=2 style="padding-top: 14px; padding-bottom:20px">
   	<div id=main style="display:none">
-        <form name=multipart action="factory" method="post" enctype="multipart/form-data">
 
-	<table class="center-div" style="width: 450px">
-	 <tr>
-	  <td style="vertical-align: top"><img src="product.png"></td>
-	  <td class="group2" style="background-color: rgba(240, 240, 224, 0.4); font-size: 18pt">
-		<table class="center-div" style="padding:12px; ">
-			<tr><td class="tabt">Model</td><td class="tabv" style="text-align:left"><span id=model></span></td></tr>
-			<tr><td class="tabt">Serial</td><td class="tabv" style="text-align:left">
-					<input type=text id=serial name=serial size="8" style="font-size: 18pt"></input></td></tr>
-			<tr><td class="tabt">Factory Options</td><td class="tabv" style="text-align:left">
-					<input type=text id=opts name=opts size="8" style="font-size: 18pt"></input></td></tr>
-
-			<tr><td colspan=2><input type=button class="btn" name="identify" value="ID Device"
-				onclick="do_identify();" style="font-size: 18pt">&nbsp;
-			<input type=button class="btn" name="identify" value="Factory Reset"
-				onclick="do_factory_reset();" style="font-size: 18pt">
-			</td></tr>
-
-		<tr><td colspan=2>
-		<table><tr class=ras><td><img src="./ssl-pub.png"></td><td>
-  <span style="font-size:14pt;">Public PEM SSL certificate: </span>
-  <input type="file" name="pub" id="pub" size="20" accept=".pem" style="font-size: 12pt"><br>
-  <span id=file_info style="font-size:12pt;"></span>
-  <div id=warn-pub style="display:none"><table><tr><td><img src="./warning.png"></td><td>Certificate already exists</td></tr></table></div>
-				</td></tr><tr class=ras><td><img src="./ssl-pri.png"></td><td>
-  <span style="font-size:14pt;">Private PEM SSL key: </span>
-  <input type="file" name="pri" id="pri" size="20" accept=".pem" style="font-size: 12pt"><br>
-  	<span id=file_info style="font-size:12pt;"></span>
-  <div id=warn-pri style="display:none"><table><tr><td><img src="./warning.png"></td><td>Certificate already exists</td></tr></table></div>
-
-  		</td></tr><tr><td colspan=2>
-	
-		<span style="font-size:14pt;color: rgba(0.0.0. 0.5)">Press Upload to write the certificate and key, and reboot into SSL mode at <a href="https://192.168.4.1">https://192.168.4.1</a> using the uploaded SSL identity.</span>
-				<br>	
-  <input type="submit" id="upload" name="upload" value="Upload" style="font-size: 18pt">
-		</td></tr></table>
-
-		</td></tr>
-
-		</table>
-        </form>
 	</div>
 	  </td>
 	 </tr>
