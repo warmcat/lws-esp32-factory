@@ -55,9 +55,9 @@ While in factory / OTA mode, the LED flashes dows a PWM sine cycle at about 1Hz.
 
 ## Building and using
 
-1) This was built and tested against esp-idf at 0c50b65a34cd6b3954f7435193411a88adb49cb0,
-from 2017-10-13.  You can force esp-idf to that commit by cloning / pulling / fetching
-the latest esp-idf and then doing `git reset --hard 0c50b65a34cd6b3954f7435193411a88adb49cb0`
+1) This was built and tested against esp-idf at e5b2c1cf4c08471c740d3f4e5f86012aa1f32894,
+from 2017-11-24.  You can force esp-idf to that commit by cloning / pulling / fetching
+the latest esp-idf and then doing `git reset --hard e5b2c1cf4c08471c740d3f4e5f86012aa1f32894`
 in the esp-idf directory.
 
 Esp-idf is in constant flux you may be able to use the latest without problems but if not,
@@ -127,21 +127,16 @@ Then you can just do
  $ make flash monitor
 ```
 
-## Using the Factory Config
+## First boot
 
- - From scratch, the device is in AP mode with a AP name like config-lws-SERIAL
+During the first boot, there will be a pause of a minute or so while the selfsigned
+TLS certificate is generated.
 
- - From scratch, the factory app listens at http://192.168.4.1/factory.html
+Afterwards it continues boot normally.
 
- - build generates a selfsigned PEM cert and key files in build/libwebsockets, `libwebsockets-test-server.pem` and `libwebsockets-test-server.key.pem`.  Use the form to upload these.
+## Using the Setup app
 
- - after the reboot vist https://192.168.4.1, which will take you to the user setup
-
- - As a security feature, since you can programmatically reboot into factory mode from the OTA application, once the SSL certs are set some features require the "boot into factory" button to be physically pressed during powerup before they can be accessed subsequently.  This limits what a remote attacker can achieve.
-
-## Using the User setup
-
- - connect your wifi to the ap "lws-config-...."
+ - connect your wifi to the ap "ESP_...."
 
  - In a browser, go to https://192.168.4.1
 

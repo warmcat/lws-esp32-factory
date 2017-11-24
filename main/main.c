@@ -30,6 +30,7 @@
 /* protocol for ACME cert management */
 #include "acme-client/protocol_lws_acme_client.c"
 
+static struct lws_context *context;
 static int id_flashes;
 
 static const struct lws_protocols protocols_ap[] = {
@@ -146,10 +147,18 @@ lws_esp32_identify_physical_device(void)
 	id_flashes = 1;
 }
 
+void
+lws_esp32_button(int down)
+{
+	lwsl_notice("button %d\n", down);
+	if (context)
+		lws_callback_on_writable_all_protocol(context,
+						      &protocols_ap[1]);
+}
+
 void app_main(void)
 {
 	static struct lws_context_creation_info info;
-	struct lws_context *context;
 	struct lws_vhost *vh;
         ledc_channel_config_t ledc_channel = {
             .channel = LEDC_CHANNEL_0,
@@ -181,10 +190,6 @@ void app_main(void)
 	/* this configures the LED timer channel 0 and starts the fading cb */
 	context = lws_esp32_init(&info, &vh);
 
-	if (info.port == 80) {
-		lwsl_notice("setting mount default to factory\n");
-		mount_ap.def = "factory.html";
-	}
 
 	while (!lws_service(context, 10))
                 taskYIELD();

@@ -41,8 +41,8 @@ section {
   width: 80vw;
   max-width: 50rem;
   min-width: 390px;
-  height: 55rem;
-  margin: 2rem auto;
+  height: 65rem;
+  margin: 0rem auto;
   box-shadow: 0 0 6px rgba(0,0,0,.4);
 }
 article {
@@ -51,9 +51,9 @@ article {
   top: 150px;
   right: 0;
   bottom: 0;
-  padding: 1rem 2rem 0;
+  padding: 1rem 1rem 0;
   overflow: auto;
-  transition: .7s;
+  transition: .5s;
   transform: scale(0);
   transform-origin: center center;
   transition-delay: .1s;
@@ -121,7 +121,7 @@ nav {
 }
 nav:after {
   content:'';
-  width: 33%;
+  width: 25%;
   height: 150px;
   background: rgba(248,246,167,.4);
   position: absolute;
@@ -129,13 +129,16 @@ nav:after {
 }
 
 label {
-  width: 33%;
+  width: 25%;
   float: left;
   color: rgba(48,166,67,.5);
   text-align: center;
   cursor: pointer;
   transition: .5s;
   z-index: 2;
+    -webkit-filter: blur(2px); 
+  -moz-filter: blur(2px); 
+  filter: blur(2px); 
 }
 label:hover {color: #1E6743;}
 label:before {
@@ -145,29 +148,38 @@ label:before {
     text-align: center;
   z-index: 2;
 }
+#settings:checked ~ nav [for='settings'],
 #certs:checked ~ nav [for='certs'],
 #wireless:checked ~ nav [for='wireless'],
 #updates:checked ~ nav [for='updates'] {
   color: rgba(30,103,67,.5);
   font-weight: 600;
+        -webkit-filter: blur(0px); 
+  -moz-filter: blur(0px); 
+  filter: blur(0px); 
 }
+#settings:checked ~ nav [for='settings'] {}
 #certs:checked ~ nav [for='certs'] {}
 #wireless:checked ~ nav [for='wireless'] {}
 
-#certs:checked ~ nav:after {
+#settings:checked ~ nav:after {
   left: 0;
 }
+#certs:checked ~ nav:after {
+  left: 25%;
+}
 #wireless:checked ~ nav:after {
-  left:33%;
+  left:50%;
   border-top: 0 none;
 }
 #updates:checked ~ nav:after {
-  left: 67%;
+  left: 75%;
 }
 
-#certs:checked ~ .uno,
-#wireless:checked ~ .dos,
-#updates:checked ~ .tres {
+#settings:checked ~ .page1,
+#certs:checked ~ .page2,
+#wireless:checked ~ .page3,
+#updates:checked ~ .page4 {
   display: block;
   transform: scale(1);
   transition-delay: .5s; 
@@ -189,7 +201,8 @@ th,td { padding: 5px; }
 .left-div { margin-left: 0; margin-right: auto; }
 td.bigt { font-size:40pt; font-weight:normal; text-align:center; color:#000000; }
 td.stt { font-size:14pt; font-weight:bold; text-align:center; color:#ffffc0; }
-td.scc { font-size:10pt; font-weight:normal; text-align:center; color:#404040;  background-color: rgba(240, 240, 240, 0.6); } 
+td.scc { font-size:10pt; font-weight:normal; text-align:center; color:#404040;  background-color: rgba(240, 240, 240, 0.6); }
+td.scd { font-size:10pt; font-weight:normal; text-align:center; color:#404040;  background-color: rgba(240, 240, 240, 0.3); }
 tdmin { font-size:9pt; font-weight:normal; text-align:center; color:#404040; } 
 td.l { background-color: rgba(40, 40, 24, 0.6); color:#c0c0c0; }
 tr.ra { background-color: rgba(240, 240, 224, 0.6); color:#303030; }
@@ -199,9 +212,10 @@ tr.rl { }
 .tabt { font-size:12pt; font-weight:bold; text-align:center; color:#ffffc0; }
 .tabv { font-size:12pt; font-weight:normal; text-align:center; color:#000000; }
 .it { font-size:14pt; font-weight:bold; text-align:right; color:#404040; }
-.itt { font-size:10pt; font-weight:bold; text-align:right; color:#404040; padding: 1px}
+.itt { font-size:10pt; font-weight:bold; text-align:right; color:#404040; padding: 0px}
 .iv { font-size:14pt; font-weight:normal; text-align:left; color:#000000; }
-.ivt { font-size:14pt; font-weight:normal; text-align:left; color:#000000; padding: 1px}
+.ivt { font-size:10pt; font-weight:normal; text-align:left; color:#000000; padding: 0px}
+.inp { font-size:15pt; padding: 4px}
 
 .btn { font-size:13pt; font-weight:normal; text-align:center; color:#000000; padding: 5px}
 .btn:hover {color: #000; background-color: #fff}
@@ -215,14 +229,16 @@ tr.rl { }
 .div48 { position:relative; overflow:hidden; top: 0px; left: 0px; min-width:48px; width:48px; min-height:48px; height:48px; border:0; }
 .div32 { position:relative; overflow:hidden; top: 0px; left: 0px; min-width:32px; width:32px; min-height:32px; height:32px; border:0; }
 .div24 { position:relative; overflow:hidden; top: 0px; left: 0px; min-width:24px; width:24px; min-height:24px; height:24px; border:0; }
-.img128 { position: absolute; width: 128px; height: 1176px; top: 0px; left: 0px }
+.img128 { position: absolute; width: 128px; height: 1356px; top: 0px; left: 0px }
 #wifi { top: -128px }
 #product { top: -512px }
 #logo { top: -640px }
 #router { top: -768px }
 #tls { top: -496px }
+#key { top: -1228px }
 #key64 { top: -1035px }
 #tls64 { top: -1035px; left: -64px }
+#spanner { top: -1100px }
 .progr { width:100%; height:32px;  background-color: rgba(240, 240, 24, 0.6); color:#c0c0c0; }
 .progr-ok { width:100%; height:32px;  background-color: rgba(240, 240, 24, 1.0); color:#e0e060; }
 .progr-fail { width:100%; height:32px;  background-color: rgba(240, 240, 24, 1.0); color:#c00000; }
@@ -263,29 +279,32 @@ tr.rl { }
       <img id=logo src="setup.png" class=img128>
      </div></a>
     </td><td class="bigt" align=center>Setup</td><td align=center>
-	 <!--  <div class=div128><img id=wifi src="setup.png" class=img128></div> -->
-	 
+   	 
 	<table>
 	 <tr>
-	  <td style="vertical-align: top"><div class=div128><img id="inet" src="setup.png" class=img128 style="top: -382px; left: 0px" ></div></td>
+	  <td style="vertical-align: top"><div class=div128><img id="inet" src="setup.png" class=img128 style="top: -381px; left: 0px" ></div></td>
 	  <td id=conn_td style="margin:2px">
 		<table id=conn_data >
 			<tr><td class="itt">Joined&nbsp;AP:</td><td class="ivt" style="text-align:left"><span id=conn_ap></span></td></tr>
 			  <tr><td class="itt">IP:</td><td class="ivt" style="text-align:left"><span id=conn_ip></span></td></tr>
 			  <tr><td class="itt">Netmask:</td><td class="ivt" style="text-align:left"><span id=conn_mask></span></td></tr>
 			  <tr><td class="itt">Gateway:</td><td class="ivt" style="text-align:left"><span id=conn_gw></span></td></tr>
+			  <tr><td class="itt">Date:</td><td class="ivt" style="text-align:left"><span id=conn_time></span></td></tr>
 		</table>
 	  </td>
 	 </tr>
         </table>
-	 
-  </td></tr><tr><td colspan=3>
+  </td></tr>
+  <tr><td colspan=3>
    <section>
+    <input type="radio" id="settings" value="1" name="tractor" style="display:none" checked='checked' />   
+    <input type="radio" id="certs"    value="2" name="tractor" style="display:none" checked='checked' />   
+    <input type="radio" id="wireless" value="3" name="tractor" style="display:none" />
+    <input type="radio" id="updates"  value="4" name="tractor" style="display:none" />
 
-    <input type="radio" id="certs" value="1" name="tractor" style="display:none" checked='checked' />   
-    <input type="radio" id="wireless" value="2" name="tractor" style="display:none" />
-    <input type="radio" id="updates" value="3" name="tractor" style="display:none" />
     <nav>
+     <label for="settings"><table style="width:100%; display:inline; text-align:center">
+     	<tr><td><div class=div128><img id=spanner class=img128 src="./setup.png"></div></td></tr></table></label>
      <label for="certs"><table style="width:100%; display:inline; text-align:center">
      	<tr><td><div class=div128><img id=tls class=img128 src="./setup.png"></div></td></tr></table></label>
      <label for="wireless"><table style="width:100%; display:inline; text-align:center">
@@ -294,65 +313,93 @@ tr.rl { }
      	<tr><td><div class=div128><img class=img128 src="./setup.png"></div></td></tr></table></label>
     </nav>
 
-    <article class='uno'>
+    <article class='page1'>
         <form name=multipart action="factory" method="post" enctype="multipart/form-data">
 
-	<table class="center-div" style="width: 450px">
+	<table class="center-div" style="width: 650px">
 	 <tr>
 	  <td style="font-size: 12pt">
 		<table class="center-div" style="padding:12px; ">
 			<tr><td class="tabt">Model</td><td class="tabv" style="text-align:left"><span id=model></span></td></tr>
 			<tr><td class="tabt">Serial</td><td class="tabv" style="text-align:left">
-					<input type=text id=serial name=serial size="8" style="font-size: 18pt"></input></td></tr>
+					<input type=text id=serial name=serial size="8"  class=inp></input></td></tr>
 
 			<tr><td class="tabt">Group:</td><td colspan=3 class="tabv">
-				<div class="tooltip"><span class="tooltiptext">
-			  Devices in the same group bind together in the UI</span>
-  <input type="text" id="group" oninput="chgroup()" maxlength=15 style="font-size: 18pt"></input></div></td></tr>
+  <input type="text" id="group" oninput="chgroup()" maxlength=15  class=inp placeholder="Eg, myproject"></input></td></tr>
   
 				<tr><td class="tabt">Role:</td><td colspan=3 class="tabv">
-			<div class="tooltip"><span class="tooltiptext">
-			  Name for role of this device within group</span>
-  <input type="text" id="role" oninput="chrole()" maxlength=15 style="font-size: 18pt"></input></div></td></tr>
+  <input type="text" id="role" oninput="chrole()" maxlength=15  class=inp placeholder="Eg, ttyS2"></input></td></tr>
 					
 			<tr><td class="tabt">Factory Options</td><td class="tabv" style="text-align:left">
-					<input type=text id=opts name=opts size="8" style="font-size: 18pt"></input></td></tr>
-					
-			<tr><td class="tabt">Let's Encrypt Account email</td><td class="tabv" style="text-align:left">
-			<input type=text id=opts name=opts size="8" style="font-size: 18pt"></input></td></tr>
-			
-			<tr><td class="tabt">Let's Encrypt certificate DNS</td><td class="tabv" style="text-align:left">
-			<input type=text id=opts name=opts size="8" style="font-size: 18pt"></input></td></tr>
+			<input type=text id=opts name=opts size="8"  class=inp></input></td></tr>
 
 			<tr><td colspan=2><input type=button class="btn" name="identify" value="ID Device"
 				onclick="do_identify();" style="font-size: 18pt">&nbsp;
 			<input type=button class="btn" name="identify" value="Reset"
 				onclick="do_factory_reset();" style="font-size: 18pt">
 			</td></tr>
+			</table>
+				</td></tr></table>
+        </form>
+    </article>
 
+    <article class='page2'>
+        
+
+	<table class="center-div" style="width: 650px">
+	 <tr>
+	  <td style="font-size: 12pt">
+		<table class="center-div" style="padding:12px; ">
+		
+		<tr><td class=scd>
+			<table><tr><td rowspan=4><div class=div128><img id=key class=img128 src="./setup.png"></div></td></tr>
+			<tr><td class="tabt">Issuer:</td><td><span id=issuer></span></td></tr>
+			<tr><td class="tabt">Subject:</td><td><span id=subject></span></td></tr>
+			<tr><td class="tabt">Days Valid:</td><td><span id=validity></span></td></tr>
+		</table></td></tr>
+		<tr><td align=left style="font-size:18pt">Let's Encrypt</td></tr>
+		<tr><td class=scd><table width=100%>
+
+			<tr><td class="tabt">External DNS</td><td class="tabv" style="text-align:left">
+			<table width=100%><tr><td>
+		<input type=text id=le_dns name=le_dns maxlength=25 class=inp placeholder="Eg, xx.mydomain.com:443"></input></td>
+		<td><div id=dns-icon class=div48><img id="dns_resolv\" src="setup.png" class=img128 style="top: -984px; left: 0px"></div></td></tr></table>
+			</td></tr>
+
+		<tr><td class="tabt">Account email</td><td class="tabv" style="text-align:left">
+		<input type=text id=le_email name=le_email maxlength=15 class=inp placeholder="Eg, me@mydomain.com"></input></td></tr>
+		
+		<tr><td colspan=2><input type=button class="btn" name="getle" value="Get Let's Encrypt Cert"
+			onclick="get_le();">
+		</td></tr>
+		</table></td></tr>
+<tr><td align=left style="font-size:18pt">Custom Certificates</td></tr>
+<tr><td class=scd><table>
 		<tr><td colspan=2>
-		<table><tr><td><div class=div64><img id=tls64 class=img128 src="./setup.png"></div></td><td class=scc>
+		<form name=multipart action="factory" method="post" enctype="multipart/form-data">
+		<table><tr><td><div class=div64><img id=tls64 class=img128 src="./setup.png"></div></td><td class=scd>
   <span style="font-size:14pt;">Public PEM TLS certificate: </span>
   <input type="file" name="pub" id="pub" size="20" accept=".pem" style="font-size: 12pt"><br>
   <span id=file_info style="font-size:12pt;"></span>
-  <div id=warn-pub style="display:none"><table><tr><td><img src="./warning.png"></td><td>Certificate already exists</td></tr></table></div>
-				</td></tr><tr><td><div class=div64><img id=key64 class=img128 src="./setup.png"></div></td><td class=scc>
+  
+				</td></tr><tr><td><div class=div64><img id=key64 class=img128 src="./setup.png"></div></td><td class=scd>
   <span style="font-size:14pt;">Private PEM TLS key: </span>
   <input type="file" name="pri" id="pri" size="20" accept=".pem" style="font-size: 12pt"><br>
   	<span id=file_info style="font-size:12pt;"></span>
-  <div id=warn-pri style="display:none"><table><tr><td><img src="./warning.png"></td><td>Certificate already exists</td></tr></table></div>
+
 
   		</td></tr><tr><td></td></tr><tr><td colspan=2>
 	
   <input type="submit"  class="btn" id="upload" name="upload" value="Upload">
 		</td></tr></table>
-
+        </form>
 		</td></tr></table>
 				</td></tr></table>
-        </form>
+				</td></tr></table>
+
     </article>
   
-    <article class='dos'>
+    <article class='page3'>
 
 	<table class="center-div" style="width: 700px">
 	 <tr><td  style="vertical-align:top;">
@@ -375,7 +422,7 @@ tr.rl { }
 	</table></td></tr></table>
      </article>
           
-     <article class="tres">
+     <article class="page4">
 
       <table class="center-div" style="width: 450px">
        <tr><td align=center>
@@ -567,15 +614,24 @@ function get_appropriate_ws_url()
 				}
 
 			}
+			
+			if (jso.certissuer)
+				document.getElementById("issuer").textContent = san(jso.certissuer);
+			if (jso.certsubject)
+				document.getElementById("subject").textContent = san(jso.certsubject);
+			if (jso.certdays)
+				document.getElementById("validity").textContent = san(jso.certdays) + " days";
 
 			if (jso.inet == 1) {
+				var d = new Date(parseInt(jso.unixtime) * 1000);
 				document.getElementById("inet").style.top = "-256px";
 				document.getElementById("conn_td").class = "group2";
 				document.getElementById("conn_data").style.display = "block";
-				document.getElementById("conn_ap").textContent = jso.ssid;
-				document.getElementById("conn_ip").textContent = jso.conn_ip;
-				document.getElementById("conn_mask").textContent = jso.conn_mask;
-				document.getElementById("conn_gw").textContent = jso.conn_gw;
+				document.getElementById("conn_ap").textContent = san(jso.ssid);
+				document.getElementById("conn_ip").textContent = san(jso.conn_ip);
+				document.getElementById("conn_mask").textContent = san(jso.conn_mask);
+				document.getElementById("conn_gw").textContent = san(jso.conn_gw);
+				document.getElementById("conn_time").textContent = d.toDateString() + " " + san(jso.button);
 			} else {
 				document.getElementById("inet").style.top = "-382px";
 				document.getElementById("conn_td").class = "";
@@ -584,6 +640,7 @@ function get_appropriate_ws_url()
 				document.getElementById("conn_ip").textContent = "";
 				document.getElementById("conn_mask").textContent = "";
 				document.getElementById("conn_gw").textContent = "";
+				document.getElementById("conn_time").textContent = "";
 			}
 
 			s = "<tr class=rl><td class=l style=\"overflow:hidden;width:24px;\">sel</td>"+
@@ -645,7 +702,7 @@ function get_appropriate_ws_url()
 			document.getElementById("scan").innerHTML = 
 				"<table style=\"table-layout:fixed; width:600px; word-break:break-all;border-spacing: 3px; padding: 3px;\">" + s + "</table>";
 
-			document.getElementById("waiting").style.display = "none";
+		//	document.getElementById("waiting").style.display = "none";
 			document.getElementById("realpage").style.display = "block";
 			}				
 		} 
@@ -824,7 +881,8 @@ function do_upload(f)
 			document.getElementById("realpage").style.display = "none";
 			document.getElementById("waiting").style.display = "block";
 			document.getElementById("progr").class = "progr-ok";
-			setTimeout(function() { window.location.href = location.origin + "/"; }, 1000 );
+			console.log("upload reached state 4\n");
+			setTimeout(function() { window.location.href = location.origin + "/"; }, 30000 );
 		}
 	};
 
