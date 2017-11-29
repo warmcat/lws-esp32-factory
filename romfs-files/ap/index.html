@@ -41,7 +41,7 @@ section {
   width: 80vw;
   max-width: 50rem;
   min-width: 390px;
-  height: 65rem;
+  height: 66rem;
   margin: 0rem auto;
   box-shadow: 0 0 6px rgba(0,0,0,.4);
 }
@@ -137,7 +137,6 @@ label {
   transition: .5s;
   z-index: 2;
     -webkit-filter: blur(2px); 
-  -moz-filter: blur(2px); 
   filter: blur(2px); 
 }
 label:hover {color: #1E6743;}
@@ -148,27 +147,26 @@ label:before {
     text-align: center;
   z-index: 2;
 }
-#settings:checked ~ nav [for='settings'],
-#certs:checked ~ nav [for='certs'],
 #wireless:checked ~ nav [for='wireless'],
+#certs:checked ~ nav [for='certs'],
+#settings:checked ~ nav [for='settings'],
 #updates:checked ~ nav [for='updates'] {
   color: rgba(30,103,67,.5);
   font-weight: 600;
         -webkit-filter: blur(0px); 
-  -moz-filter: blur(0px); 
   filter: blur(0px); 
 }
-#settings:checked ~ nav [for='settings'] {}
-#certs:checked ~ nav [for='certs'] {}
 #wireless:checked ~ nav [for='wireless'] {}
+#certs:checked ~ nav [for='certs'] {}
+#settings:checked ~ nav [for='settings'] {}
 
-#settings:checked ~ nav:after {
+#wireless:checked ~ nav:after {
   left: 0;
 }
 #certs:checked ~ nav:after {
   left: 25%;
 }
-#wireless:checked ~ nav:after {
+#settings:checked ~ nav:after {
   left:50%;
   border-top: 0 none;
 }
@@ -176,9 +174,151 @@ label:before {
   left: 75%;
 }
 
-#settings:checked ~ .page1,
+</style>
+
+<!-- Assumed Public Domain from Patrick Atoon and others
+via https://stackoverflow.com/questions/5213753/build-step-progress-bar-css-and-jquery
+ -->
+
+<style type="text/css">
+
+/* Progress Tracker v2 */
+ol.progress[data-steps="2"] li { width: 49%; }
+ol.progress[data-steps="3"] li { width: 33%; }
+ol.progress[data-steps="4"] li { width: 24%; }
+ol.progress[data-steps="5"] li { width: 19%; }
+ol.progress[data-steps="6"] li { width: 16%; }
+ol.progress[data-steps="7"] li { width: 14%; }
+ol.progress[data-steps="8"] li { width: 12%; }
+ol.progress[data-steps="9"] li { width: 8%; }
+
+.progress {
+    width: 100%;
+    list-style: none;
+    list-style-image: none;
+    margin: 10px 0 10px 0;
+    padding: 0;
+          transition: .5s;
+  transition-delay: .1s;
+}
+
+.progress li {
+    float: left;
+    text-align: center;
+    position: relative;
+}
+
+.progress .name {
+    display: block;
+    vertical-align: bottom;
+    text-align: center;
+    margin-bottom: 1em;
+    color: black;
+    font-size:10pt; font-weight:bold;
+    opacity: 0.3;
+}
+
+.progress .step {
+    color: black;
+    border: 3px solid rgba(30,103,67,.5);
+    background-color: rgba(30,103,67,1);
+    border-radius: 50%;
+    line-height: 1.6;
+    width: 2em;
+    height: 2em;
+     font-size:16pt;
+    display: inline-block;
+        position: relative;
+    z-index: 2;
+}
+
+.progress .step span {
+    opacity: 0.3;
+}
+
+.progress .active .name,
+.progress .active .step span {
+ font-weight:bold;
+    opacity: 1;
+}
+
+.progress .fail .name,
+.progress .fail .step
+ span {
+ font-weight:bold;
+ color: white;
+    opacity: 1;
+}
+
+.progress .step:before {
+    content: "";
+    display: block;
+    background-color: rgba(30,103,67,1);
+    height: 0.4em;
+    width: 50%;
+    position: absolute;
+    bottom: 0.6em;
+    left: -1em;
+    z-index: -3;
+}
+
+.progress .step:after {
+    content: "";
+    display: block;
+    background-color: rgba(30,103,67,1);
+    height: 0.4em;
+    width: 50%;
+    position: absolute;
+    bottom: 0.6em;
+    right: -1em;
+    z-index: -3;
+}
+
+.progress li:first-of-type .step:before {
+    display: none;
+}
+
+.progress li:last-of-type .step:after {
+    display: none;
+}
+
+.progress .done .step,
+.progress .done .step:before,
+.progress .done .step:after {
+    background-color: rgba(50,150,50,1);
+    color: white;
+}
+
+.progress .active .step,
+.progress .active .step:before {
+    background-color: rgba(248,248,230,1);
+}
+
+.progress .fail .step,
+.progress .fail .step:before {
+    background-color: rgba(248,24,24,1);
+    color: white;
+    opacity: 1;
+}
+
+.progress .done .step {
+    border: 3px solid rgba(24,24,16,1);
+}
+.progress .active .step {
+    border: 3px solid rgba(248,246,167,1);
+}
+.progress .fail .step {
+    border: 3px solid rgba(208,24,16,1);
+        color: white;
+    opacity: 1;
+}
+</style>
+
+
+<style type="text/css">
+#wireless:checked ~ .page1,
 #certs:checked ~ .page2,
-#wireless:checked ~ .page3,
+#settings:checked ~ .page3,
 #updates:checked ~ .page4 {
   display: block;
   transform: scale(1);
@@ -215,7 +355,11 @@ tr.rl { }
 .itt { font-size:10pt; font-weight:bold; text-align:right; color:#404040; padding: 0px}
 .iv { font-size:14pt; font-weight:normal; text-align:left; color:#000000; }
 .ivt { font-size:10pt; font-weight:normal; text-align:left; color:#000000; padding: 0px}
+.rivt { font-size:11pt; font-weight:normal; text-align:left; color:#e0e000; padding: 0px; margin: 0px}
+.riv { font-size:11pt; font-weight:normal; text-align:left; color:#f0f0f0; padding: 0px; margin: 0px}
 .inp { font-size:15pt; padding: 4px}
+
+.tabtit { font-size:18pt; font-weight:normal; text-align:left; color:#e0ffe0; padding: 0px}
 
 .btn { font-size:13pt; font-weight:normal; text-align:center; color:#000000; padding: 5px}
 .btn:hover {color: #000; background-color: #fff}
@@ -225,11 +369,12 @@ tr.rl { }
 	padding:12px; 
 	border-radius:10px; }
 .div128 { position:relative; overflow:hidden; top: 0px; left: 0px; min-width:128px; width:128px; min-height:128px; height:128px; border:0; }
+.div128x36 { position:relative; overflow:hidden; top: 0px; left: 0px; min-width:128px; width:128px; min-height:36px; height:36px; border:0; }
 .div64 { position:relative; overflow:hidden; top: 0px; left: 0px; min-width:64px; width:64px; min-height:64px; height:64px; border:0; }
 .div48 { position:relative; overflow:hidden; top: 0px; left: 0px; min-width:48px; width:48px; min-height:48px; height:48px; border:0; }
 .div32 { position:relative; overflow:hidden; top: 0px; left: 0px; min-width:32px; width:32px; min-height:32px; height:32px; border:0; }
 .div24 { position:relative; overflow:hidden; top: 0px; left: 0px; min-width:24px; width:24px; min-height:24px; height:24px; border:0; }
-.img128 { position: absolute; width: 128px; height: 1356px; top: 0px; left: 0px }
+.img128 { position: absolute; width: 128px; height: 1396px; top: 0px; left: 0px }
 #wifi { top: -128px }
 #product { top: -512px }
 #logo { top: -640px }
@@ -239,39 +384,20 @@ tr.rl { }
 #key64 { top: -1035px }
 #tls64 { top: -1035px; left: -64px }
 #spanner { top: -1100px }
+#lelogo { top: -1354px }
 .progr { width:100%; height:32px;  background-color: rgba(240, 240, 24, 0.6); color:#c0c0c0; }
 .progr-ok { width:100%; height:32px;  background-color: rgba(240, 240, 24, 1.0); color:#e0e060; }
 .progr-fail { width:100%; height:32px;  background-color: rgba(240, 240, 24, 1.0); color:#c00000; }
 .progr-done { width:100%; height:32px;  background-color: rgba(240, 240, 24, 1.0); color:#00c000; }
 #preload-01 { background: url(spinner.gif) no-repeat -9999px -9999px; }
-.tooltip {
-    position: relative;
-    display: inline-block;
-    border-bottom: 1px dotted black; /* If you want dots under the hoverable text */
-}
-.tooltip .tooltiptext {
-    visibility: hidden;
-    width: 120px;
-    opacity: 0.75;
-    font-size: 10pt;
-    background-color: white;
-    color: #000;
-    text-align: center;
-    padding: 5px 0;
-    border-radius: 6px;
-    position: absolute;
-    z-index: 1;
-}
-.tooltip:hover .tooltiptext {
-    visibility: visible;
-}
+
 </style>
 </head>
 
 <body style="background-image:url(backdrop.jpg); background-repeat: no-repeat; background-size: cover;">
 	<!-- <div id=waiting style="width: 54px; height:52px; margin: auto auto; text-align: center;"><img src=spinner.gif></div> -->
 	<div id=realpage style="display:block">
- <table class="center-div" style="width: 600px;">
+ <table class="center-div" style="width: 700px;">
   <tr><td class="td-center">
    <table>
     <tr><td valign=middle align=center>
@@ -297,26 +423,151 @@ tr.rl { }
   </td></tr>
   <tr><td colspan=3>
    <section>
-    <input type="radio" id="settings" value="1" name="tractor" style="display:none" checked='checked' />   
-    <input type="radio" id="certs"    value="2" name="tractor" style="display:none" checked='checked' />   
-    <input type="radio" id="wireless" value="3" name="tractor" style="display:none" />
+    <input type="radio" id="wireless" value="1" name="tractor" style="display:none" checked='checked' />
+    <input type="radio" id="certs"    value="2" name="tractor" style="display:none" />  
+    <input type="radio" id="settings" value="3" name="tractor" style="display:none" />    
     <input type="radio" id="updates"  value="4" name="tractor" style="display:none" />
 
     <nav>
-     <label for="settings"><table style="width:100%; display:inline; text-align:center">
-     	<tr><td><div class=div128><img id=spanner class=img128 src="./setup.png"></div></td></tr></table></label>
-     <label for="certs"><table style="width:100%; display:inline; text-align:center">
-     	<tr><td><div class=div128><img id=tls class=img128 src="./setup.png"></div></td></tr></table></label>
      <label for="wireless"><table style="width:100%; display:inline; text-align:center">
      	<tr><td><div class=div128><img id=router class=img128 src="./setup.png"></div></td></tr></table></label>
+     <label for="certs"><table style="width:100%; display:inline; text-align:center">
+     	<tr><td><div class=div128><img id=tls class=img128 src="./setup.png"></div></td></tr></table></label>
+     <label for="settings"><table style="width:100%; display:inline; text-align:center">
+     	<tr><td><div class=div128><img id=spanner class=img128 src="./setup.png"></div></td></tr></table></label>
      <label for="updates"><table style="width:100%; display:inline; text-align:center">
      	<tr><td><div class=div128><img class=img128 src="./setup.png"></div></td></tr></table></label>
     </nav>
 
     <article class='page1'>
+
+	<table class="center-div" style="width: 700px">
+	 <tr><td  style="vertical-align:top;">
+	    <table width=100% align=center><tr><td>
+	       <table width=100% class="center-div" style="padding-top: 0px;" align=center>
+	       		<tr><td class="tabtit">Configure Access Point Security</td></tr>
+		       <tr><td align=center><div id=aps></div></td></tr>
+	       </table>
+	     </td>
+            </tr>
+	    <tr><td align=center style="font-size: 16pt" width=100%>
+		<div id=scanlist style="opacity: 0.35; width:100%">
+		 <span id=pwt style="color:#808080">Passphrase: </span>
+		 <input disabled type="password" id="pw" oninput="rch(1);" style="font-size: 18pt" size="8">
+		 &nbsp;&nbsp;<input type=button class="btn" value="Update slot"
+		 	disabled id=join onclick="do_join();">
+			</div></td></tr>
+	     <tr><td align=center width=100%>
+	      <div id="scan" style="overflow:auto; width:100%; height:410px">Scanning...</div>
+	     </td></tr>
+	</table></td></tr></table>
+     </article>
+<!--  <div id=dns-icon class=div48><img id="dns_resolv\" src="setup.png" class=img128 style="top: -984px; left: 0px"></div> -->
+    <article class='page2'>
+        
+
+	<table class="center-div" style="width: 700px">
+	 <tr>
+	  <td style="font-size: 12pt">
+		<table class="center-div" style="padding:12px; ">
+		
+		<tr><td>
+			<table align=left><tr><td rowspan=5><div class=div128><img id=key class=img128 src="./setup.png"></div></td></tr>
+			<td class="tabtit" colspan=2 valign=top>TLS Certificate</td></tr>
+			<tr><td class="rivt">Issuer:</td><td class="riv"><span id=issuer></span></td></tr>
+			<tr><td class="rivt">Subject:</td><td class="riv"><span id=subject></span></td></tr>
+			<tr><td class="rivt">Days Valid:</td><td class="riv"><span id=validity></span></td></tr>
+		</table></td></tr>
+
+		<tr><td align=left><span class="tabtit">One-click Let's Encrypt&reg; Certificate Acquisition</span></td></tr>
+		<tr><td class=scd>			<form><fieldset id=le_formset disabled style="opacity:0.3"><table width=100% >
+
+			<tr><td class="tabt">External DNS</td><td class="tabv" style="text-align:left">
+			<table width=100%><tr><td>
+		<input type=text id=le_dns name=le_dns maxlength=25 class=inp placeholder="Eg, xx.mydomain.com:443" oninput="chle()"></input></td>
+		<td>Must be port-forwarded to this device port 443</td></tr></table>
+			</td></tr>
+
+		<tr><td class="tabt">Account email</td><td class="tabv" style="text-align:left">
+		<input type=email id=le_email name=le_email maxlength=64 class=inp placeholder="Eg, me@mydomain.com" oninput="chle()"></input></td></tr>
+		<tr><td colspan=2>
+			<ol class="progress" data-steps="9">
+			    <li id=leli1> <!--  li class none, "active", "fail", or "done" -->
+			        <span class="name">Keys</span>
+			        <span class="step"><span>1</span></span>
+			    </li>
+			    <li id=leli2>
+			        <span class="name">Register</span>
+			        <span class="step"><span>2</span></span>
+			    </li>
+			    <li id=leli3>
+			        <span class="name">Auth</span>
+			        <span class="step"><span>3</span></span>
+			    </li>
+			    <li id=leli4>
+			        <span class="name">Chall</span>
+			        <span class="step"><span>4</span></span>
+			    </li>
+			    <li id=leli5>
+			        <span class="name">GenCSR</span>
+			        <span class="step"><span>5</span></span>
+			    </li>
+			    <li id=leli6>
+			        <span class="name">Request</span>
+			        <span class="step"><span>6</span></span>
+			    </li>
+			    <li id=leli7>
+			        <span class="name">Confirm</span>
+			        <span class="step"><span>7</span></span>
+			    </li>
+			    <li id=leli8>
+			        <span class="name">Issue</span>
+			        <span class="step"><span>8</span></span>
+			    </li>
+			    <li id=leli9>
+			        <span class="name">Done</span>
+			        <span class="step"><span>9</span></span>
+			    </li>
+			</ol>
+		</td></tr>
+		<tr><td colspan=2 width=100% align=center><table><tr><td width=40%><span id=le_exp></span></td><td><button type="button" class="btn" id="getle" name="getle"
+			onclick="get_le();" disabled> <div class=div128x36><img id=lelogo class=img128 src="./setup.png"></div> </button>
+			</td><td width=40%><span id=le_info></span></td></tr></table>
+		</td></tr>
+		<tr><td colspan=2> <span style="font-size:8pt; color: rgba(0, 0, 0, 0.6)">Let's Encrypt&reg; is a trademark of the Internet Security Research Group. All rights reserved.</span>
+		<a href="https://letsencrypt.org/" target="_blank">Let's Encrypt Site</a>
+		</td></tr>
+		</table></fieldset></form></td></tr>
+<tr><td align=left class="tabtit">Install Custom Certificate</td></tr>
+<tr><td class=scd><table width=100%>
+		<tr><td colspan=2 width=100%>
+		<form name=multipart action="factory" method="post" enctype="multipart/form-data">
+		<table width=100%><tr><td align=left><div class=div64><img id=tls64 class=img128 src="./setup.png"></div></td><td class=scd>
+  <span style="font-size:14pt;">PEM cert: </span>
+  <input type="file" name="pub" id="pub" size="20" accept=".pem" style="font-size: 12pt"><br>
+  <span id=file_info style="font-size:12pt;"></span>
+  
+				</td></tr><tr><td><div class=div64><img id=key64 class=img128 src="./setup.png"></div></td><td class=scd align=left>
+  <span style="font-size:14pt;">PEM key: </span>
+  <input type="file" name="pri" id="pri" size="20" accept=".pem" style="font-size: 12pt"><br>
+  	<span id=file_info style="font-size:12pt;"></span>
+
+
+  		</td></tr><tr><td></td></tr><tr><td colspan=2>
+	
+  <input type="submit"  class="btn" id="upload" name="upload" value="Upload">
+		</td></tr></table>
+        </form>
+		</td></tr></table>
+				</td></tr></table>
+				</td></tr></table>
+
+    </article>
+     <article class='page3'>
         <form name=multipart action="factory" method="post" enctype="multipart/form-data">
 
 	<table class="center-div" style="width: 650px">
+	 <tr><td class="tabtit">Settings</td></tr>
 	 <tr>
 	  <td style="font-size: 12pt">
 		<table class="center-div" style="padding:12px; ">
@@ -335,96 +586,19 @@ tr.rl { }
 
 			<tr><td colspan=2><input type=button class="btn" name="identify" value="ID Device"
 				onclick="do_identify();" style="font-size: 18pt">&nbsp;
-			<input type=button class="btn" name="identify" value="Reset"
+			<input type=button type="button" class="btn" name="identify" value="Reset"
 				onclick="do_factory_reset();" style="font-size: 18pt">
 			</td></tr>
 			</table>
 				</td></tr></table>
         </form>
     </article>
-
-    <article class='page2'>
-        
-
-	<table class="center-div" style="width: 650px">
-	 <tr>
-	  <td style="font-size: 12pt">
-		<table class="center-div" style="padding:12px; ">
-		
-		<tr><td class=scd>
-			<table><tr><td rowspan=4><div class=div128><img id=key class=img128 src="./setup.png"></div></td></tr>
-			<tr><td class="tabt">Issuer:</td><td><span id=issuer></span></td></tr>
-			<tr><td class="tabt">Subject:</td><td><span id=subject></span></td></tr>
-			<tr><td class="tabt">Days Valid:</td><td><span id=validity></span></td></tr>
-		</table></td></tr>
-		<tr><td align=left style="font-size:18pt">Let's Encrypt</td></tr>
-		<tr><td class=scd><table width=100%>
-
-			<tr><td class="tabt">External DNS</td><td class="tabv" style="text-align:left">
-			<table width=100%><tr><td>
-		<input type=text id=le_dns name=le_dns maxlength=25 class=inp placeholder="Eg, xx.mydomain.com:443"></input></td>
-		<td><div id=dns-icon class=div48><img id="dns_resolv\" src="setup.png" class=img128 style="top: -984px; left: 0px"></div></td></tr></table>
-			</td></tr>
-
-		<tr><td class="tabt">Account email</td><td class="tabv" style="text-align:left">
-		<input type=text id=le_email name=le_email maxlength=15 class=inp placeholder="Eg, me@mydomain.com"></input></td></tr>
-		
-		<tr><td colspan=2><input type=button class="btn" name="getle" value="Get Let's Encrypt Cert"
-			onclick="get_le();">
-		</td></tr>
-		</table></td></tr>
-<tr><td align=left style="font-size:18pt">Custom Certificates</td></tr>
-<tr><td class=scd><table>
-		<tr><td colspan=2>
-		<form name=multipart action="factory" method="post" enctype="multipart/form-data">
-		<table><tr><td><div class=div64><img id=tls64 class=img128 src="./setup.png"></div></td><td class=scd>
-  <span style="font-size:14pt;">Public PEM TLS certificate: </span>
-  <input type="file" name="pub" id="pub" size="20" accept=".pem" style="font-size: 12pt"><br>
-  <span id=file_info style="font-size:12pt;"></span>
-  
-				</td></tr><tr><td><div class=div64><img id=key64 class=img128 src="./setup.png"></div></td><td class=scd>
-  <span style="font-size:14pt;">Private PEM TLS key: </span>
-  <input type="file" name="pri" id="pri" size="20" accept=".pem" style="font-size: 12pt"><br>
-  	<span id=file_info style="font-size:12pt;"></span>
-
-
-  		</td></tr><tr><td></td></tr><tr><td colspan=2>
-	
-  <input type="submit"  class="btn" id="upload" name="upload" value="Upload">
-		</td></tr></table>
-        </form>
-		</td></tr></table>
-				</td></tr></table>
-				</td></tr></table>
-
-    </article>
-  
-    <article class='page3'>
-
-	<table class="center-div" style="width: 700px">
-	 <tr><td  style="vertical-align:top;">
-	    <table width=100% align=center><tr><td>
-	       <table width=100% class="center-div" style="padding-top: 0px;" align=center>
-		       <tr><td align=center><div id=aps></div></td></tr>
-	       </table>
-	     </td>
-            </tr>
-	    <tr><td align=center style="font-size: 16pt" width=100%>
-		<div id=scanlist style="opacity: 0.35; width:100%">
-		 <span id=pwt style="color:#808080">Passphrase: </span>
-		 <input disabled type="password" id="pw" oninput="rch(1);" style="font-size: 18pt" size="8">
-		 &nbsp;&nbsp;<input type=button class="btn" value="Update slot"
-		 	disabled id=join onclick="do_join();">
-			</div></td></tr>
-	     <tr><td align=center width=100%>
-	      <div id="scan" style="overflow:auto; width:100%; height:410px">Scanning...</div>
-	     </td></tr>
-	</table></td></tr></table>
-     </article>
+ 
           
      <article class="page4">
 
-      <table class="center-div" style="width: 450px">
+      <table class="center-div" style="width: 600px">
+      <tr><td class="tabtit">Update device</td></tr>
        <tr><td align=center>
         <table>
          <tr><td colspan=2 class=stt width=100%>Application</td></tr>
@@ -536,6 +710,9 @@ function get_appropriate_ws_url()
 			if (once == 0) {
 				document.getElementById("model").textContent = jso.model+"-"+jso.serial+"-"+jso.opts;
 				document.getElementById("role").value = jso.role;
+				
+				document.getElementById("le_dns").value = jso.le_dns;
+				document.getElementById("le_email").value = jso.le_email;
 
 				if (jso.forced_button != 1)
 					document.getElementById("access").innerHTML = "<span style=\"font-size:10pt;\">use physical button</span>";
@@ -621,6 +798,11 @@ function get_appropriate_ws_url()
 				document.getElementById("subject").textContent = san(jso.certsubject);
 			if (jso.certdays)
 				document.getElementById("validity").textContent = san(jso.certdays) + " days";
+			
+			if (jso.acme_state) {
+				console.log("acme_state: " + parseInt(jso.acme_state) + ", acme_msg: " + jso.acme_msg);
+				set_le_step(parseInt(jso.acme_state), jso.acme_msg);
+			}
 
 			if (jso.inet == 1) {
 				var d = new Date(parseInt(jso.unixtime) * 1000);
@@ -632,6 +814,8 @@ function get_appropriate_ws_url()
 				document.getElementById("conn_mask").textContent = san(jso.conn_mask);
 				document.getElementById("conn_gw").textContent = san(jso.conn_gw);
 				document.getElementById("conn_time").textContent = d.toDateString() + " " + san(jso.button);
+				document.getElementById("le_formset").disabled = 0;
+				document.getElementById("le_formset").style.opacity = "1.0";
 			} else {
 				document.getElementById("inet").style.top = "-382px";
 				document.getElementById("conn_td").class = "";
@@ -641,6 +825,8 @@ function get_appropriate_ws_url()
 				document.getElementById("conn_mask").textContent = "";
 				document.getElementById("conn_gw").textContent = "";
 				document.getElementById("conn_time").textContent = "";
+				document.getElementById("le_formset").disabled = 1;
+				document.getElementById("le_formset").style.opacity = "0.3";
 			}
 
 			s = "<tr class=rl><td class=l style=\"overflow:hidden;width:24px;\">sel</td>"+
@@ -700,7 +886,7 @@ function get_appropriate_ws_url()
 			}
 		
 			document.getElementById("scan").innerHTML = 
-				"<table style=\"table-layout:fixed; width:600px; word-break:break-all;border-spacing: 3px; padding: 3px;\">" + s + "</table>";
+				"<table style=\"table-layout:fixed; width:700px; word-break:break-all;border-spacing: 3px; padding: 3px;\">" + s + "</table>";
 
 		//	document.getElementById("waiting").style.display = "none";
 			document.getElementById("realpage").style.display = "block";
@@ -933,7 +1119,98 @@ function rch(need_pw)
 
 	document.getElementById('join').disabled = !butok;
 }
+
+function chle()
+{
+	if (document.getElementById("le_dns").value &&
+	    document.getElementById("le_dns").value != "" &&
+	    document.getElementById("le_email").value &&
+	    document.getElementById("le_email").value != "")
+		document.getElementById("getle").disabled = 0;
+	else
+		document.getElementById("getle").disabled = 1;
+}
+
+function get_le()
+{
+	var s = '{"job":"start-le","cn":"'+document.getElementById("le_dns").value+'","email":"'+document.getElementById("le_email").value+'"}';
+
+	document.getElementById("getle").disabled = 1;
+	ws.send(s);
+}
+
+var le_last_non_failed = 0;
+
+function set_le_step(st, info)
+{
+	var n, s = "", m = st;
 	
+	if (st == 2 || st == 3)
+		document.getElementById("getle").disabled = 0;
+	
+	/* 3 = failed */
+	if (st == 3)
+		m = le_last_non_failed;
+	else
+		le_last_non_failed = st;
+
+	if (m >= 4 /*LWS_CUS_CREATE_KEYS */ || m == 2) {
+		if (m == 2)
+			m = 9 + 3;	
+		for (n = 1; n < m - 3; n++) {
+			console.log("leli" + n + " to done");
+			document.getElementById("leli" + n).className = "done";
+		}
+	
+		if (st != 3) {
+			console.log("leli" + (m - 3) + " to active");
+			document.getElementById("leli" + (m - 3)).className = "active";
+		} else {
+			console.log("leli" + (m - 3) + " to fail");
+			document.getElementById("leli" + (m - 3)).className = "fail";
+		}
+		
+		for (n = m + 1 - 3; n < 10; n++)
+			document.getElementById("leli" + n).className = "";
+	}
+	
+	switch (st) {
+	case 4: /* LWS_CUS_CREATE_KEYS */
+		s = "Generating auth keys, please wait";
+		break;
+	case 5: /* LWS_CUS_REG */
+		s = "Registering auth keys";
+		break;
+	case 6: /* LWS_CUS_AUTH */
+		s = "Authenticating using auth keys";
+		break;
+	case 7: /* LWS_CUS_CHALLENGE */
+		s = "Preparing challenge, this may take a few moments";
+		break;
+	case 8: /* LWS_CUS_CREATE_REQ */
+		s = "Generating keys for CSR, this may take a few moments";
+		break;
+	case 9: /* LWS_CUS_REQ */
+		s = "Requesting certificate signing";
+		break;
+	case 10: /* LWS_CUS_CONFIRM */
+		s = "Undergoing challenge...";
+		break;
+	case 11: /* LWS_CUS_ISSUE */
+		s = "Waiting for certificate issue";
+		break;
+	case 2: /* LWS_CUS_SUCCESS */
+		s = "Completed successfully";
+		break;
+	case 3: /* LWS_CUS_FAILED */
+		s = "Failed";
+		break;
+	}
+	
+	document.getElementById("le_exp").innerHTML = s;
+	document.getElementById("le_info").innerHTML = info;
+}
+
 </script>
 
 </body>

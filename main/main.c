@@ -47,6 +47,58 @@ static const struct lws_protocols protocols_ap[] = {
 	{ NULL, NULL, 0, 0, 0, NULL, 0 } /* terminator */
 };
 
+/* ACME setup */
+
+static const struct lws_protocol_vhost_options ap_pvo_acme_settings_6 = {
+	NULL,
+	NULL,
+	"email",
+	lws_esp32.le_email
+};
+
+static const struct lws_protocol_vhost_options ap_pvo_acme_settings_5 = {
+	&ap_pvo_acme_settings_6,
+	NULL,
+	"common-name",
+	lws_esp32.le_dns
+};
+
+static const struct lws_protocol_vhost_options ap_pvo_acme_settings_4 = {
+	&ap_pvo_acme_settings_5,
+	NULL,
+	"key-path",
+	"ap-key.pem"
+};
+
+static const struct lws_protocol_vhost_options ap_pvo_acme_settings_3 = {
+	&ap_pvo_acme_settings_4,
+	NULL,
+	"cert-path",
+	"ap-cert.pem"
+};
+
+static const struct lws_protocol_vhost_options ap_pvo_acme_settings_2 = {
+	&ap_pvo_acme_settings_3,
+	NULL,
+	"auth-path",
+	"le-auth-jwk"
+};
+
+static const struct lws_protocol_vhost_options ap_pvo_acme_settings_1 = {
+	&ap_pvo_acme_settings_2,
+	NULL,
+	"directory-url",
+	// "https://acme-v01.api.letsencrypt.org/directory" /* real */
+	"https://acme-staging.api.letsencrypt.org/directory" /* staging */
+};
+
+static const struct lws_protocol_vhost_options ap_pvo_acme = {
+	NULL,
+	&ap_pvo_acme_settings_1,
+	"lws-acme-client",
+	""
+};
+
 static const struct lws_protocol_vhost_options pvo_headers = {
 	NULL,
 	NULL,
@@ -55,7 +107,7 @@ static const struct lws_protocol_vhost_options pvo_headers = {
 };
 
 static const struct lws_protocol_vhost_options ap_pvo2 = {
-	NULL,
+	&ap_pvo_acme,
 	NULL,
 	"esplws-ota",
 	""
@@ -151,9 +203,9 @@ void
 lws_esp32_button(int down)
 {
 	lwsl_notice("button %d\n", down);
-	if (context)
-		lws_callback_on_writable_all_protocol(context,
-						      &protocols_ap[1]);
+	if (!context)
+		return;
+	lws_callback_on_writable_all_protocol(context, &protocols_ap[1]);
 }
 
 void app_main(void)
@@ -180,6 +232,7 @@ void app_main(void)
 	info.headers = &pvo_headers;
 	info.ssl_cert_filepath = "ap-cert.pem";
 	info.ssl_private_key_filepath = "ap-key.pem";
+	info.simultaneous_ssl_restriction = 3;
 
 	nvs_flash_init();
 	lws_esp32_wlan_config();
@@ -190,8 +243,6 @@ void app_main(void)
 	/* this configures the LED timer channel 0 and starts the fading cb */
 	context = lws_esp32_init(&info, &vh);
 
-
 	while (!lws_service(context, 10))
                 taskYIELD();
-
 }
