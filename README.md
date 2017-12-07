@@ -5,11 +5,14 @@ This is a standalone <1MB image intended for the 1MB "factory" slot on ESP32.
 
 This image is designed to look after "generic device configuration"... it means:
 
- - Automated generation of 2048-bit selfsigned certs
+ - Automated generation of 2048-bit selfsigned certs on the device at first boot
 
  - Selecting up to 4 APs the device can connect to along with necessary passphrases
 
  - Updating the user application OTA
+
+ - Automated Let's Encrypt certificate acquisition (requires external :443 forwarded
+   to the device :443)
 
 Your actual "OTA" application is something completely different, and has its own 2.9MB
 flash area.  This -factory app is designed to take care of all common setup stuff and
@@ -17,11 +20,10 @@ put it in nvs to be shared with the OTA app.
 
 This now uses HTTP/2 serving from libwebsockets :-)
 
-![Factory page 1](https://libwebsockets.org/factory1.png)
-![Factory page 2](https://libwebsockets.org/factory2.png)
-![Factory page 3](https://libwebsockets.org/factory3.png)
-
-Note this is in the middle of being updated for new features, some stuff doesn't work yet but the things needed for normal operation all work.
+![Setup page 1](https://libwebsockets.org/factory-1.png)
+![Setup page 2](https://libwebsockets.org/factory-2.png)
+![Setup page 3](https://libwebsockets.org/factory-3.png)
+![Setup page 4](https://libwebsockets.org/factory-4.png)
 
 It has the following capabilities:
 
@@ -55,9 +57,9 @@ While in factory / OTA mode, the LED flashes dows a PWM sine cycle at about 1Hz.
 
 ## Building and using
 
-1) This was built and tested against esp-idf at e5b2c1cf4c08471c740d3f4e5f86012aa1f32894,
-from 2017-11-24.  You can force esp-idf to that commit by cloning / pulling / fetching
-the latest esp-idf and then doing `git reset --hard e5b2c1cf4c08471c740d3f4e5f86012aa1f32894`
+1) This was built and tested against esp-idf at 2b92119840c41156451f75effe7a328273ce3e7f,
+from Dec 7, 2017.  You can force esp-idf to that commit by cloning / pulling / fetching
+the latest esp-idf and then doing `git reset --hard 2b92119840c41156451f75effe7a328273ce3e7f`
 in the esp-idf directory.
 
 Esp-idf is in constant flux you may be able to use the latest without problems but if not,
@@ -65,7 +67,7 @@ revert it to the above commit that has been tested before complaining.
 
 2) Esp-idf also has dependencies on toolchain, at the time of writing it recommends this toolchain version (for 64-bit linux)
 
-[1.22.0-73-ge28a011](https://dl.espressif.com/dl/xtensa-esp32-elf-linux64-1.22.0-73-ge28a011-5.2.0.tar.gz)
+[1.22.0-75-gbaf03c2](https://dl.espressif.com/dl/xtensa-esp32-elf-linux64-1.22.0-75-gbaf03c2-5.2.0.tar.gz)
 
 3) Don't forget to do `git submodule init ; git submodule update --recursive` after fetching projects like esp-idf with submodules.
 

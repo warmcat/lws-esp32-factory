@@ -153,7 +153,7 @@ label:before {
 #updates:checked ~ nav [for='updates'] {
   color: rgba(30,103,67,.5);
   font-weight: 600;
-        -webkit-filter: blur(0px); 
+  -webkit-filter: blur(0px); 
   filter: blur(0px); 
 }
 #wireless:checked ~ nav [for='wireless'] {}
@@ -327,8 +327,12 @@ ol.progress[data-steps="9"] li { width: 8%; }
 a {color: rgba(0,0,0,.4)}
 a:hover {color: rgba(0,0,0,.2)}
 
+@font-face {
+	font-family: imprima;
+	src: url(./Gudea-Regular.ttf)
+}
  
-th,td { padding: 5px; }
+th,td { font-family: imprima; padding: 5px; }
 .td-right { text-align: right; }
 .td-left { text-align: left; }
 .td-center { text-align: center; }
@@ -339,14 +343,14 @@ th,td { padding: 5px; }
 .center-div { margin-left: auto; margin-right: auto; }
 .right-div { margin-left: auto; margin-right: 0; }
 .left-div { margin-left: 0; margin-right: auto; }
-td.bigt { font-size:40pt; font-weight:normal; text-align:center; color:#000000; }
+td.bigt { font-size:40pt; font-weight:normal; text-align:left; color:#000000; }
 td.stt { font-size:14pt; font-weight:bold; text-align:center; color:#ffffc0; }
 td.scc { font-size:10pt; font-weight:normal; text-align:center; color:#404040;  background-color: rgba(240, 240, 240, 0.6); }
 td.scd { font-size:10pt; font-weight:normal; text-align:center; color:#404040;  background-color: rgba(240, 240, 240, 0.3); }
 tdmin { font-size:9pt; font-weight:normal; text-align:center; color:#404040; } 
 td.l { background-color: rgba(40, 40, 24, 0.6); color:#c0c0c0; }
-tr.ra { background-color: rgba(240, 240, 224, 0.6); color:#303030; }
-tr.ras { background-color: rgba(255, 255, 255, 0.8); color:#101010; }
+tr.ra { background-color: rgba(240, 240, 224, 0.6); color:#303030; text-align:left; }
+tr.ras { background-color: rgba(255, 255, 255, 0.8); color:#101010; text-align:left; }
 tr.rl { }
 .sub { font-size:24pt; font-weight:normal; text-align:center; color:#000000; }
 .tabt { font-size:12pt; font-weight:bold; text-align:center; color:#ffffc0; }
@@ -355,15 +359,15 @@ tr.rl { }
 .itt { font-size:10pt; font-weight:bold; text-align:right; color:#404040; padding: 0px}
 .iv { font-size:14pt; font-weight:normal; text-align:left; color:#000000; }
 .ivt { font-size:10pt; font-weight:normal; text-align:left; color:#000000; padding: 0px}
-.rivt { font-size:11pt; font-weight:normal; text-align:left; color:#e0e000; padding: 0px; margin: 0px}
-.riv { font-size:11pt; font-weight:normal; text-align:left; color:#f0f0f0; padding: 0px; margin: 0px}
+.rivt { font-size:11pt; font-weight:normal; text-align:left; color:#e0e000; padding: 1px; margin: 0px; left: 5px}
+.riv { font-size:11pt; font-weight:normal; text-align:left; color:#f0f0f0; padding: 1px; margin: 0px; left: 5px}
 .inp { font-size:15pt; padding: 4px}
 
-.tabtit { font-size:18pt; font-weight:normal; text-align:left; color:#e0ffe0; padding: 0px}
+.tabtit { font-family: imprima; font-size:18pt; font-weight:normal; text-align:left; color:#e0ffe0; padding: 0px}
 
 .btn { font-size:13pt; font-weight:normal; text-align:center; color:#000000; padding: 5px}
 .btn:hover {color: #000; background-color: #fff}
-.group2 { vertical-align:middle;
+.group2 { font-family: imprima; vertical-align:middle;
 	text-align:center;
 	background-color: rgba(240, 240, 224, 0.6); 
 	padding:12px; 
@@ -375,7 +379,7 @@ tr.rl { }
 .div32 { position:relative; overflow:hidden; top: 0px; left: 0px; min-width:32px; width:32px; min-height:32px; height:32px; border:0; }
 .div24 { position:relative; overflow:hidden; top: 0px; left: 0px; min-width:24px; width:24px; min-height:24px; height:24px; border:0; }
 .img128 { position: absolute; width: 128px; height: 1396px; top: 0px; left: 0px }
-#wifi { top: -128px }
+#wifi { top: -130px }
 #product { top: -512px }
 #logo { top: -640px }
 #router { top: -768px }
@@ -383,7 +387,7 @@ tr.rl { }
 #key { top: -1228px }
 #key64 { top: -1035px }
 #tls64 { top: -1035px; left: -64px }
-#spanner { top: -1100px }
+#spanner { top: -1099px }
 #lelogo { top: -1354px }
 .progr { width:100%; height:32px;  background-color: rgba(240, 240, 24, 0.6); color:#c0c0c0; }
 .progr-ok { width:100%; height:32px;  background-color: rgba(240, 240, 24, 1.0); color:#e0e060; }
@@ -391,25 +395,30 @@ tr.rl { }
 .progr-done { width:100%; height:32px;  background-color: rgba(240, 240, 24, 1.0); color:#00c000; }
 #preload-01 { background: url(spinner.gif) no-repeat -9999px -9999px; }
 
+progress {background-color: #040; background: #040; color: #edo !important; }
+progress::-webkit-progress-bar {background-color: #040; width:100%}
+progress::-moz-progress-bar {background-color: #ed0 !important;}
+progress::-webkit-progress-value {background-color: #ed0 !important;}
+
 </style>
 </head>
 
 <body style="background-image:url(backdrop.jpg); background-repeat: no-repeat; background-size: cover;">
-	<!-- <div id=waiting style="width: 54px; height:52px; margin: auto auto; text-align: center;"><img src=spinner.gif></div> -->
-	<div id=realpage style="display:block">
+
+	<div id=waiting style="width: 54px; height:52px; margin: auto auto; text-align: center; position:absolute; top:50%; left:50%"><img src=spinner.gif></div>
+	<div id=realpage style="opacity:0.3">
  <table class="center-div" style="width: 700px;">
   <tr><td class="td-center">
-   <table>
-    <tr><td valign=middle align=center>
+   <table width=100%>
+    <tr><td valign=middle align=left>
      <a href="https://libwebsockets.org"><div class=div128>
       <img id=logo src="setup.png" class=img128>
      </div></a>
-    </td><td class="bigt" align=center>Setup</td><td align=center>
+    </td><td class="bigt" align=left width=60%>&nbsp;&nbsp;Setup</td><td align=right>
    	 
 	<table>
 	 <tr>
-	  <td style="vertical-align: top"><div class=div128><img id="inet" src="setup.png" class=img128 style="top: -381px; left: 0px" ></div></td>
-	  <td id=conn_td style="margin:2px">
+	  <td id=conn_td style="margin:2px" align=right>
 		<table id=conn_data >
 			<tr><td class="itt">Joined&nbsp;AP:</td><td class="ivt" style="text-align:left"><span id=conn_ap></span></td></tr>
 			  <tr><td class="itt">IP:</td><td class="ivt" style="text-align:left"><span id=conn_ip></span></td></tr>
@@ -418,6 +427,8 @@ tr.rl { }
 			  <tr><td class="itt">Date:</td><td class="ivt" style="text-align:left"><span id=conn_time></span></td></tr>
 		</table>
 	  </td>
+	  	  <td style="vertical-align: top" align=right><div class=div128><img id="inet" src="setup.png" class=img128 style="top: -381px; left: 0px" >
+	  	<div class=div128 id=heart style="opacity:0"><img id=wifi class=img128 src="./setup.png"></div></div></td>
 	 </tr>
         </table>
   </td></tr>
@@ -446,23 +457,154 @@ tr.rl { }
 	    <table width=100% align=center><tr><td>
 	       <table width=100% class="center-div" style="padding-top: 0px;" align=center>
 	       		<tr><td class="tabtit">Configure Access Point Security</td></tr>
-		       <tr><td align=center><div id=aps></div></td></tr>
+		       <tr><td align=center><div id=aps style="opacity:0.3">		       
+			<table width=100%><tr><td class=l>Slot</td><td class=l width=70%>AP</td>
+				<td class=l>Use</td><td class=l>Clear</td></tr>
+
+				<tr class="ra" id="sltr0">
+				<td align=center style="overflow:hidden;">
+				<input type=radio name=slot id=slot0 value="0" onchange="slch(0);"> 1</input></td>
+				<td width=50% id=slotap0><div id=selap0></div></td>
+				<td id="use0"></td>
+				<td><button disabled class="btn" id="clr0" style="font-size:8pt;"
+					onclick="clr(0);">Clear</button></td></tr>
+					
+				<tr class="ra" id="sltr1">
+				<td align=center style="overflow:hidden;">
+				<input type=radio name=slot id=slot1 value="1" onchange="slch(1);"> 2</input></td>
+				<td width=50% id=slotap1><div id=selap1></div></td>
+				<td id="use1"></td>
+				<td><button disabled class="btn" id="clr1" style="font-size:8pt;"
+					onclick="clr(1);">Clear</button></td></tr>
+					
+				<tr class="ra" id="sltr2">
+				<td align=center style="overflow:hidden;">
+				<input type=radio name=slot id=slot2 value="2" onchange="slch(2);"> 3</input></td>
+				<td width=50% id=slotap2><div id=selap2></div></td>
+				<td id="use2"></td>
+				<td><button disabled class="btn" id="clr2" style="font-size:8pt;"
+					onclick="clr(2);">Clear</button></td></tr>
+					
+				<tr class="ra" id="sltr3">
+				<td align=center style="overflow:hidden;">
+				<input type=radio name=slot id=slot3 value="3" onchange="slch(3);"> 4</input></td>
+				<td width=50% id=slotap3><div id=selap3></div></td>
+				<td id="use3"></td>
+				<td><button disabled class="btn" id="clr3" style="font-size:8pt;"
+					onclick="clr(3);">Clear</button></td></tr>
+
+				</table>
+		       
+		       </div></td></tr>
 	       </table>
 	     </td>
             </tr>
-	    <tr><td align=center style="font-size: 16pt" width=100%>
+	     <tr><td align=center width=100%>
+	      
+	      <table id=scantable disabled style="table-layout:fixed; width:620px; word-break:break-all;border-spacing: 3px; padding: 3px;opacity: 0.35">
+	      <tr class=rl>
+	      	<td class=l style="overflow:hidden;width:24px;"></td>
+			   <td class=l style="overflow:hidden;width:40%;">SSID</td>
+			   <td class=l style="overflow:hidden;width:26px;">Ch</td>
+			   <td class=l style="overflow:hidden;width:110px;">RSSI</td>
+			   <td class=l style="overflow:hidden;width:30px;"></td>
+			   <td class=l style="overflow:hidden;width:110px;">BSSID</td>
+		</tr>
+		
+		<tr class="ra" id="rr0"><td id="sr00" align=center style="overflow:hidden;">
+			<input id="apsel0" type=radio name=ap value="" onchange="rch(0);"></td>
+			<td id="sr01" align=left style="overflow:hidden;"></td>
+			<td id="sr02" align=center style="overflow:hidden;"></td>
+			<td id="sr03" align=center style="overflow:hidden; font-size:7pt"></td>
+			<td id="sr04" align=center style="overflow:hidden;"></td>
+			<td id="sr05" align=center style="overflow:hidden;"></td></tr>
+			
+		<tr class="ra" id="rr1"><td id="sr10" align=center style="overflow:hidden;">
+			<input id="apsel1" type=radio name=ap value="" onchange="rch(1);"></td>
+			<td id="sr11" align=left style="overflow:hidden;"></td>
+			<td id="sr12" align=center style="overflow:hidden;"></td>
+			<td id="sr13" align=center style="overflow:hidden; font-size:7pt"></td>
+			<td id="sr14" align=center style="overflow:hidden;"></td>
+			<td id="sr15" align=center style="overflow:hidden;"></td></tr>
+			
+		<tr class="ra" id="rr2"><td id="sr20" align=center style="overflow:hidden;">
+			<input id="apsel2" type=radio name=ap value="" onchange="rch(2);"></td>
+			<td id="sr21" align=left style="overflow:hidden;"></td>
+			<td id="sr22" align=center style="overflow:hidden;"></td>
+			<td id="sr23" align=center style="overflow:hidden; font-size:7pt"></td>
+			<td id="sr24" align=center style="overflow:hidden;"></td>
+			<td id="sr25" align=center style="overflow:hidden;"></td></tr>
+			
+		<tr class="ra" id="rr3"><td id="sr30" align=center style="overflow:hidden;">
+			<input id="apsel3" type=radio name=ap value="" onchange="rch(3);"></td>
+			<td id="sr31" align=left style="overflow:hidden;"></td>
+			<td id="sr32" align=center style="overflow:hidden;"></td>
+			<td id="sr33" align=center style="overflow:hidden; font-size:7pt"></td>
+			<td id="sr34" align=center style="overflow:hidden;"></td>
+			<td id="sr35" align=center style="overflow:hidden;"></td></tr>
+			
+		<tr class="ra" id="rr4"><td id="sr40" align=center style="overflow:hidden;">
+			<input id="apsel4" type=radio name=ap value="" onchange="rch(4);"></td>
+			<td id="sr41" align=left style="overflow:hidden;"></td>
+			<td id="sr42" align=center style="overflow:hidden;"></td>
+			<td id="sr43" align=center style="overflow:hidden; font-size:7pt"></td>
+			<td id="sr44" align=center style="overflow:hidden;"></td>
+			<td id="sr45" align=center style="overflow:hidden;"></td></tr>
+			
+		<tr class="ra" id="rr5"><td id="sr50" align=center style="overflow:hidden;">
+			<input id="apsel5" type=radio name=ap value="" onchange="rch(5);"></td>
+			<td id="sr51" align=left style="overflow:hidden;"></td>
+			<td id="sr52" align=center style="overflow:hidden;"></td>
+			<td id="sr53" align=center style="overflow:hidden; font-size:7pt"></td>
+			<td id="sr54" align=center style="overflow:hidden;"></td>
+			<td id="sr55" align=center style="overflow:hidden;"></td></tr>
+			
+		<tr class="ra" id="rr6"><td id="sr60" align=center style="overflow:hidden;">
+			<input id="apsel6" type=radio name=ap value="" onchange="rch(6);"></td>
+			<td id="sr61" align=left style="overflow:hidden;"></td>
+			<td id="sr62" align=center style="overflow:hidden;"></td>
+			<td id="sr63" align=center style="overflow:hidden; font-size:7pt"></td>
+			<td id="sr64" align=center style="overflow:hidden;"></td>
+			<td id="sr65" align=center style="overflow:hidden;"></td></tr>
+			
+		<tr class="ra" id="rr7"><td id="sr70" align=center style="overflow:hidden;">
+			<input id="apsel7" type=radio name=ap value="" onchange="rch(7);"></td>
+			<td id="sr71" align=left style="overflow:hidden;"></td>
+			<td id="sr72" align=center style="overflow:hidden;"></td>
+			<td id="sr73" align=center style="overflow:hidden; font-size:7pt"></td>
+			<td id="sr74" align=center style="overflow:hidden;"></td>
+			<td id="sr75" align=center style="overflow:hidden;"></td></tr>
+			
+		<tr class="ra" id="rr8"><td id="sr80" align=center style="overflow:hidden;">
+			<input id="apsel8" type=radio name=ap value="" onchange="rch(8);"></td>
+			<td id="sr81" align=left style="overflow:hidden;"></td>
+			<td id="sr82" align=center style="overflow:hidden;"></td>
+			<td id="sr83" align=center style="overflow:hidden; font-size:7pt"></td>
+			<td id="sr84" align=center style="overflow:hidden;"></td>
+			<td id="sr85" align=center style="overflow:hidden;"></td></tr>
+			
+		<tr class="ra" id="rr9"><td id="sr90" align=center style="overflow:hidden;">
+			<input id="apsel9" type=radio name=ap value="" onchange="rch(9);"></td>
+			<td id="sr91" align=left style="overflow:hidden;"></td>
+			<td id="sr92" align=center style="overflow:hidden;"></td>
+			<td id="sr93" align=center style="overflow:hidden; font-size:7pt"></td>
+			<td id="sr94" align=center style="overflow:hidden;"></td>
+			<td id="sr95" align=center style="overflow:hidden;"></td></tr>
+
+	      </table>
+	     </td></tr>
+	     <tr><td></td></tr>
+	     	    <tr><td align=center style="font-size: 16pt" width=100%>
 		<div id=scanlist style="opacity: 0.35; width:100%">
-		 <span id=pwt style="color:#808080">Passphrase: </span>
-		 <input disabled type="password" id="pw" oninput="rch(1);" style="font-size: 18pt" size="8">
+		 <span id=pwt style="color:#303000">Passphrase: </span>
+		 <input disabled type="password" id="pw" oninput="pprch();" style="font-size: 18pt" size="18">
 		 &nbsp;&nbsp;<input type=button class="btn" value="Update slot"
 		 	disabled id=join onclick="do_join();">
 			</div></td></tr>
-	     <tr><td align=center width=100%>
-	      <div id="scan" style="overflow:auto; width:100%; height:410px">Scanning...</div>
-	     </td></tr>
+	     
 	</table></td></tr></table>
      </article>
-<!--  <div id=dns-icon class=div48><img id="dns_resolv\" src="setup.png" class=img128 style="top: -984px; left: 0px"></div> -->
+
     <article class='page2'>
         
 
@@ -472,25 +614,29 @@ tr.rl { }
 		<table class="center-div" style="padding:12px; ">
 		
 		<tr><td>
-			<table align=left><tr><td rowspan=5><div class=div128><img id=key class=img128 src="./setup.png"></div></td></tr>
-			<td class="tabtit" colspan=2 valign=top>TLS Certificate</td></tr>
-			<tr><td class="rivt">Issuer:</td><td class="riv"><span id=issuer></span></td></tr>
-			<tr><td class="rivt">Subject:</td><td class="riv"><span id=subject></span></td></tr>
-			<tr><td class="rivt">Days Valid:</td><td class="riv"><span id=validity></span></td></tr>
-		</table></td></tr>
+			<table align=left>
+				<tr><td><div class=div128><img id=key class=img128 src="./setup.png"></div></td>
+				<td valign=top style="padding:5px; left:5px">
+					<table><tr><td class="tabtit">TLS Certificate</td></tr>
+						<tr><td class="rivt">Issuer:</td><td class="riv"><span id=issuer></span></td></tr>
+						<tr><td class="rivt">Subject:</td><td class="riv"><span id=subject></span></td></tr>
+						<tr><td class="rivt">Days Valid:</td><td class="riv"><span id=validity></span></td></tr>
+					</table></td></tr>
+			</table></td></tr>
 
 		<tr><td align=left><span class="tabtit">One-click Let's Encrypt&reg; Certificate Acquisition</span></td></tr>
-		<tr><td class=scd>			<form><fieldset id=le_formset disabled style="opacity:0.3"><table width=100% >
-
+		<tr><td class=scd>
+		    <form><fieldset id=le_formset disabled style="opacity:0.3">
+		    <table width=100% >
 			<tr><td class="tabt">External DNS</td><td class="tabv" style="text-align:left">
-			<table width=100%><tr><td>
-		<input type=text id=le_dns name=le_dns maxlength=25 class=inp placeholder="Eg, xx.mydomain.com:443" oninput="chle()"></input></td>
-		<td>Must be port-forwarded to this device port 443</td></tr></table>
-			</td></tr>
+		<input type=text id=le_dns name=le_dns maxlength=25 class=inp placeholder="Eg, xxx.mydomain.com" oninput="chle()"></input></td>
+		<td rowspan=2><table><tr><td><div id=dns-icon class=div48><img id="dns_resolv\" src="setup.png" class=img128 style="top: -984px; left: 0px"></div>
+		</td><td style="font-size:12pt">External :443 must be port-forwarded to this device :443</td></tr></table></td></tr>
 
 		<tr><td class="tabt">Account email</td><td class="tabv" style="text-align:left">
-		<input type=email id=le_email name=le_email maxlength=64 class=inp placeholder="Eg, me@mydomain.com" oninput="chle()"></input></td></tr>
-		<tr><td colspan=2>
+		<input type=email id=le_email name=le_email maxlength=64 class=inp placeholder="Eg, me@mydomain.com" oninput="chle()"></input></td><td></td></tr>
+
+		<tr><td colspan=3>
 			<ol class="progress" data-steps="9">
 			    <li id=leli1> <!--  li class none, "active", "fail", or "done" -->
 			        <span class="name">Keys</span>
@@ -530,25 +676,28 @@ tr.rl { }
 			    </li>
 			</ol>
 		</td></tr>
-		<tr><td colspan=2 width=100% align=center><table><tr><td width=40%><span id=le_exp></span></td><td><button type="button" class="btn" id="getle" name="getle"
+		<tr><td colspan=3 width=100% align=center><table><tr><td width=40%><span id=le_exp></span></td><td><button type="button" class="btn" id="getle" name="getle"
 			onclick="get_le();" disabled> <div class=div128x36><img id=lelogo class=img128 src="./setup.png"></div> </button>
 			</td><td width=40%><span id=le_info></span></td></tr></table>
 		</td></tr>
-		<tr><td colspan=2> <span style="font-size:8pt; color: rgba(0, 0, 0, 0.6)">Let's Encrypt&reg; is a trademark of the Internet Security Research Group. All rights reserved.</span>
-		<a href="https://letsencrypt.org/" target="_blank">Let's Encrypt Site</a>
+		<tr><td colspan=3><table width=100%><tr><td align=left>
+			<input type="checkbox" id="staging" checked>Staging</input></td><td align=right>
+			<span style="font-size:6pt; color: rgba(0, 0, 0, 0.6)">Let's Encrypt&reg; is a trademark of the Internet Security Research Group. All rights reserved.</span>
+		<a href="https://letsencrypt.org/" target="_blank">Let's Encrypt Site</a></td></tr></table>
 		</td></tr>
 		</table></fieldset></form></td></tr>
 <tr><td align=left class="tabtit">Install Custom Certificate</td></tr>
 <tr><td class=scd><table width=100%>
-		<tr><td colspan=2 width=100%>
-		<form name=multipart action="factory" method="post" enctype="multipart/form-data">
-		<table width=100%><tr><td align=left><div class=div64><img id=tls64 class=img128 src="./setup.png"></div></td><td class=scd>
-  <span style="font-size:14pt;">PEM cert: </span>
+		<tr><td width=100%>
+		<form name=multipart action="factory" method="post" enctype="multipart/form-data">;
+		<table width=100%><tr><td align=left><div class=div64><img id=tls64 class=img128 src="./setup.png"></div></td><td class=scd style="text-align:left">
+	
+  <span style="font-size:14pt;"> PEM cert: </span>
   <input type="file" name="pub" id="pub" size="20" accept=".pem" style="font-size: 12pt"><br>
-  <span id=file_info style="font-size:12pt;"></span>
+  <span id=file_info style="font-size:12pt;"></span></td></tr>
   
-				</td></tr><tr><td><div class=div64><img id=key64 class=img128 src="./setup.png"></div></td><td class=scd align=left>
-  <span style="font-size:14pt;">PEM key: </span>
+  <tr><td><div class=div64><img id=key64 class=img128 src="./setup.png"></div></td><td class=scd style="text-align:left">
+  <span style="font-size:14pt;"> PEM key: </span>
   <input type="file" name="pri" id="pri" size="20" accept=".pem" style="font-size: 12pt"><br>
   	<span id=file_info style="font-size:12pt;"></span>
 
@@ -556,42 +705,47 @@ tr.rl { }
   		</td></tr><tr><td></td></tr><tr><td colspan=2>
 	
   <input type="submit"  class="btn" id="upload" name="upload" value="Upload">
-		</td></tr></table>
-        </form>
-		</td></tr></table>
 				</td></tr></table>
-				</td></tr></table>
+        			</form>
+			</td></tr></table>
+		</td></tr></table>
+	</td></tr></table>
 
     </article>
      <article class='page3'>
-        <form name=multipart action="factory" method="post" enctype="multipart/form-data">
-
+        <form name=multipart action="factory" method="post" onsubmit="do_settings(this); return false">
+	<fieldset id=settings_formset disabled style="opacity:0.3">
 	<table class="center-div" style="width: 650px">
-	 <tr><td class="tabtit">Settings</td></tr>
+	 <tr><td class="tabtit">General Settings</td></tr>
 	 <tr>
-	  <td style="font-size: 12pt">
+	  <td style="font-size: 12pt" class=scd>
 		<table class="center-div" style="padding:12px; ">
 			<tr><td class="tabt">Model</td><td class="tabv" style="text-align:left"><span id=model></span></td></tr>
 			<tr><td class="tabt">Serial</td><td class="tabv" style="text-align:left">
-					<input type=text id=serial name=serial size="8"  class=inp></input></td></tr>
+  <input type=text id=serial name=serial size="8"  class=inp></input></td></tr>
 
 			<tr><td class="tabt">Group:</td><td colspan=3 class="tabv">
-  <input type="text" id="group" oninput="chgroup()" maxlength=15  class=inp placeholder="Eg, myproject"></input></td></tr>
+  <input type="text" id="group" name=group maxlength=15  class=inp placeholder="Eg, myproject"></input></td></tr>
   
 				<tr><td class="tabt">Role:</td><td colspan=3 class="tabv">
-  <input type="text" id="role" oninput="chrole()" maxlength=15  class=inp placeholder="Eg, ttyS2"></input></td></tr>
+  <input type="text" id="role" name=role maxlength=15  class=inp placeholder="Eg, ttyS2"></input></td></tr>
 					
-			<tr><td class="tabt">Factory Options</td><td class="tabv" style="text-align:left">
-			<input type=text id=opts name=opts size="8"  class=inp></input></td></tr>
-
-			<tr><td colspan=2><input type=button class="btn" name="identify" value="ID Device"
-				onclick="do_identify();" style="font-size: 18pt">&nbsp;
-			<input type=button type="button" class="btn" name="identify" value="Reset"
-				onclick="do_factory_reset();" style="font-size: 18pt">
+<tr><td colspan=2><input type=submit class="btn" id="updsettings" name="updsettings" value="Update Settings"
+				style="font-size: 14pt">
 			</td></tr>
-			</table>
-				</td></tr></table>
+</table>
+	</td></tr>
+<tr><td></td></tr>
+				<tr><td align=left>
+				<input type=button class="btn" name="identify" value="ID Device"
+				onclick="do_identify();" style="font-size: 14pt">&nbsp;
+			<input type=button type="button" class="btn" name="identify" value="Reset"
+				onclick="do_factory_reset();" style="font-size: 14pt">
+			</td></tr>
+
+				</table></fieldset>
         </form>
+        
     </article>
  
           
@@ -618,12 +772,16 @@ tr.rl { }
         <tr><td>
          <form name=multipart action="otaform" method="post" enctype="multipart/form-data" onsubmit="do_upload(this); return false;">
           <table width=100%>
+          <tr><td colspan=2> </td></tr>
+          <tr><td colspan=2><progress id=progr value=0 max=100 class=progr>Upload Progress</progress></td></tr>
+          <tr><td colspan=2> </td></tr>
            <tr><td><input type="file" name="ota" id="ota" size="20" accept=".bin" onchange="file_change();" style="font-size: 12pt"></td>
                <td><span id=file_info style="font-size:12pt;"></span></td></tr>
+               <tr><td colspan=2> </td></tr>
            <tr><td colspan=2>
             <input type="submit" class="btn" id="update" name="upload" disabled value="Upload">
             </td></tr>
-           <tr><td colspan=2><progress id=progr value=0 max=100 class=progr>Upload Progress</progress></td></tr>
+           
          </table>
         </form>
        </td></tr>
@@ -640,8 +798,16 @@ tr.rl { }
 
 
 <script>
-	var ws, sel, host, old, once = 0;
-	
+var ws, sel, host, old, once = 0, jso, m;
+
+document.getElementById("slot0").checked = false;
+document.getElementById("slot1").checked = false;
+document.getElementById("slot2").checked = false;
+document.getElementById("slot3").checked = false;
+
+for (m = 0; m < 10; m++)
+	document.getElementById("apsel" + m).checked = false;
+
 function san(s)
 {
 	if (!s)
@@ -696,19 +862,29 @@ function get_appropriate_ws_url()
 
 	try {
 		ws.onopen = function() {
-			document.getElementById("scan").textContent = "open";
-
+			document.getElementById("le_formset").disabled = 0;
+			document.getElementById("le_formset").style.opacity = "1.0";
+			document.getElementById("settings_formset").disabled = 0;
+			document.getElementById("settings_formset").style.opacity = "1.0";
+			document.getElementById("waiting").style.display = "none";
+			console.log("waiting.style.display: " + document.getElementById("waiting").style.display);
+			document.getElementById("realpage").style.opacity = "1.0";
+			heartbeat();
 		} 
 
 		ws.onmessage =function got_packet(msg) {
 			//document.getElementById("scan").innerHTML = "<pre>" + msg.data + "</pre>\n";
-			var best, hit, n, m, s, b, a, cs, jso = JSON.parse(msg.data);
+			var best, hit, n, m, s, b, a, cs;
 			
+			jso = JSON.parse(msg.data);
+			heartbeat();
 			cs = get_radio('ap');
 		
 			host = jso.host;
 			if (once == 0) {
 				document.getElementById("model").textContent = jso.model+"-"+jso.serial+"-"+jso.opts;
+				document.getElementById("serial").value = jso.serial;
+				document.getElementById("group").value = jso.group;
 				document.getElementById("role").value = jso.role;
 				
 				document.getElementById("le_dns").value = jso.le_dns;
@@ -717,36 +893,17 @@ function get_appropriate_ws_url()
 				if (jso.forced_button != 1)
 					document.getElementById("access").innerHTML = "<span style=\"font-size:10pt;\">use physical button</span>";
 
-				//document.getElementById("access").style.display = "block";
-				s = "<table width=100%><tr><td class=l>Sel</td><td class=l>Slot</td><td class=l>AP</td>";
-				s +=   "<td class=l>Use</td><td class=l>Clear</td></tr>";
+
 				for (n = 0; n < 4; n++) {
-					s += "<tr class=\"ra\"><td align=center style=\"overflow:hidden;\">"+
-					     "<input type=radio name=slot value=\"" + parseInt(n) + "\" " +
-					     "onchange=\"slch(" + parseInt(m) + ");\"></td><td>" +
-					     parseInt(n + 1) + "</td>";
-
 				     if (jso.known[n])
-					     s += "<td width=50% id=slotap" + parseInt(n) + ">" +
-						     jso.known[n].ssid + "</td>" +
-					     "<td id=\"use"+n+"\">" + jso.known[n].use + "</td>";
-				     else
-					     s += "<td width=50% id=slotap" + parseInt(n) +
-						     "></td><td></td>";
-					if (jso.known[n].ssid.length)
-					     s += "<td><button class=\"btn\" id=\"clr"+n+"\" style=\"font-size:8pt;\" onclick=\"clr(" +
-							parseInt(n) + ")\">Clear</button></td></tr>";
-					else
-					     s += "<td><button disabled class=\"btn\" id=\"clr"+n+"\" style=\"font-size:8pt;\" onclick=\"clr(" +
-							parseInt(n) + ")\">Clear</button></td></tr>";
+				    	 document.getElementById("slotap" + parseInt(n)).textContent = jso.known[n].ssid;
 
+					if (jso.known[n].ssid.length)
+						document.getElementById("clr" + parseInt(n)).disabled = 0;
+					document.getElementById("use" + parseInt(n)).textContent = jso.known[n].use;
 				}
 
-				s += "</table>";
-
-				document.getElementById("aps").innerHTML = s;
-				s = "";
-
+				document.getElementById("aps").style.opacity = "1.0";
 				document.getElementById("group").value = jso.group;
 
 				cs = jso.ssid;
@@ -772,7 +929,7 @@ function get_appropriate_ws_url()
 			if (jso.latest.app && jso.latest.factory) {
 
 				if (jso.latest.app && (!jso.img_ota.user || jso.img_ota.unixtime < jso.latest.app.unixtime)) {
-									 document.getElementById("img-ota-upd").innerHTML = "<table width=100%><tr><td width=49%></td><td align=center><div id=img-ota-upd-icon class=div48><img id=\"img-ota-upd-icon-img\" src=\"setup.png\" class=img128 style=\"top: -984px; left: 0px\"></div></td><td><button onclick=\"get_latest(0);\" style=\"font-size: 14pt\">Update&nbsp;to&nbsp;latest</button></td><td width=49%></td></tr></table>";
+					document.getElementById("img-ota-upd").innerHTML = "<table width=100%><tr><td width=49%></td><td align=center><div id=img-ota-upd-icon class=div48><img id=\"img-ota-upd-icon-img\" src=\"setup.png\" class=img128 style=\"top: -984px; left: 0px\"></div></td><td><button onclick=\"get_latest(0);\" style=\"font-size: 14pt\">Update&nbsp;to&nbsp;latest</button></td><td width=49%></td></tr></table>";
 				} else {
 					document.getElementById("img-ota-upd").innerHTML = "<table width=100%><tr><td width=49%></td><td align=center><div id=img-ota-upd-icon class=div48><img id=\"img-ota-upd-icon-img\" src=\"setup.png\" class=img128 style=\"top: -984px; left: -48px\"></div></td><td>Already latest</td><td width=49%></td></tr></table>";
 				}
@@ -789,7 +946,6 @@ function get_appropriate_ws_url()
 						"<img id=\"img-factory-upd-icon-img\" src=\"setup.png\" class=img128 style=\"top: -984px; left: -48px\">"+
 						"</div></td><td>Already latest</td><td width=49%></td></tr></table>";
 				}
-
 			}
 			
 			if (jso.certissuer)
@@ -797,7 +953,10 @@ function get_appropriate_ws_url()
 			if (jso.certsubject)
 				document.getElementById("subject").textContent = san(jso.certsubject);
 			if (jso.certdays)
-				document.getElementById("validity").textContent = san(jso.certdays) + " days";
+				if (jso.certdays == "0" && jso.certissuer == "" && jso.certsubject == "")
+					document.getElementById("validity").textContent = "(Connect to AP for date)";
+				else
+					document.getElementById("validity").textContent = san(jso.certdays) + " days";
 			
 			if (jso.acme_state) {
 				console.log("acme_state: " + parseInt(jso.acme_state) + ", acme_msg: " + jso.acme_msg);
@@ -806,7 +965,7 @@ function get_appropriate_ws_url()
 
 			if (jso.inet == 1) {
 				var d = new Date(parseInt(jso.unixtime) * 1000);
-				document.getElementById("inet").style.top = "-256px";
+				document.getElementById("inet").style.top = "-254px";
 				document.getElementById("conn_td").class = "group2";
 				document.getElementById("conn_data").style.display = "block";
 				document.getElementById("conn_ap").textContent = san(jso.ssid);
@@ -814,8 +973,7 @@ function get_appropriate_ws_url()
 				document.getElementById("conn_mask").textContent = san(jso.conn_mask);
 				document.getElementById("conn_gw").textContent = san(jso.conn_gw);
 				document.getElementById("conn_time").textContent = d.toDateString() + " " + san(jso.button);
-				document.getElementById("le_formset").disabled = 0;
-				document.getElementById("le_formset").style.opacity = "1.0";
+
 			} else {
 				document.getElementById("inet").style.top = "-382px";
 				document.getElementById("conn_td").class = "";
@@ -825,76 +983,89 @@ function get_appropriate_ws_url()
 				document.getElementById("conn_mask").textContent = "";
 				document.getElementById("conn_gw").textContent = "";
 				document.getElementById("conn_time").textContent = "";
-				document.getElementById("le_formset").disabled = 1;
-				document.getElementById("le_formset").style.opacity = "0.3";
 			}
+			
+			var tbldis = "";
+			if (!get_radio('slot'))
+				tbldis = "disabled style=\"opacity:0.3\"";
 
-			s = "<tr class=rl><td class=l style=\"overflow:hidden;width:24px;\">sel</td>"+
-			    "<td class=l style=\"overflow:hidden;width:120px;\">SSID</td>"+
-			    "<td class=l style=\"overflow:hidden;width:24px;\">Chan</td>"+
-			    "<td class=l style=\"overflow:hidden;width:80px;\">RSSI</td>"+
-			    "<td class=l style=\"overflow:hidden;width:30px;\">Auth</td>"+
-			    "<td class=l style=\"overflow:hidden;width:120px;\">BSSID</td></tr>";
+			s = "";
 	
 			for (m = 0; m < jso.aps.length; m++) {
-			
-				best = -128;
 
-				for (n = 0; n < jso.aps.length; n++)
-					if (parseInt(jso.aps[n].rssi) > best) {
-						best = parseInt(jso.aps[n].rssi);
-						hit = n;
-					}
+				best = parseInt(jso.aps[m].rssi);
+
 				b = 0;
-				if (best > -76)
+				if (best > -90)
 					b++;
-				if (best > -71)
+				if (best > -85)
+					b++;
+				if (best > -80)
+					b++;
+				if (best > -75)
+					b++;
+				if (best > -70)
 					b++;
 				if (best > -65)
 					b++;
-				if (best > -61)
+				if (best > -60)
+					b++;
+				if (best > -55)
 					b++;
 		
 				a= "";
-				for (n = 0; n < 5; n++)
+				for (n = 0; n < 8; n++)
 					if (n <= b)
 						a = a + "&#x25C9;"; /* filled in */
 					else
-						a = a + "&#x25CC;";
-				var sel = "", ra = "ra";
-				if (cs == san(jso.aps[hit].ssid)) {
-					sel = " checked=\"checked\" ";
+						a = a + "&#x25Ce;";
+				var sel = false, ra = "ra";
+				if (cs == san(jso.aps[m].ssid)) {
+					sel = true;
 					ra = "ras";
-					rch(parseInt(jso.aps[hit].auth));
+					rch(parseInt(m));
 				}
 
-				s = s + "<tr class=\"" + ra + "\" id=\""+san(jso.aps[hit].ssid)+"\">" +
-					  "<td align=center style=\"overflow:hidden;\"><input type=radio name=ap value=\"" + san(jso.aps[hit].ssid) +
-					  	"\" "+ sel + "onchange=\"rch(" + parseInt(jso.aps[hit].auth) +
-					  	");\"></td>" +
-					  	
-					  "<td align=center style=\"overflow:hidden;\"><b>" + san(jso.aps[hit].ssid) + "</b></td>" +
-					  "<td align=center style=\"overflow:hidden;\">" + san(jso.aps[hit].chan) + "</td>" +
-					  "<td align=center style=\"overflow:hidden;\">" + a + "</td>" +
-					  "<td align=center style=\"overflow:hidden;\"><div class=div24>"+
-					        "<img class=img128 src=\"./setup.png\" style=\"top: -896px; left:-" +
-						24 * parseInt(jso.aps[hit].auth) + "px\"></div></td>" +
-					   "<td align=center style=\"overflow:hidden;\" ><span style=\"font-size:8pt\">" + san(jso.aps[hit].bssid) + "</span></td>" +
-					"</tr>";
+				if (document.getElementById("rr" + parseInt(m))) {
+					document.getElementById("rr" + parseInt(m)).className = ra;
+					document.getElementById("apsel" + parseInt(m)).value = san(jso.aps[m].ssid);
+					document.getElementById("apsel" + parseInt(m)).checked = sel;
+					console.log(get_radio_index('slot') + " " + get_radio_index('ap'));
+					if (!get_radio('slot'))
+						document.getElementById("apsel" + parseInt(m)).disabled = 1;
+					else
+						document.getElementById("apsel" + parseInt(m)).disabled = 0;
 					
-				jso.aps[hit].rssi = "-129";
+					document.getElementById("sr" + parseInt(m) + "1").innerHTML = san(jso.aps[m].ssid);
+					document.getElementById("sr" + parseInt(m) + "2").innerHTML = san(jso.aps[m].chan);
+					document.getElementById("sr" + parseInt(m) + "3").innerHTML = a;
+					document.getElementById("sr" + parseInt(m) + "4").innerHTML =
+						"<div class=div24>"+
+			        		"<img class=img128 src=\"./setup.png\" style=\"top: -896px; left:-" +
+						24 * parseInt(jso.aps[m].auth) + "px\"></div>";
+					
+					document.getElementById("sr" + parseInt(m) + "5").innerHTML =
+						"<span style=\"font-size:8pt\">" +
+						san(jso.aps[m].bssid) + "</span>";
+				}
 			}
 		
-			document.getElementById("scan").innerHTML = 
-				"<table style=\"table-layout:fixed; width:700px; word-break:break-all;border-spacing: 3px; padding: 3px;\">" + s + "</table>";
+			if (get_radio('slot')) {
+				document.getElementById("scantable").disabled = 0;
+				document.getElementById("realpage").style.opacity = "1.0";
+			}
 
-		//	document.getElementById("waiting").style.display = "none";
-			document.getElementById("realpage").style.display = "block";
 			}				
 		} 
 
 		ws.onclose = function(){
-			// document.getElementById("scan").textContent = "closed";
+			document.getElementById("waiting").style.display = "block";
+			document.getElementById("realpage").style.opacity = "0.3";
+			document.getElementById("le_formset").disabled = 1;
+			document.getElementById("le_formset").style.opacity = "0.3";
+			document.getElementById("settings_formset").disabled = 1;
+			document.getElementById("settings_formset").style.opacity = "0.3";
+
 		}
 	} catch(exception) {
 		alert('<p>Error' + exception);
@@ -907,6 +1078,18 @@ function slch(n)
 	document.getElementById("join").value = "Set slot " + parseInt(parseInt(get_radio('slot')) + 1);
 	document.getElementById("scanlist").style.opacity = "1.0";
 	document.getElementById('clr' + parseInt(n)).disabled = false;
+	document.getElementById("scantable").disabled = false;
+	document.getElementById("scantable").style.opacity = "1.0";
+	document.getElementById('sltr' + parseInt(n)).className = "ras";
+	for (q = 0; q < 4; q++)
+		if (q != n)
+			document.getElementById('sltr' + parseInt(q)).className = "ra";
+	
+	for (q = 0; q < 10; q++)
+		if (!get_radio('slot'))
+			document.getElementById("apsel" + parseInt(q)).disabled = 1;
+		else
+			document.getElementById("apsel" + parseInt(q)).disabled = 0;
 }
 
 function clr(n)
@@ -955,6 +1138,17 @@ function get_radio(name)
 	    }
 
 	return sel;
+}
+
+function get_radio_index(name)
+{
+	var s = document.getElementsByName(name), i;
+
+	for (i = 0; i < s.length; i++)
+	    if (s[i].checked)
+	        return i;
+
+	return -1;
 }
 
 function do_join()
@@ -1048,15 +1242,15 @@ function do_upload(f)
 	var xhr = new XMLHttpRequest();
 
         document.getElementById('update').disabled = 1;
-	ws.close();
+	//ws.close();
 	document.getElementById("progr").class = "progr-ok";
 
 	xhr.upload.addEventListener("progress", function(e) {
 		document.getElementById("progr").value = parseInt(e.loaded / e.total * 100);
 
 		if (e.loaded == e.total) {
-			document.getElementById("realpage").style.display = "none";
-			document.getElementById("waiting").style.display = "block";
+		//	document.getElementById("realpage").style.display = "none";
+		//	document.getElementById("waiting").style.display = "block";
 		}
 	
 	}, false);
@@ -1064,15 +1258,36 @@ function do_upload(f)
 	xhr.onreadystatechange = function(e) {
 		   console.log("rs" + xhr.readyState + " status " + xhr.status); 
 		if (xhr.readyState == 4) {
-			document.getElementById("realpage").style.display = "none";
-			document.getElementById("waiting").style.display = "block";
+			/* it completed, for good or for ill */
+		//	document.getElementById("realpage").style.display = "none";
+		//	document.getElementById("waiting").style.display = "block";
 			document.getElementById("progr").class = "progr-ok";
 			console.log("upload reached state 4\n");
-			setTimeout(function() { window.location.href = location.origin + "/"; }, 30000 );
+			setTimeout(function() { window.location.href = location.origin + "/"; }, 5000 );
 		}
 	};
 
 	xhr.open("POST", f.action, true);
+	xhr.send(new FormData(f));
+
+	return false;
+}
+
+function do_settings(f)
+{
+	var xhr = new XMLHttpRequest();
+
+	xhr.onreadystatechange = function(e) {
+		   console.log("do_settings" + xhr.readyState + " status " + xhr.status); 
+		if (xhr.readyState == 4) {
+			document.getElementById("updsettings").style.opacity = "1.0";
+			document.getElementById("updsettings").disabled = 0;
+		}
+	};
+
+	xhr.open("POST", f.action, true);
+	document.getElementById("updsettings").style.opacity = "0.3";
+	document.getElementById("updsettings").disabled = 1;
 	xhr.send(new FormData(f));
 
 	return false;
@@ -1086,38 +1301,60 @@ function get_latest(n)
 		ws.send("update-factory");
 }
 
-function rch(need_pw)
+function passphrase_disable(n)
 {
-	var _old = old, q;
-	var sel = get_radio('ap');
-	var butok = 1;
-
-	if (sel == "")
-		butok = 0;
-
-        if (_old && _old != "" && _old != sel)
-	      document.getElementById(_old).className = "ra";
-	old = sel;
-
-	q = "slotap" + get_radio("slot");
-	if ( document.getElementById(q))
-		document.getElementById(q).textContent = sel;
-
-	if (sel && sel != "")
-		if (document.getElementById(sel))
-			document.getElementById(sel).className = "ras";
-
-	document.getElementById('pw').disabled = !butok || need_pw == 0;
-	if (!butok || need_pw == 0)
+	if (n == "")
+		document.getElementById('pw').disabled = 0;
+	else
+		document.getElementById('pw').disabled = 1;
+	if (n)
 		document.getElementById('pwt').style.color = "#808080";
 	else
 		document.getElementById('pwt').style.color = "#000000";
+}
+
+function rch(mm)
+{
+	var q, m;
+	var sel = get_radio('ap');
+	var butok = 1;
+	var need_pw = 0;
+	
+
+	m = mm;//get_radio_index('ap');
+
+	if (sel == "")
+		butok = 0;
+	
+	console.log("old " + old);
+
+        if (old && old != "" && old != m)
+	      document.getElementById("rr" + parseInt(old)).className = "ra";
+	old = m;
+
+	q = "slotap" + get_radio("slot");
+	console.log("m = '" + m + "', q =" + q);
+	document.getElementById(q).textContent = sel;
+
+	if (m >= 0) {
+		if (document.getElementById("rr" + parseInt(m)))
+			document.getElementById("rr" + parseInt(m)).className = "ras";
+		
+		console.log("get_radio_index " + m);
+		if (m >= 0)
+			need_pw = jso.aps[m].auth;
+	}
+	
+	console.log("butok " + butok + "need_pw " + need_pw);
+
+	passphrase_disable(!butok || need_pw == 0);
 
 	if (need_pw != 0)
 		if (!document.getElementById("pw").value)
 			butok = 0;
 
 	document.getElementById('join').disabled = !butok;
+//	document.getElementById('scan').disabled = !butok;
 }
 
 function chle()
@@ -1133,7 +1370,11 @@ function chle()
 
 function get_le()
 {
-	var s = '{"job":"start-le","cn":"'+document.getElementById("le_dns").value+'","email":"'+document.getElementById("le_email").value+'"}';
+	var s = '{"job":"start-le","cn":"'+
+		document.getElementById("le_dns").value +
+		'","email":"' + document.getElementById("le_email").value +
+		'","staging":"' + document.getElementById("staging").checked +
+		'"}';
 
 	document.getElementById("getle").disabled = 1;
 	ws.send(s);
@@ -1209,6 +1450,37 @@ function set_le_step(st, info)
 	
 	document.getElementById("le_exp").innerHTML = s;
 	document.getElementById("le_info").innerHTML = info;
+}
+
+var to = 0, set_int = 0;
+
+function heart_timer() {
+	var s;
+	
+	s = Math.round((95 * to) / (40 * 10)) / 100;
+	
+	if (s < 0) {
+		clearInterval(set_int);
+		set_int = 0;
+		
+		ws.close();
+		
+		document.getElementById("realpage").style.opacity = "0.3";
+	}
+		
+	
+	to--;
+	document.getElementById("heart").style.opacity = s;
+}
+
+
+function heartbeat()
+{
+	to = 40 * 10;
+	if (!set_int) {
+		set_int = setInterval(heart_timer, 100);
+	}
+		
 }
 
 </script>
