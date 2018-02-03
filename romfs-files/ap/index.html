@@ -799,6 +799,7 @@ progress::-webkit-progress-value {background-color: #ed0 !important;}
 
 <script>
 var ws, sel, host, old, once = 0, jso, m;
+var to = 0, set_int = 0;
 
 document.getElementById("slot0").checked = false;
 document.getElementById("slot1").checked = false;
@@ -1224,6 +1225,7 @@ function reacquire()
 
 	xhr.onreadystatechange = function(e) {
 		if (xhr.readyState == 4) {
+		    console.log("xhr response " + xhr.status);
 		   if (xhr.status == 200) {
 			   setTimeout(function() { window.location.href = location.origin + "/"; }, 200 );
 		   } else {
@@ -1262,10 +1264,13 @@ function do_upload(f)
 		//	document.getElementById("realpage").style.display = "none";
 		//	document.getElementById("waiting").style.display = "block";
 			document.getElementById("progr").class = "progr-ok";
-			console.log("upload reached state 4\n");
+			console.log("upload reached state 4: xhr status " + xhr.status);
 			setTimeout(function() { window.location.href = location.origin + "/"; }, 5000 );
 		}
 	};
+
+	/* kill the heart timer */
+	clearInterval(set_int);
 
 	xhr.open("POST", f.action, true);
 	xhr.send(new FormData(f));
@@ -1334,7 +1339,8 @@ function rch(mm)
 
 	q = "slotap" + get_radio("slot");
 	console.log("m = '" + m + "', q =" + q);
-	document.getElementById(q).textContent = sel;
+	if (document.getElementById(q))
+		document.getElementById(q).textContent = sel;
 
 	if (m >= 0) {
 		if (document.getElementById("rr" + parseInt(m)))
@@ -1451,8 +1457,6 @@ function set_le_step(st, info)
 	document.getElementById("le_exp").innerHTML = s;
 	document.getElementById("le_info").innerHTML = info;
 }
-
-var to = 0, set_int = 0;
 
 function heart_timer() {
 	var s;
