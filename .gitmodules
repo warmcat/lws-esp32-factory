@@ -2,3 +2,7 @@
 	path = components/libwebsockets
 	url = https://github.com/warmcat/libwebsockets
 	branch = esp32
+[submodule "components/mbedtls"]
+	path = components/mbedtls
+	url = https://github.com/lws-team/mbedtls.git
+	branch = esp32
