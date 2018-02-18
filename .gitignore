@@ -3,3 +3,8 @@ sdkconfig.old
 ssl-cert.der
 ssl-key.der
 /bin/
+.classpath
+.settings
+.project
+push.sh
+
