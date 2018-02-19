@@ -57,9 +57,9 @@ While in factory / OTA mode, the LED flashes dows a PWM sine cycle at about 1Hz.
 
 ## Building and using
 
-1) This was built and tested against esp-idf at daa8cfa800677a71a3447eba418a4336979a3cb8,
-from Jan 26, 2018.  You can force esp-idf to that commit by cloning / pulling / fetching
-the latest esp-idf and then doing `git reset --hard daa8cfa800677a71a3447eba418a4336979a3cb8`
+1) This was built and tested against esp-idf at cded92bd3c39232295be6d901befe847db22bc74,
+from Feb 20, 2018.  You can force esp-idf to that commit by cloning / pulling / fetching
+the latest esp-idf and then doing `git reset --hard cded92bd3c39232295be6d901befe847db22bc74`
 in the esp-idf directory.
 
 Esp-idf is in constant flux you may be able to use the latest without problems but if not,
