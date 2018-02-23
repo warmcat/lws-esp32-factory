@@ -739,8 +739,8 @@ progress::-webkit-progress-value {background-color: #ed0 !important;}
 				<tr><td align=left>
 				<input type=button class="btn" name="identify" value="ID Device"
 				onclick="do_identify();" style="font-size: 14pt">&nbsp;
-			<input type=button type="button" class="btn" name="identify" value="Reset"
-				onclick="do_factory_reset();" style="font-size: 14pt">
+			<input type=button class="btn" name="identify" value="Reboot"
+				onclick="do_reset();" style="font-size: 14pt">
 			</td></tr>
 
 				</table></fieldset>
@@ -1211,7 +1211,7 @@ function do_reset()
 	}
 
 	ws.close();
-	alert("Resetting...");
+	alert("Rebooting...");
 }
 
 function file_change()
