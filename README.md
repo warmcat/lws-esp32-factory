@@ -20,6 +20,14 @@ put it in nvs to be shared with the OTA app.
 
 This now uses HTTP/2 serving from libwebsockets :-)
 
+It also now supports ws-over-http2 tunelling, meaning all
+the ws connections and the http actions share the same tls
+tunnel.  This makes a massive improvement in speed and
+reduced memory consumption.
+
+As of 2018-03-14 only Chrome Canary 67 supports this new
+mode, but support in other browsers is coming.
+
 ![Setup page 1](https://libwebsockets.org/factory-1.png)
 ![Setup page 2](https://libwebsockets.org/factory-2.png)
 ![Setup page 3](https://libwebsockets.org/factory-3.png)
@@ -57,9 +65,9 @@ While in factory / OTA mode, the LED flashes dows a PWM sine cycle at about 1Hz.
 
 ## Building and using
 
-1) This was built and tested against esp-idf at cded92bd3c39232295be6d901befe847db22bc74,
-from Feb 20, 2018.  You can force esp-idf to that commit by cloning / pulling / fetching
-the latest esp-idf and then doing `git reset --hard cded92bd3c39232295be6d901befe847db22bc74`
+1) This was built and tested against esp-idf at 77eae33a7ec6c4d42552b07f3dc2f51d0ff4e49c,
+from Mar 14, 2018.  You can force esp-idf to that commit by cloning / pulling / fetching
+the latest esp-idf and then doing `git reset --hard 77eae33a7ec6c4d42552b07f3dc2f51d0ff4e49c`
 in the esp-idf directory.
 
 Esp-idf is in constant flux you may be able to use the latest without problems but if not,

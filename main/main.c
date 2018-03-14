@@ -232,7 +232,8 @@ void app_main(void)
 	info.headers = &pvo_headers;
 	info.ssl_cert_filepath = "ap-cert.pem";
 	info.ssl_private_key_filepath = "ap-key.pem";
-	info.simultaneous_ssl_restriction = 3;
+	info.simultaneous_ssl_restriction = 4;
+	info.max_http_header_pool = 8;
 
 	nvs_flash_init();
 	lws_esp32_wlan_config();
