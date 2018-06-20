@@ -27,6 +27,28 @@
 
 static const char* TAG = "boot";
 
+static bool check_force_button(void)
+{
+	volatile int n;
+
+	gpio_pad_select_gpio(CONFIG_BOOTLOADER_FACTORY_BUTTON_GPIO);
+	GPIO_DIS_OUTPUT(CONFIG_BOOTLOADER_FACTORY_BUTTON_GPIO);
+	gpio_pad_unhold(CONFIG_BOOTLOADER_FACTORY_BUTTON_GPIO);
+	gpio_pad_pullup(CONFIG_BOOTLOADER_FACTORY_BUTTON_GPIO);
+
+//	*((volatile uint32_t *)PERIPHS_IO_MUX_GPIO34_U) = FUNC_GPIO34_GPIO34_0;
+//	*((volatile uint32_t *)GPIO_ENABLE1_REG) &= ~(1 << (CONFIG_BOOTLOADER_FACTORY_BUTTON_GPIO - 32));
+//	*((volatile uint32_t *)RTC_IO_TOUCH_PAD4_REG) |= RTC_IO_TOUCH_PAD4_TO_GPIO | RTC_IO_TOUCH_PAD4_FUN_IE | RTC_IO_TOUCH_PAD4_MUX_SEL;
+	for (n = 0; n < 50; n++)
+		;
+	return !GPIO_INPUT_GET(CONFIG_BOOTLOADER_FACTORY_BUTTON_GPIO);
+}
+
+#define LWS_MAGIC_REBOOT_TYPE_ADS 0x50001ffc
+#define LWS_MAGIC_REBOOT_TYPE_REQ_FACTORY 0xb00bcafe
+#define LWS_MAGIC_REBOOT_TYPE_FORCED_FACTORY 0xfaceb00b
+#define LWS_MAGIC_REBOOT_TYPE_FORCED_FACTORY_BUTTON 0xf0cedfac
+
 static int select_partition_number (bootloader_state_t *bs);
 static int selected_boot_partition(const bootloader_state_t *bs);
 /*
@@ -47,6 +69,22 @@ void call_start_cpu0()
     if (boot_index == INVALID_INDEX) {
         return;
     }
+
+    /* we can leave a magic at end of fast RTC ram to force next boot into FACTORY */
+	uint32_t *p_force_factory_magic = (uint32_t *)LWS_MAGIC_REBOOT_TYPE_ADS;
+
+	if (*p_force_factory_magic == LWS_MAGIC_REBOOT_TYPE_REQ_FACTORY) {
+		boot_index = FACTORY_INDEX;
+		/* mark as having been forced... needed to fixup wrong reported boot part */
+		*p_force_factory_magic = LWS_MAGIC_REBOOT_TYPE_FORCED_FACTORY;
+	} else
+		*p_force_factory_magic = 0;
+
+	if (check_force_button()) {
+		boot_index = FACTORY_INDEX;
+		ESP_LOGE(TAG, "Force Button is Down 0x%x\n", gpio_input_get());
+		*p_force_factory_magic = LWS_MAGIC_REBOOT_TYPE_FORCED_FACTORY_BUTTON;
+	}
 
     // 3. Load the app image for booting
     bootloader_utility_load_boot_image(&bs, boot_index);
