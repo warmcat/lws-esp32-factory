@@ -67,7 +67,7 @@ While in factory / OTA mode, the LED flashes dows a PWM sine cycle at about 1Hz.
 
 1) This was built and tested against esp-idf at 4b91c82cc447640e5b61407e810f1d6f3eabd233
 from Jun 20, 2018.  You can force esp-idf to that commit by cloning / pulling / fetching
-the latest esp-idf and then doing `git reset --4b91c82cc447640e5b61407e810f1d6f3eabd233`
+the latest esp-idf and then doing `git reset --hard 4b91c82cc447640e5b61407e810f1d6f3eabd233`
 in the esp-idf directory.
 
 Esp-idf is in constant flux you may be able to use the latest without problems but if not,
@@ -169,7 +169,7 @@ https://github.com/warmcat/lws-esp32-test-server-demos
 These are built and loaded slightly differently, ie
 
 ```
- $ make flash_ota monitor
+ $ make lws_flash_ota monitor
 ```
 
 This is because they target the 2.9MB OTA flash area.
@@ -180,7 +180,7 @@ NOTE: the first time you flash the OTA application, you need to do it using the
 upload file button or the autonomous update facility in the Factory App.  The bootloader
 requires it to not only be flashed, but marked as bootable.
 
-Subsequently you can just reflash the OTA partition with `make flash_ota` or use the upload or autonomous update stuff in the -factory app.
+Subsequently you can just reflash the OTA partition with `make lws_flash_ota` or use the upload or autonomous update stuff in the -factory app.
 
 ## Note for Firefox users
 
