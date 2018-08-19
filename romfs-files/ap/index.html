@@ -403,22 +403,22 @@ progress::-webkit-progress-value {background-color: #ed0 !important;}
 </style>
 </head>
 
-<body style="background-image:url(backdrop.jpg); background-repeat: no-repeat; background-size: cover;">
+<body style="background-image:url(backdrop.jpg); background-repeat:no-repeat; background-size:cover;">
 
-	<div id=waiting style="width: 54px; height:52px; margin: auto auto; text-align: center; position:absolute; top:50%; left:50%"><img src=spinner.gif></div>
+	<div id=waiting style="width:54px; height:52px; margin:auto auto; text-align:center; position:absolute; top:50%; left:50%"><img src=spinner.gif></div>
 	<div id=realpage style="opacity:0.3">
- <table class="center-div" style="width: 700px;">
+ <table class="center-div" style="width:700px;">
   <tr><td class="td-center">
-   <table width=100%>
+   <table style="width:100%">
     <tr><td valign=middle align=left>
-     <a href="https://libwebsockets.org"><div class=div128>
+     <div class=div128><a href="https://libwebsockets.org">
       <img id=logo src="setup.png" class=img128>
-     </div></a>
+     </a></div>
     </td><td class="bigt" align=left width=60%>&nbsp;&nbsp;Setup</td><td align=right>
    	 
 	<table>
 	 <tr>
-	  <td id=conn_td style="margin:2px" align=right>
+	  <td id=conn_td style="margin:2px; align=right">
 		<table id=conn_data >
 			<tr><td class="itt">Joined&nbsp;AP:</td><td class="ivt" style="text-align:left"><span id=conn_ap></span></td></tr>
 			  <tr><td class="itt">IP:</td><td class="ivt" style="text-align:left"><span id=conn_ip></span></td></tr>
@@ -427,7 +427,7 @@ progress::-webkit-progress-value {background-color: #ed0 !important;}
 			  <tr><td class="itt">Date:</td><td class="ivt" style="text-align:left"><span id=conn_time></span></td></tr>
 		</table>
 	  </td>
-	  	  <td style="vertical-align: top" align=right><div class=div128><img id="inet" src="setup.png" class=img128 style="top: -381px; left: 0px" >
+	  	  <td style="vertical-align:top; align:right"><div class=div128><img id="inet" src="setup.png" class=img128 style="top:-381px; left:0px" >
 	  	<div class=div128 id=heart style="opacity:0"><img id=wifi class=img128 src="./setup.png"></div></div></td>
 	 </tr>
         </table>
@@ -452,18 +452,18 @@ progress::-webkit-progress-value {background-color: #ed0 !important;}
 
     <article class='page1'>
 
-	<table class="center-div" style="width: 700px">
+	<table class="center-div" style="width:700px">
 	 <tr><td  style="vertical-align:top;">
-	    <table width=100% align=center><tr><td>
-	       <table width=100% class="center-div" style="padding-top: 0px;" align=center>
+	    <table style="width:100%; align:center"><tr><td>
+	       <table class="center-div" style="width=100%; align:center; padding-top:0px">
 	       		<tr><td class="tabtit">Configure Access Point Security</td></tr>
-		       <tr><td align=center><div id=aps style="opacity:0.3">		       
-			<table width=100%><tr><td class=l>Slot</td><td class=l width=70%>AP</td>
+		       <tr><td style="align:center"><div id=aps style="opacity:0.3">		       
+			<table style="width:100%"><tr><td class=l>Slot</td><td class=l width=70%>AP</td>
 				<td class=l>Use</td><td class=l>Clear</td></tr>
 
 				<tr class="ra" id="sltr0">
 				<td align=center style="overflow:hidden;">
-				<input type=radio name=slot id=slot0 value="0" onchange="slch(0);"> 1</input></td>
+				<input type=radio name=slot id=slot0 value="0" onchange="slch(0);"> 1</td>
 				<td width=50% id=slotap0><div id=selap0></div></td>
 				<td id="use0"></td>
 				<td><button disabled class="btn" id="clr0" style="font-size:8pt;"
@@ -471,7 +471,7 @@ progress::-webkit-progress-value {background-color: #ed0 !important;}
 					
 				<tr class="ra" id="sltr1">
 				<td align=center style="overflow:hidden;">
-				<input type=radio name=slot id=slot1 value="1" onchange="slch(1);"> 2</input></td>
+				<input type=radio name=slot id=slot1 value="1" onchange="slch(1);"> 2</td>
 				<td width=50% id=slotap1><div id=selap1></div></td>
 				<td id="use1"></td>
 				<td><button disabled class="btn" id="clr1" style="font-size:8pt;"
@@ -479,7 +479,7 @@ progress::-webkit-progress-value {background-color: #ed0 !important;}
 					
 				<tr class="ra" id="sltr2">
 				<td align=center style="overflow:hidden;">
-				<input type=radio name=slot id=slot2 value="2" onchange="slch(2);"> 3</input></td>
+				<input type=radio name=slot id=slot2 value="2" onchange="slch(2);"> 3</td>
 				<td width=50% id=slotap2><div id=selap2></div></td>
 				<td id="use2"></td>
 				<td><button disabled class="btn" id="clr2" style="font-size:8pt;"
@@ -487,7 +487,7 @@ progress::-webkit-progress-value {background-color: #ed0 !important;}
 					
 				<tr class="ra" id="sltr3">
 				<td align=center style="overflow:hidden;">
-				<input type=radio name=slot id=slot3 value="3" onchange="slch(3);"> 4</input></td>
+				<input type=radio name=slot id=slot3 value="3" onchange="slch(3);"> 4</td>
 				<td width=50% id=slotap3><div id=selap3></div></td>
 				<td id="use3"></td>
 				<td><button disabled class="btn" id="clr3" style="font-size:8pt;"
@@ -501,7 +501,7 @@ progress::-webkit-progress-value {background-color: #ed0 !important;}
             </tr>
 	     <tr><td align=center width=100%>
 	      
-	      <table id=scantable disabled style="table-layout:fixed; width:620px; word-break:break-all;border-spacing: 3px; padding: 3px;opacity: 0.35">
+	      <table id=scantable style="disabled; table-layout:fixed; width:620px; word-break:break-all; border-spacing:3px ; padding:3px; opacity:0.35">
 	      <tr class=rl>
 	      	<td class=l style="overflow:hidden;width:24px;"></td>
 			   <td class=l style="overflow:hidden;width:40%;">SSID</td>
@@ -511,7 +511,7 @@ progress::-webkit-progress-value {background-color: #ed0 !important;}
 			   <td class=l style="overflow:hidden;width:110px;">BSSID</td>
 		</tr>
 		
-		<tr class="ra" id="rr0"><td id="sr00" align=center style="overflow:hidden;">
+		<tr class="ra" id="rr0"><td id="sr00" style="align:center; overflow:hidden;">
 			<input id="apsel0" type=radio name=ap value="" onchange="rch(0);"></td>
 			<td id="sr01" align=left style="overflow:hidden;"></td>
 			<td id="sr02" align=center style="overflow:hidden;"></td>
@@ -535,7 +535,7 @@ progress::-webkit-progress-value {background-color: #ed0 !important;}
 			<td id="sr24" align=center style="overflow:hidden;"></td>
 			<td id="sr25" align=center style="overflow:hidden;"></td></tr>
 			
-		<tr class="ra" id="rr3"><td id="sr30" align=center style="overflow:hidden;">
+		<tr class="ra" id="rr3"><td id="sr30" style="align:center; overflow:hidden;">
 			<input id="apsel3" type=radio name=ap value="" onchange="rch(3);"></td>
 			<td id="sr31" align=left style="overflow:hidden;"></td>
 			<td id="sr32" align=center style="overflow:hidden;"></td>
@@ -543,7 +543,7 @@ progress::-webkit-progress-value {background-color: #ed0 !important;}
 			<td id="sr34" align=center style="overflow:hidden;"></td>
 			<td id="sr35" align=center style="overflow:hidden;"></td></tr>
 			
-		<tr class="ra" id="rr4"><td id="sr40" align=center style="overflow:hidden;">
+		<tr class="ra" id="rr4"><td id="sr40" style="align:center; overflow:hidden;">
 			<input id="apsel4" type=radio name=ap value="" onchange="rch(4);"></td>
 			<td id="sr41" align=left style="overflow:hidden;"></td>
 			<td id="sr42" align=center style="overflow:hidden;"></td>
@@ -551,7 +551,7 @@ progress::-webkit-progress-value {background-color: #ed0 !important;}
 			<td id="sr44" align=center style="overflow:hidden;"></td>
 			<td id="sr45" align=center style="overflow:hidden;"></td></tr>
 			
-		<tr class="ra" id="rr5"><td id="sr50" align=center style="overflow:hidden;">
+		<tr class="ra" id="rr5"><td id="sr50" style="align:center; overflow:hidden;">
 			<input id="apsel5" type=radio name=ap value="" onchange="rch(5);"></td>
 			<td id="sr51" align=left style="overflow:hidden;"></td>
 			<td id="sr52" align=center style="overflow:hidden;"></td>
@@ -559,7 +559,7 @@ progress::-webkit-progress-value {background-color: #ed0 !important;}
 			<td id="sr54" align=center style="overflow:hidden;"></td>
 			<td id="sr55" align=center style="overflow:hidden;"></td></tr>
 			
-		<tr class="ra" id="rr6"><td id="sr60" align=center style="overflow:hidden;">
+		<tr class="ra" id="rr6"><td id="sr60" style="align:center; overflow:hidden;">
 			<input id="apsel6" type=radio name=ap value="" onchange="rch(6);"></td>
 			<td id="sr61" align=left style="overflow:hidden;"></td>
 			<td id="sr62" align=center style="overflow:hidden;"></td>
@@ -567,7 +567,7 @@ progress::-webkit-progress-value {background-color: #ed0 !important;}
 			<td id="sr64" align=center style="overflow:hidden;"></td>
 			<td id="sr65" align=center style="overflow:hidden;"></td></tr>
 			
-		<tr class="ra" id="rr7"><td id="sr70" align=center style="overflow:hidden;">
+		<tr class="ra" id="rr7"><td id="sr70" style="align:center; overflow:hidden;">
 			<input id="apsel7" type=radio name=ap value="" onchange="rch(7);"></td>
 			<td id="sr71" align=left style="overflow:hidden;"></td>
 			<td id="sr72" align=center style="overflow:hidden;"></td>
@@ -575,7 +575,7 @@ progress::-webkit-progress-value {background-color: #ed0 !important;}
 			<td id="sr74" align=center style="overflow:hidden;"></td>
 			<td id="sr75" align=center style="overflow:hidden;"></td></tr>
 			
-		<tr class="ra" id="rr8"><td id="sr80" align=center style="overflow:hidden;">
+		<tr class="ra" id="rr8"><td id="sr80" style="align:center; overflow:hidden;">
 			<input id="apsel8" type=radio name=ap value="" onchange="rch(8);"></td>
 			<td id="sr81" align=left style="overflow:hidden;"></td>
 			<td id="sr82" align=center style="overflow:hidden;"></td>
@@ -583,7 +583,7 @@ progress::-webkit-progress-value {background-color: #ed0 !important;}
 			<td id="sr84" align=center style="overflow:hidden;"></td>
 			<td id="sr85" align=center style="overflow:hidden;"></td></tr>
 			
-		<tr class="ra" id="rr9"><td id="sr90" align=center style="overflow:hidden;">
+		<tr class="ra" id="rr9"><td id="sr90" style="align:center; overflow:hidden;">
 			<input id="apsel9" type=radio name=ap value="" onchange="rch(9);"></td>
 			<td id="sr91" align=left style="overflow:hidden;"></td>
 			<td id="sr92" align=center style="overflow:hidden;"></td>
@@ -592,12 +592,12 @@ progress::-webkit-progress-value {background-color: #ed0 !important;}
 			<td id="sr95" align=center style="overflow:hidden;"></td></tr>
 
 	      </table>
-	     </td></tr>
+	      </td></tr>
 	     <tr><td></td></tr>
-	     	    <tr><td align=center style="font-size: 16pt" width=100%>
+	     	    <tr><td align=center style="font-size:16p; width:100%">
 		<div id=scanlist style="opacity: 0.35; width:100%">
 		 <span id=pwt style="color:#303000">Passphrase: </span>
-		 <input disabled type="password" id="pw" oninput="pprch();" style="font-size: 18pt" size="18">
+		 <input disabled type="password" id="pw" oninput="pprch();" style="font-size:18pt" size="18">
 		 &nbsp;&nbsp;<input type=button class="btn" value="Update slot"
 		 	disabled id=join onclick="do_join();">
 			</div></td></tr>
@@ -608,13 +608,13 @@ progress::-webkit-progress-value {background-color: #ed0 !important;}
     <article class='page2'>
         
 
-	<table class="center-div" style="width: 700px">
+	<table class="center-div" style="width:700px">
 	 <tr>
 	  <td style="font-size: 12pt">
 		<table class="center-div" style="padding:12px; ">
 		
 		<tr><td>
-			<table align=left>
+			<table style="align:left">			
 				<tr><td><div class=div128><img id=key class=img128 src="./setup.png"></div></td>
 				<td valign=top style="padding:5px; left:5px">
 					<table><tr><td class="tabtit">TLS Certificate</td></tr>
@@ -627,7 +627,7 @@ progress::-webkit-progress-value {background-color: #ed0 !important;}
 		<tr><td align=left><span class="tabtit">One-click Let's Encrypt&reg; Certificate Acquisition</span></td></tr>
 		<tr><td class=scd>
 		    <form><fieldset id=le_formset disabled style="opacity:0.3">
-		    <table width=100% >
+		    <table style="width:100%">
 			<tr><td class="tabt">External DNS</td><td class="tabv" style="text-align:left">
 		<input type=text id=le_dns name=le_dns maxlength=25 class=inp placeholder="Eg, xxx.mydomain.com" oninput="chle()"></input></td>
 		<td rowspan=2><table><tr><td><div id=dns-icon class=div48><img id="dns_resolv\" src="setup.png" class=img128 style="top: -984px; left: 0px"></div>
@@ -680,17 +680,18 @@ progress::-webkit-progress-value {background-color: #ed0 !important;}
 			onclick="get_le();" disabled> <div class=div128x36><img id=lelogo class=img128 src="./setup.png"></div> </button>
 			</td><td width=40%><span id=le_info></span></td></tr></table>
 		</td></tr>
-		<tr><td colspan=3><table width=100%><tr><td align=left>
-			<input type="checkbox" id="staging" checked>Staging</input></td><td align=right>
-			<span style="font-size:6pt; color: rgba(0, 0, 0, 0.6)">Let's Encrypt&reg; is a trademark of the Internet Security Research Group. All rights reserved.</span>
-		<a href="https://letsencrypt.org/" target="_blank">Let's Encrypt Site</a></td></tr></table>
+		<tr><td colspan=3><table style="width:100%"><tr><td align=left>
+			<input type="checkbox" id="staging" checked>Staging </td>
+			<td align=right><span style="font-size:6pt; color: rgba(0, 0, 0, 0.6)">Let's Encrypt&reg; is a trademark of the Internet Security Research Group. All rights reserved.</span>
+		<a href="https://letsencrypt.org/" target="_blank">Let's Encrypt Site</a></td>
+		</tr></table>
 		</td></tr>
 		</table></fieldset></form></td></tr>
 <tr><td align=left class="tabtit">Install Custom Certificate</td></tr>
-<tr><td class=scd><table width=100%>
+<tr><td class=scd><table style="width:100%">
 		<tr><td width=100%>
 		<form name=multipart action="factory" method="post" enctype="multipart/form-data">;
-		<table width=100%><tr><td align=left><div class=div64><img id=tls64 class=img128 src="./setup.png"></div></td><td class=scd style="text-align:left">
+		<table style="width:100%"><tr><td align=left><div class=div64><img id=tls64 class=img128 src="./setup.png"></div></td><td class=scd style="text-align:left">
 	
   <span style="font-size:14pt;"> PEM cert: </span>
   <input type="file" name="pub" id="pub" size="20" accept=".pem" style="font-size: 12pt"><br>
@@ -706,7 +707,7 @@ progress::-webkit-progress-value {background-color: #ed0 !important;}
 	
   <input type="submit"  class="btn" id="upload" name="upload" value="Upload">
 				</td></tr></table>
-        			</form>
+				</form>
 			</td></tr></table>
 		</td></tr></table>
 	</td></tr></table>
@@ -771,7 +772,7 @@ progress::-webkit-progress-value {background-color: #ed0 !important;}
         <tr><td class=stt>Manual upload:</td></tr>
         <tr><td>
          <form name=multipart action="otaform" method="post" enctype="multipart/form-data" onsubmit="do_upload(this); return false;">
-          <table width=100%>
+          <table style="width:100%">
           <tr><td colspan=2> </td></tr>
           <tr><td colspan=2><progress id=progr value=0 max=100 class=progr>Upload Progress</progress></td></tr>
           <tr><td colspan=2> </td></tr>
@@ -781,9 +782,8 @@ progress::-webkit-progress-value {background-color: #ed0 !important;}
            <tr><td colspan=2>
             <input type="submit" class="btn" id="update" name="upload" disabled value="Upload">
             </td></tr>
-           
-         </table>
-        </form>
+          </table>
+         </form>
        </td></tr>
 
       </table>
@@ -795,7 +795,7 @@ progress::-webkit-progress-value {background-color: #ed0 !important;}
   </table>
  </td></tr>
 </table>
-
+</div>
 
 <script>
 var ws, sel, host, old, once = 0, jso, m;
