@@ -22,5 +22,8 @@ CFLAGS+= -I$(PROJECT_PATH)/components/libwebsockets/plugins \
 	 -I$(IDF_PATH)/components/vfs/include \
 	 -DLWS_IS_FACTORY_APPLICATION=$(LWS_IS_FACTORY_APPLICATION) \
 	 -I$(IDF_PATH)/components/soc/esp32/include/ \
-	 -I$(IDF_PATH)/components/esp32/include
+	 -I$(IDF_PATH)/components/esp32/include \
+	 -I$(IDF_PATH)/components/lwip/port/esp32/include \
+	 -I$(IDF_PATH)/components/lwip/lwip/src/include \
+	 -I$(IDF_PATH)/components/lwip/include/apps
 export IDF_PATH
