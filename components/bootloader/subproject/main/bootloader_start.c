@@ -24,6 +24,7 @@
 #include "bootloader_common.h"
 #include "sdkconfig.h"
 #include "esp_image_format.h"
+#include "bootloader_flash.h"
 
 static const char* TAG = "boot";
 
@@ -48,6 +49,7 @@ static bool check_force_button(void)
 #define LWS_MAGIC_REBOOT_TYPE_REQ_FACTORY 0xb00bcafe
 #define LWS_MAGIC_REBOOT_TYPE_FORCED_FACTORY 0xfaceb00b
 #define LWS_MAGIC_REBOOT_TYPE_FORCED_FACTORY_BUTTON 0xf0cedfac
+#define LWS_MAGIC_REBOOT_TYPE_REQ_FACTORY_ERASE_OTA 0xfac0eeee
 
 static int select_partition_number (bootloader_state_t *bs);
 static int selected_boot_partition(const bootloader_state_t *bs);
@@ -73,8 +75,12 @@ void call_start_cpu0()
     /* we can leave a magic at end of fast RTC ram to force next boot into FACTORY */
 	uint32_t *p_force_factory_magic = (uint32_t *)LWS_MAGIC_REBOOT_TYPE_ADS;
 
-	if (*p_force_factory_magic == LWS_MAGIC_REBOOT_TYPE_REQ_FACTORY) {
+	if (*p_force_factory_magic == LWS_MAGIC_REBOOT_TYPE_REQ_FACTORY ||
+			*p_force_factory_magic == LWS_MAGIC_REBOOT_TYPE_REQ_FACTORY_ERASE_OTA) {
 		boot_index = FACTORY_INDEX;
+		if (*p_force_factory_magic == LWS_MAGIC_REBOOT_TYPE_REQ_FACTORY_ERASE_OTA)
+			bootloader_flash_erase_range(bs.ota[0].offset, 4096);  // Erase the OTA header to mark it empty
+
 		/* mark as having been forced... needed to fixup wrong reported boot part */
 		*p_force_factory_magic = LWS_MAGIC_REBOOT_TYPE_FORCED_FACTORY;
 	} else
