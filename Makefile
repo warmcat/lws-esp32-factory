@@ -25,5 +25,6 @@ CFLAGS+= -I$(PROJECT_PATH)/components/libwebsockets/plugins \
 	 -I$(IDF_PATH)/components/esp32/include \
 	 -I$(IDF_PATH)/components/lwip/port/esp32/include \
 	 -I$(IDF_PATH)/components/lwip/lwip/src/include \
-	 -I$(IDF_PATH)/components/lwip/include/apps
+	 -I$(IDF_PATH)/components/lwip/include/apps \
+         -I$(IDF_PATH)/components/esp_event/include
 export IDF_PATH
